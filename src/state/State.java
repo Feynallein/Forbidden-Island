@@ -1,6 +1,5 @@
 package state;
 
-import gameCommons.Island;
 import util.Handler;
 
 import java.awt.*;

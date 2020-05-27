@@ -1,29 +1,29 @@
 package util;
 
-import gameCommons.Initializer;
+import gameCommons.Game;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class Handler {
-    private Initializer init;
+    private Game game;
     private ArrayList<Integer> takenNumbers = new ArrayList<>();
     public int death = 0;
     public Color color = new Color(0xCC7832);
     public int artifact = 0;
 
-    public Handler(Initializer game){ this.init = game; }
+    public Handler(Game game){ this.game = game; }
 
-    public int getWidth(){ return init.getWidth(); }
+    public int getWidth(){ return game.getWidth(); }
 
-    public int getHeight(){ return init.getHeight(); }
+    public int getHeight(){ return game.getHeight(); }
 
-    public KeyManager getKeyManager(){ return init.getKeyManager(); }
+    public KeyManager getKeyManager(){ return game.getKeyManager(); }
 
-    public MouseManager getMouseManager(){ return init.getMouseManager(); }
+    public MouseManager getMouseManager(){ return game.getMouseManager(); }
 
-    public Initializer getInitializer() {
-        return init;
+    public Game getGame() {
+        return game;
     }
 
     public int getPixelByCase(){return 128;}
@@ -33,7 +33,7 @@ public class Handler {
     }
 
     public int getIslandLength() {
-        return this.init.getLength();
+        return this.game.getLength();
     }
 
     public void addNumber(int num){

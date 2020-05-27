@@ -6,52 +6,40 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class ObservableManager {
+public class UiManager {
     private Handler handler;
-    private ArrayList<Observer> objects;
+    private ArrayList<UiInteracter> objects;
 
-    public ObservableManager(Handler handler) {
+    public UiManager(Handler handler) {
         this.handler = handler;
         objects = new ArrayList<>();
     }
 
     public void update() {
-        for (Observer o : objects) {
+        for (UiInteracter o : objects) {
             o.update();
         }
     }
 
     public void render(Graphics g) {
-        for (Observer o : objects) {
+        for (UiInteracter o : objects) {
             o.render(g);
         }
     }
 
     public void onMouseMove(MouseEvent e) {
-        for (Observer o : objects) {
+        for (UiInteracter o : objects) {
             o.onMouseMove(e);
         }
     }
 
-    public void onMousePressed(MouseEvent e) {
-        for (Observer o : objects) {
-            o.onMousePressed(e);
-        }
-    }
-
-    public void onMouseReleased(MouseEvent e) {
-        for (Observer o : objects) {
-            o.onMouseReleased(e);
-        }
-    }
-
     public void onMouseClicked(MouseEvent e) {
-        for (Observer o : objects) {
+        for (UiInteracter o : objects) {
             o.onMouseClicked(e);
         }
     }
 
-    public void addObserver(Observer o) {
+    public void addObserver(UiInteracter o) {
         objects.add(o);
     }
 

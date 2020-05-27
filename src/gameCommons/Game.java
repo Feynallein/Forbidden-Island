@@ -2,13 +2,12 @@ package gameCommons;
 
 import gfx.Assets;
 import state.*;
+import ui.Observable;
 import util.*;
 
-import javax.swing.*;
 import java.awt.*;
 
-public class Initializer extends JComponent{
-
+public class Game extends Observable implements Runnable {
     /* states */
     //public State menuState;
     public State gameState;
@@ -16,45 +15,41 @@ public class Initializer extends JComponent{
     public State winState;
 
     /* managers */
-    private MouseManager mouseManager;
-    private KeyManager keyManager;
+    public MouseManager mouseManager;
+    public KeyManager keyManager;
 
     /* window size */
     private int width;
     private int height;
 
-    public Initializer(int width, int height) {
+    public Game(int width, int height) {
         this.width = width;
         this.height = height;
+        Handler handler = new Handler(this);
+        Assets.init();
         mouseManager = new MouseManager();
         keyManager = new KeyManager();
-        Handler handler = new Handler(this);
-        //        graphic.getFrame().addKeyListener(keyManager);
-//        graphic.getFrame().addMouseListener(mouseManager);
-//        graphic.getFrame().addMouseMotionListener(mouseManager);
-//        graphic.getCanvas().addMouseListener(mouseManager);
-//        graphic.getCanvas().addMouseMotionListener(mouseManager);
-        Assets.init();
         gameState = new GameState(handler);
         State.setState(gameState);
     }
 
-    /* update and render methods */
+    /* Update & Render */
 
-    private void update() {
-        keyManager.update();
-        if (State.getState() != null) {
-            State.getState().update();
-        }
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    public void render(Graphics g) { //called by GamePanel to repaint
         if (State.getState() != null) {
             State.getState().render(g);
         }
     }
+
+    @Override
+    public void run() {
+        keyManager.update();
+        if (State.getState() != null) {
+            State.getState().update();
+        }
+        updateObservers();
+    }
+
 
     /* GETTERS AND SETTERS */
 

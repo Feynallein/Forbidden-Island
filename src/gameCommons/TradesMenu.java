@@ -2,7 +2,7 @@ package gameCommons;
 
 import gfx.Assets;
 import gfx.Text;
-import ui.Observer;
+import ui.UiInteracter;
 import util.Handler;
 import util.Utils;
 
@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class TradesMenu implements Observer {
+public class TradesMenu implements UiInteracter {
     private Handler handler;
     private Island island;
     private boolean isActive = false;
@@ -79,16 +79,6 @@ public class TradesMenu implements Observer {
                 }
             }
         }
-    }
-
-    @Override
-    public void onMouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void onMousePressed(MouseEvent e) {
-
     }
 
     @Override

@@ -3,7 +3,7 @@ package ui;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class UiImageButton extends ObservableObject {
+public class UiImageButton extends UiObject {
     private BufferedImage[] images;
     private ClickListener clicker;
 

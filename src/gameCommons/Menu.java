@@ -2,14 +2,13 @@ package gameCommons;
 
 import gfx.Assets;
 import gfx.Text;
-import ui.Observer;
 import util.Handler;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class Menu implements Observer {
+public class Menu {
     private Handler handler;
     public boolean active = false;
     private int x, y; //precise location where we clicked
@@ -40,7 +39,6 @@ public class Menu implements Observer {
 
     /* UPDATE & RENDER */
 
-    @Override
     public void update() {
         if (!active)
             return;
@@ -59,7 +57,6 @@ public class Menu implements Observer {
         else color[2] = Color.WHITE;
     }
 
-    @Override
     public void render(Graphics g) {
         i = 0;
         if (!active)
@@ -97,19 +94,13 @@ public class Menu implements Observer {
             }
             if (i == 0) active = false;
         }
-
         tradesMenu.render(g);
-
     }
 
 
     /* MOUSE MANAGER */
 
-    @Override
     public void onMouseClicked(MouseEvent e) {
-        if (!active)
-            return;
-
         if (tradesMenu.isActive()) tradesMenu.onMouseClicked(e);
 
         else if (e.getX() < x + 1 || e.getX() > x + 1 + textWidth || e.getY() < y + 1 || e.getY() > y + 1 + textHeight * i) {
@@ -141,17 +132,6 @@ public class Menu implements Observer {
         }
     }
 
-    @Override
-    public void onMouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void onMousePressed(MouseEvent e) {
-
-    }
-
-    @Override
     public void onMouseMove(MouseEvent e) {
         if (tradesMenu.isActive()) tradesMenu.onMouseMove(e);
 //        hovering[0] = new Rectangle(x + 1, y + 1 + 25, 80, 27).contains(e.getX(), e.getY());

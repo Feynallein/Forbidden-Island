@@ -3,13 +3,13 @@ package ui;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public abstract class ObservableObject implements Observer {
+public abstract class UiObject implements UiInteracter{
     float x, y;
     int width, height;
     private Rectangle bounds;
     public boolean hovering = false, click = false;
 
-    ObservableObject(float x, float y, int width, int height) {
+    UiObject(float x, float y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -31,17 +31,6 @@ public abstract class ObservableObject implements Observer {
         if (hovering)
             onClick();
     }
-
-    public void onMousePressed(MouseEvent e) {
-        if (hovering)
-            click = true;
-    }
-
-    public void onMouseReleased(MouseEvent e) {
-        if (hovering)
-            click = false;
-    }
-
 
 
     /* GETTERS and SETTERS */

@@ -2,7 +2,7 @@ package gameCommons;
 
 import gfx.Assets;
 import gfx.Text;
-import ui.Observer;
+import ui.UiInteracter;
 import util.Handler;
 import util.Utils;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public class Island implements Observer {
+public class Island implements UiInteracter {
     private Handler handler;
     public Case[][] cases;
     public int xOffset, yOffset;
@@ -39,7 +39,7 @@ public class Island implements Observer {
         this.menu = new Menu(handler, this);
         colors = new Color[]{Color.GREEN, Color.RED, Color.YELLOW, Color.BLUE, Color.BLACK, Color.WHITE};
         this.artifactsGathered = new boolean[4];
-        Arrays.fill(artifactsGathered, true);
+        Arrays.fill(artifactsGathered, false);
         init();
     }
 
@@ -255,15 +255,13 @@ public class Island implements Observer {
 
 
     /* MOUSE MANAGER */
-
-    @Override
     public void onMouseClicked(MouseEvent e) {
         if (menu.isActive()) menu.onMouseClicked(e);
         else if (player[isPlaying].nearPlayer(e)) {
             Case clickedCase = getClickedCase(e);
             if (clickedCase != null) {
-                this.menu.setX(handler.getMouseManager().getMouseX());
-                this.menu.setY(handler.getMouseManager().getMouseY());
+                this.menu.setX(e.getX());
+                this.menu.setY(e.getY());
                 this.menu.setClickedCase(clickedCase);
                 this.menu.setPlayer(player[isPlaying]);
                 this.menu.setActive(true);
@@ -271,17 +269,6 @@ public class Island implements Observer {
         }
     }
 
-    @Override
-    public void onMouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void onMousePressed(MouseEvent e) {
-
-    }
-
-    @Override
     public void onMouseMove(MouseEvent e) {
         if (menu.isActive()) menu.onMouseMove(e);
         else {

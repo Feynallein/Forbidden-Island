@@ -1,14 +1,20 @@
-import gameCommons.Initializer;
+import gameCommons.Game;
 import gfx.Display;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class Main {
+
+public class Main{
     public static void main(String[] args) {
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        int width = (int) tk.getScreenSize().getWidth();
+        int height = (int) tk.getScreenSize().getHeight();
         SwingUtilities.invokeLater(() -> {
-            Display display = new Display((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+            Game game = new Game(width, height);
+            Display display = new Display(game, width, height);
+            Timer timer = new Timer(1000/60, e -> game.run());
+            timer.start();
         });
     }
 }

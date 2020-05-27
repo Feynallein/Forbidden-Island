@@ -1,7 +1,7 @@
 package gameCommons;
 
 import gfx.Assets;
-import ui.Observer;
+import ui.UiInteracter;
 import util.Handler;
 import util.Utils;
 
@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-public class Case implements Observer {
+public class Case implements UiInteracter {
     private Handler handler;
     private int state;
     public Rectangle bounds;
@@ -63,6 +63,10 @@ public class Case implements Observer {
         }
     }
 
+    @Override
+    public String toString() {
+        return x + " " + y;
+    }
 
 
     /* MOUSE MANAGER */
@@ -73,25 +77,9 @@ public class Case implements Observer {
     }
 
     @Override
-    public void onMouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void onMousePressed(MouseEvent e) {
-
-    }
-
-    @Override
     public void onMouseMove(MouseEvent e) {
         isHovered = bounds.contains(e.getX(), e.getY());
     }
-
-    @Override
-    public String toString() {
-        return x + " " + y;
-    }
-
 
 
     /* GETTERS AND SETTERS */

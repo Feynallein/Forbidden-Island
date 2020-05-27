@@ -2,7 +2,7 @@ package gameCommons;
 
 import gfx.Assets;
 import gfx.Text;
-import ui.Observer;
+import ui.UiInteracter;
 import util.Handler;
 import util.Utils;
 
@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
-public class Player implements Observer {
+public class Player implements UiInteracter {
     private Handler handler;
     public BufferedImage pawn;
     public int[] position;
@@ -82,16 +82,6 @@ public class Player implements Observer {
 
     @Override
     public void onMouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void onMouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void onMousePressed(MouseEvent e) {
 
     }
 
