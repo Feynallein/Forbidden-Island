@@ -26,7 +26,7 @@ public class Player implements Observer {
         this.action = new boolean[3];
         Arrays.fill(action, false);
         this.inventory = new int[4];
-        Arrays.fill(inventory, 0);
+        Arrays.fill(inventory, 1);
         this.color = color;
         this.pawn = Utils.colorToPawn(this.color);
         this.sprite = Utils.colorToSprite(this.color);
@@ -119,5 +119,14 @@ public class Player implements Observer {
 
     public void addInventory(int i) {
         if (i < inventory.length) inventory[i]++;
+    }
+
+    public void delInventory(int i) {
+        if (i < inventory.length) inventory[i]--;
+    }
+
+    public int getInventory(int i){
+        if(i >= 0 && i < inventory.length) return inventory[i];
+        return 0;
     }
 }

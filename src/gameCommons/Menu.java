@@ -7,7 +7,7 @@ import util.Handler;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Menu implements Observer {
     private Handler handler;
@@ -20,11 +20,20 @@ public class Menu implements Observer {
     private boolean[] hovering = new boolean[3];
     private int textWidth = 80, textHeight = 30; //arbitraire
     int i;
+    public TradesMenu tradesMenu;
+    Rectangle depla = new Rectangle(0, 0, 0, 0);
+    Rectangle thirst = new Rectangle(0, 0, 0, 0);
+    Rectangle dig = new Rectangle(0, 0, 0, 0);
+    Rectangle trade = new Rectangle(0, 0, 0, 0);
+    private ArrayList<Player> players;
+    private boolean onCase;
 
     public Menu(Handler handler, Island island) {
         this.handler = handler;
         this.island = island;
         this.i = 0;
+        this.tradesMenu = new TradesMenu(handler, island);
+        players = new ArrayList<>();
     }
 
 
@@ -33,6 +42,13 @@ public class Menu implements Observer {
 
     @Override
     public void update() {
+        if (!active)
+            return;
+
+        tradesMenu.update();
+        players = island.playersOnTheCase(clickedCase);
+        onCase = island.onCase(player, clickedCase);
+
         if (hovering[0]) color[0] = Color.RED;
         else color[0] = Color.WHITE;
 
@@ -48,28 +64,42 @@ public class Menu implements Observer {
         i = 0;
         if (!active)
             return;
-        if (clickedCase.getState() != 2 && !player.getAction(0)) {
-            g.drawImage(Assets.menuBg, x + 1, y + 1 + i * textHeight, textWidth, textHeight, null);
-            Text.drawString(g, "Move", x + 1, y + 1 + 25 + i * textHeight, false, color[0], Assets.font20); //a changer le 25
-            i++;
-        }
-        if (clickedCase.getState() == 1 && !player.getAction(1)) {
-            g.drawImage(Assets.menuBg, x + 1, y + 1 + i * textHeight, textWidth, textHeight, null);
-            Text.drawString(g, "Thirst", x + 1, y + 1 + 25 + i * textHeight, false, color[1], Assets.font20); //a changer le 25
-            i++;
-        }
-        if (Arrays.equals(player.position, new int[]{clickedCase.x, clickedCase.y}) && clickedCase.getState() == 0 && !player.getAction(2)) {
-            String str;
-            if (clickedCase.isArtifact) {
-                str = "Gather";
-            } else {
-                str = "Dig";
+        if(!tradesMenu.isActive()) {
+            if (clickedCase.getState() != 2 && !player.getAction(0) && !onCase) {
+                g.drawImage(Assets.menuBg, x + 1, y + 1 + i * textHeight, textWidth, textHeight, null);
+                Text.drawString(g, "Move", x + 1, y + 1 + 25 + i * textHeight, false, color[0], Assets.font20); //a changer le 25
+                depla = new Rectangle(x + 1, y + 1 + i * textHeight, textWidth, textHeight);
+                i++;
             }
-            g.drawImage(Assets.menuBg, x + 1, y + 1 + i * textHeight, 80, textHeight, null);
-            Text.drawString(g, str, x + 1, y + 1 + 25 + i * textHeight, false, color[2], Assets.font20); //a changer le 25
-            i++;
+            if (clickedCase.getState() == 1 && !player.getAction(1)) {
+                g.drawImage(Assets.menuBg, x + 1, y + 1 + i * textHeight, textWidth, textHeight, null);
+                Text.drawString(g, "Thirst", x + 1, y + 1 + 25 + i * textHeight, false, color[1], Assets.font20); //a changer le 25
+                thirst = new Rectangle(x + 1, y + 1 + i * textHeight, textWidth, textHeight);
+                i++;
+            }
+            if (onCase && clickedCase.getState() != 2 && !player.getAction(2)) {
+                String str;
+                if (clickedCase.isArtifact) {
+                    str = "Gather";
+                } else {
+                    str = "Dig";
+                }
+                g.drawImage(Assets.menuBg, x + 1, y + 1 + i * textHeight, 80, textHeight, null);
+                Text.drawString(g, str, x + 1, y + 1 + 25 + i * textHeight, false, color[2], Assets.font20); //a changer le 25
+                dig = new Rectangle(x + 1, y + 1 + i * textHeight, textWidth, textHeight);
+                i++;
+            }
+            if (onCase && !players.isEmpty()) {
+                g.drawImage(Assets.menuBg, x + 1, y + 1 + i * textHeight, textWidth, textHeight, null);
+                Text.drawString(g, "Trade", x + 1, y + 1 + 25 + i * textHeight, false, color[1], Assets.font20); //a changer le 25
+                trade = new Rectangle(x + 1, y + 1 + i * textHeight, textWidth, textHeight);
+                i++;
+            }
+            if (i == 0) active = false;
         }
-        if (i == 0) active = false;
+
+        tradesMenu.render(g);
+
     }
 
 
@@ -80,24 +110,11 @@ public class Menu implements Observer {
         if (!active)
             return;
 
-        if (e.getX() < x + 1 || e.getX() > x + 1 + textWidth || e.getY() < y + 1 || e.getY() > y + 1 + textHeight * i) {
+        if (tradesMenu.isActive()) tradesMenu.onMouseClicked(e);
+
+        else if (e.getX() < x + 1 || e.getX() > x + 1 + textWidth || e.getY() < y + 1 || e.getY() > y + 1 + textHeight * i) {
             active = false;
         } else {
-            int k = 0;
-            Rectangle depla = new Rectangle(0, 0, 0, 0);
-            Rectangle thirst = new Rectangle(0, 0, 0, 0);
-            Rectangle dig = new Rectangle(0, 0, 0, 0);
-            if (clickedCase.getState() != 2 && !player.getAction(0)) {
-                depla = new Rectangle(x + 1, y + 1 + k * textHeight, textWidth, textHeight);
-                k++;
-            }
-            if (clickedCase.getState() == 1 && !player.getAction(1)) {
-                thirst = new Rectangle(x + 1, y + 1 + k * textHeight, textWidth, textHeight);
-                k++;
-            }
-            if (Arrays.equals(player.position, new int[]{clickedCase.x, clickedCase.y}) && clickedCase.getState() == 0 && !player.getAction(3)) {
-                dig = new Rectangle(x + 1, y + 1 + k * textHeight, textWidth, textHeight);
-            }
             if (depla.contains(e.getX(), e.getY())) {
                 island.movePlayer(clickedCase);
                 this.active = false;
@@ -117,6 +134,9 @@ public class Menu implements Observer {
                         island.addInventory(Island.r.nextInt(4));
                     }
                 }
+            } else if (trade.contains(e.getX(), e.getY())){
+                tradesMenu.setPlayers(players);
+                tradesMenu.setActive(true);
             }
         }
     }
@@ -133,6 +153,7 @@ public class Menu implements Observer {
 
     @Override
     public void onMouseMove(MouseEvent e) {
+        if (tradesMenu.isActive()) tradesMenu.onMouseMove(e);
 //        hovering[0] = new Rectangle(x + 1, y + 1 + 25, 80, 27).contains(e.getX(), e.getY());
 //        hovering[1] = new Rectangle(x + 1, y + 1 + 25, 80, 27).contains(e.getX(), e.getY());
 //        hovering[2] = new Rectangle(x + 1, y + 1 + 25, 80, 27).contains(e.getX(), e.getY());

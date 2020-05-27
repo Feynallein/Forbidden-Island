@@ -6,8 +6,6 @@ import java.awt.event.KeyListener;
 public class KeyManager implements KeyListener {
 
     private boolean[] keys, justPressed, cantPress;
-    public boolean up, down, left, right;
-    public boolean z, s, q, d;
     public boolean echap;
 
     public KeyManager(){
@@ -30,15 +28,7 @@ public class KeyManager implements KeyListener {
             }
         }
         //les touches que l'ont veut utiliser sont set a true or false si elles sont pressed
-        //Key.Event.* = permet d'avoir le key code de la touche que l'ont veut (ici touches flechées)
-        up = keys[KeyEvent.VK_UP];
-        down = keys[KeyEvent.VK_DOWN];
-        left = keys[KeyEvent.VK_LEFT];
-        right = keys[KeyEvent.VK_RIGHT];
-        z = keys[KeyEvent.VK_Z];
-        s = keys[KeyEvent.VK_S];
-        q = keys[KeyEvent.VK_Q];
-        d = keys[KeyEvent.VK_D];
+        //Key.Event.* = permet d'avoir le key code de la touche que l'ont veut
         echap = keys[KeyEvent.VK_ESCAPE];
     }
 

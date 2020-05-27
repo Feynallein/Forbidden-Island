@@ -16,7 +16,7 @@ public class LoseState extends State {
     @Override
     public void update() {
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ESCAPE)) {
-            handler.getDisplay().close();
+            //handler.getDisplay().close();
         }
     }
 

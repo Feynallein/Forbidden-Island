@@ -1,10 +1,6 @@
 package util;
 
 import gameCommons.Initializer;
-import gameCommons.Island;
-import gfx.Assets;
-import gfx.Display;
-import state.State;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -29,8 +25,6 @@ public class Handler {
     public Initializer getInitializer() {
         return init;
     }
-
-    public Display getDisplay(){return this.init.getGraphic();}
 
     public int getPixelByCase(){return 128;}
 

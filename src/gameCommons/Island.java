@@ -8,6 +8,7 @@ import util.Utils;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -17,7 +18,7 @@ public class Island implements Observer {
     public int xOffset, yOffset;
     public Player[] player;
     public static Random r = new Random();
-    private Menu menu;
+    public Menu menu;
     private Color[] colors;
     private int isPlaying = 0;
     private boolean[] artifactsGathered;
@@ -38,7 +39,7 @@ public class Island implements Observer {
         this.menu = new Menu(handler, this);
         colors = new Color[]{Color.GREEN, Color.RED, Color.YELLOW, Color.BLUE, Color.BLACK, Color.WHITE};
         this.artifactsGathered = new boolean[4];
-        Arrays.fill(artifactsGathered, false);
+        Arrays.fill(artifactsGathered, true);
         init();
     }
 
@@ -67,7 +68,7 @@ public class Island implements Observer {
                     return false;
             }
         }
-        return true;
+        return false;
     }
 
     public boolean lose() {
@@ -146,7 +147,7 @@ public class Island implements Observer {
         int[] offsets = alreadyOccupied();
         player[isPlaying].position[0] += Assets.playerDim * offsets[0];
         player[isPlaying].position[1] += Assets.playerDim * offsets[1];
-        player[isPlaying].addAction(0);
+        //player[isPlaying].addAction(0);
     }
 
     public int[] alreadyOccupied() {
@@ -186,12 +187,31 @@ public class Island implements Observer {
         player[isPlaying].addAction(2);
     }
 
+    public ArrayList<Player> playersOnTheCase(Case c){
+        ArrayList<Player> res = new ArrayList<>();
+        for(Player p : player){
+            if(onCase(p, c) && !p.equals(player[isPlaying])) res.add(p);
+        }
+        return res;
+    }
+
+    public boolean onCase(Player p, Case c){
+        return p.position[0] >= c.x && p.position[0] <= c.x + handler.getPixelByCase() && p.position[1] >= c.y && p.position[1] <= c.y + handler.getPixelByCase();
+    }
+
+    public void trade(Player p, int artifactValue){
+        for(Player players : player){
+            if(players == p) players.addInventory(artifactValue);
+            else if(players == player[isPlaying]) players.delInventory(artifactValue);
+        }
+    }
+
 
 
     /* UPDATE & RENDER */
 
     public void update() {
-        if (menu.isActive()) menu.update();
+        menu.update();
         for (int i = 0; i < cases.length; i++) {
             for (int j = 0; j < cases.length; j++) {
                 cases[i][j].update();
@@ -200,7 +220,6 @@ public class Island implements Observer {
     }
 
     public void render(Graphics g) {
-        g.drawImage(Assets.menuBg, 0, 0, handler.getWidth(), handler.getHeight(), null);
         Text.drawString(g, "It's " + player[isPlaying].toString() + "'s turn.", handler.getWidth() / 2, 50, true, Color.WHITE, Assets.font45);
         for (int i = 0; i < cases.length; i++) {
             for (int j = 0; j < cases[0].length; j++) {
@@ -210,11 +229,16 @@ public class Island implements Observer {
         for (Player p : player) {
             p.render(g);
         }
-        menu.render(g);
         artifactRender(g);
 
+
+
+
+        //temporary
         g.drawImage(Assets.temp, handler.getWidth() - 5 * 96 - 32, 32, null);
-        //g.fillRect(handler.getWidth() - 5*96 - 32, 32 + handler.getHeight()/3 + 10, 5*96, handler.getHeight()/3); -> inventaire
+        g.fillRect(handler.getWidth() - 5*96 - 32, 32 + handler.getHeight()/3 + 10, 5*96, handler.getHeight()/3); //-> inventaire
+
+        menu.render(g);
     }
 
     private void artifactRender(Graphics g) {
@@ -235,7 +259,7 @@ public class Island implements Observer {
     @Override
     public void onMouseClicked(MouseEvent e) {
         if (menu.isActive()) menu.onMouseClicked(e);
-        else if (player[isPlaying].nearPlayer(e) && !menu.isActive()) {
+        else if (player[isPlaying].nearPlayer(e)) {
             Case clickedCase = getClickedCase(e);
             if (clickedCase != null) {
                 this.menu.setX(handler.getMouseManager().getMouseX());
@@ -276,13 +300,14 @@ public class Island implements Observer {
     public int[] getStarterCases(Color color) {
         for (int i = 0; i < cases.length; i++) {
             for (int j = 0; j < cases.length; j++) {
-                if (cases[i][j].color == Color.BLUE) {
+                if (cases[i][j].color == Color.GREEN) {
                     heliport = new int[]{i * handler.getSpacing() + i * handler.getPixelByCase() + xOffset,
                             j * handler.getSpacing() + j * handler.getPixelByCase() + yOffset, i, j};
                 }
                 if (cases[i][j].color == color)
-                    return new int[]{i * handler.getSpacing() + i * handler.getPixelByCase() + xOffset,
-                            j * handler.getSpacing() + j * handler.getPixelByCase() + yOffset};
+                    /*return new int[]{i * handler.getSpacing() + i * handler.getPixelByCase() + xOffset,
+                            j * handler.getSpacing() + j * handler.getPixelByCase() + yOffset};*/
+                    return heliport;
             }
         }
         return null;

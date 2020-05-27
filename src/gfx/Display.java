@@ -1,48 +1,27 @@
 package gfx;
 
-import util.Handler;
+import gameCommons.Initializer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
 
-public class Display {
-    private JFrame frame;
-    private Canvas canvas;
-    private Handler handler;
+public class Display extends JFrame {
+    public Display(int width, int height) {
+        JPanel panel = new JPanel(new BorderLayout());
 
-    public Display(Handler handler) {
-        this.handler = handler;
-        JFrame frame = new JFrame("Forbidden Island");
-        this.frame = frame;
-        frame.setSize(handler.getWidth(), handler.getHeight());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setUndecorated(true);
-        frame.setVisible(true);
+        panel.setBackground(new Color(0x3C3F41));
+        panel.setPreferredSize(new Dimension(width, height));
+        panel.add(new Initializer(width, height));
 
-        canvas = new Canvas();
-        canvas.setPreferredSize(new Dimension(handler.getWidth(), handler.getHeight()));
-        canvas.setMaximumSize(new Dimension(handler.getWidth(), handler.getHeight()));
-        canvas.setMinimumSize(new Dimension(handler.getWidth(), handler.getHeight()));
-        canvas.setFocusable(false);
+        this.add(panel);
 
-        frame.add(canvas);
-        frame.pack();
-    }
+        this.setTitle("Forbidden Island");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setPreferredSize(new Dimension(width, height));
+        this.setUndecorated(true);
+        //frame.setResizable(false);
 
-    public void close(){
-        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-    }
-
-
-    /* GETTERS AND SETTERS */
-
-    public JFrame getFrame(){
-        return frame;
-    }
-
-    public Canvas getCanvas() {
-        return canvas;
+        this.pack();
+        this.setVisible(true);
     }
 }
