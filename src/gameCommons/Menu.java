@@ -2,15 +2,16 @@ package gameCommons;
 
 import gfx.Assets;
 import gfx.Text;
+import ui.UiInteracter;
 import util.Handler;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class Menu {
+public class Menu implements UiInteracter {
     private Handler handler;
-    public boolean active = false;
+    public boolean isVisible = false;
     private int x, y; //precise location where we clicked
     private Case clickedCase;
     private Player player;
@@ -40,7 +41,7 @@ public class Menu {
     /* UPDATE & RENDER */
 
     public void update() {
-        if (!active)
+        if(!isVisible)
             return;
 
         tradesMenu.update();
@@ -59,8 +60,10 @@ public class Menu {
 
     public void render(Graphics g) {
         i = 0;
-        if (!active)
+
+        if(!isVisible)
             return;
+
         if(!tradesMenu.isActive()) {
             if (clickedCase.getState() != 2 && !player.getAction(0) && !onCase) {
                 g.drawImage(Assets.menuBg, x + 1, y + 1 + i * textHeight, textWidth, textHeight, null);
@@ -92,7 +95,7 @@ public class Menu {
                 trade = new Rectangle(x + 1, y + 1 + i * textHeight, textWidth, textHeight);
                 i++;
             }
-            if (i == 0) active = false;
+            if (i == 0) this.isVisible = false;
         }
         tradesMenu.render(g);
     }
@@ -101,17 +104,19 @@ public class Menu {
     /* MOUSE MANAGER */
 
     public void onMouseClicked(MouseEvent e) {
-        if (tradesMenu.isActive()) tradesMenu.onMouseClicked(e);
+        if(!isVisible)
+            return;
 
-        else if (e.getX() < x + 1 || e.getX() > x + 1 + textWidth || e.getY() < y + 1 || e.getY() > y + 1 + textHeight * i) {
-            active = false;
+        if (tradesMenu.isActive()) tradesMenu.onMouseClicked(e);
+        else if (e.getX() < x || e.getX() > x + textWidth || e.getY() < y || e.getY() > y + textHeight * i) {
+            isVisible = false;
         } else {
             if (depla.contains(e.getX(), e.getY())) {
                 island.movePlayer(clickedCase);
-                this.active = false;
+                isVisible = false;
             } else if (thirst.contains(e.getX(), e.getY())) {
                 island.thirstCase(clickedCase);
-                this.active = false;
+                isVisible = false;
             } else if (dig.contains(e.getX(), e.getY())) {
                 if (clickedCase.isArtifact) {
                     if (player.inventory[clickedCase.artiValue] >= 1) { //changer le 1 en 4
@@ -125,6 +130,7 @@ public class Menu {
                         island.addInventory(Island.r.nextInt(4));
                     }
                 }
+                isVisible = false;
             } else if (trade.contains(e.getX(), e.getY())){
                 tradesMenu.setPlayers(players);
                 tradesMenu.setActive(true);
@@ -142,10 +148,6 @@ public class Menu {
 
     /* GETTERS & SETTERS */
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
     public void setX(int x) {
         this.x = x;
     }
@@ -154,15 +156,19 @@ public class Menu {
         this.y = y;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
     public void setClickedCase(Case clickedCase) {
         this.clickedCase = clickedCase;
     }
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public void setVisible(boolean b){
+        this.isVisible = b;
+    }
+
+    public boolean isActive(){
+        return this.isVisible;
     }
 }

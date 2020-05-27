@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class Island implements UiInteracter {
     private Handler handler;
@@ -18,12 +19,12 @@ public class Island implements UiInteracter {
     public int xOffset, yOffset;
     public Player[] player;
     public static Random r = new Random();
-    public Menu menu;
     private Color[] colors;
     private int isPlaying = 0;
     private boolean[] artifactsGathered;
     private int[] heliport = new int[4];
     private int[][] casesWithArtifacts = new int[4][4];
+    public Menu menu;
 
     public Island(Handler handler, int length, int numberOfPlayers) {
         this.handler = handler;
@@ -36,11 +37,11 @@ public class Island implements UiInteracter {
             System.exit(2);
         }
         this.player = new Player[numberOfPlayers];
-        this.menu = new Menu(handler, this);
         colors = new Color[]{Color.GREEN, Color.RED, Color.YELLOW, Color.BLUE, Color.BLACK, Color.WHITE};
         this.artifactsGathered = new boolean[4];
         Arrays.fill(artifactsGathered, false);
         init();
+        menu = new Menu(handler, this);
     }
 
     private void init() {
@@ -48,10 +49,10 @@ public class Island implements UiInteracter {
         for (int i = 0; i < cases.length; i++) {
             for (int j = 0; j < cases[0].length; j++) {
                 cases[i][j] = new Case(handler, i, j, xOffset, yOffset, this);
-                if(cases[i][j].isArtifact) {
+                if (cases[i][j].isArtifact) {
                     offset = casesWithArtifacts[cases[i][j].artiValue][0] != 0 ? 2 : 0;
                     casesWithArtifacts[cases[i][j].artiValue][offset] = i;
-                    casesWithArtifacts[cases[i][j].artiValue][1+offset] = j;
+                    casesWithArtifacts[cases[i][j].artiValue][1 + offset] = j;
                 }
             }
         }
@@ -88,14 +89,14 @@ public class Island implements UiInteracter {
         Case[] c = new Case[4];
         int[] verify = new int[4];
         for (Player p : player) {
-            for(int i = -1; i < 2; i+=2){
-                c[i+1] = getClickedCase(new MouseEvent(new Button(), 0, 0, 0, p.position[0]+i*(handler.getPixelByCase() + handler.getSpacing()), p.position[1], 0, false));
-                c[i+2] = getClickedCase(new MouseEvent(new Button(), 0, 0, 0, p.position[0], p.position[1]+i*(handler.getPixelByCase() + handler.getSpacing()), 0, false));
+            for (int i = -1; i < 2; i += 2) {
+                c[i + 1] = getClickedCase(new MouseEvent(new Button(), 0, 0, 0, p.position[0] + i * (handler.getPixelByCase() + handler.getSpacing()), p.position[1], 0, false));
+                c[i + 2] = getClickedCase(new MouseEvent(new Button(), 0, 0, 0, p.position[0], p.position[1] + i * (handler.getPixelByCase() + handler.getSpacing()), 0, false));
             }
-            for(int i = 0; i < verify.length; i++){
+            for (int i = 0; i < verify.length; i++) {
                 verify[i] = c[i] == null ? 1 : 0;
             }
-            if(Utils.allEquals(verify, 1)){
+            if (Utils.allEquals(verify, 1)) {
                 handler.setColor(p.color);
                 return true;
             }
@@ -104,8 +105,8 @@ public class Island implements UiInteracter {
     }
 
     public boolean drownedArtifact() {
-        for(int i = 0; i < casesWithArtifacts.length; i++){
-            if(!cases[casesWithArtifacts[i][0]][casesWithArtifacts[i][1]].isVisible && !cases[casesWithArtifacts[i][2]][casesWithArtifacts[i][3]].isVisible && !artifactsGathered[i]) {
+        for (int i = 0; i < casesWithArtifacts.length; i++) {
+            if (!cases[casesWithArtifacts[i][0]][casesWithArtifacts[i][1]].isVisible && !cases[casesWithArtifacts[i][2]][casesWithArtifacts[i][3]].isVisible && !artifactsGathered[i]) {
                 handler.setArtifact(i);
                 return true;
             }
@@ -187,22 +188,22 @@ public class Island implements UiInteracter {
         player[isPlaying].addAction(2);
     }
 
-    public ArrayList<Player> playersOnTheCase(Case c){
+    public ArrayList<Player> playersOnTheCase(Case c) {
         ArrayList<Player> res = new ArrayList<>();
-        for(Player p : player){
-            if(onCase(p, c) && !p.equals(player[isPlaying])) res.add(p);
+        for (Player p : player) {
+            if (onCase(p, c) && !p.equals(player[isPlaying])) res.add(p);
         }
         return res;
     }
 
-    public boolean onCase(Player p, Case c){
+    public boolean onCase(Player p, Case c) {
         return p.position[0] >= c.x && p.position[0] <= c.x + handler.getPixelByCase() && p.position[1] >= c.y && p.position[1] <= c.y + handler.getPixelByCase();
     }
 
-    public void trade(Player p, int artifactValue){
-        for(Player players : player){
-            if(players == p) players.addInventory(artifactValue);
-            else if(players == player[isPlaying]) players.delInventory(artifactValue);
+    public void trade(Player p, int artifactValue) {
+        for (Player players : player) {
+            if (players == p) players.addInventory(artifactValue);
+            else if (players == player[isPlaying]) players.delInventory(artifactValue);
         }
     }
 
@@ -232,11 +233,9 @@ public class Island implements UiInteracter {
         artifactRender(g);
 
 
-
-
         //temporary
         g.drawImage(Assets.temp, handler.getWidth() - 5 * 96 - 32, 32, null);
-        g.fillRect(handler.getWidth() - 5*96 - 32, 32 + handler.getHeight()/3 + 10, 5*96, handler.getHeight()/3); //-> inventaire
+        g.fillRect(handler.getWidth() - 5 * 96 - 32, 32 + handler.getHeight() / 3 + 10, 5 * 96, handler.getHeight() / 3); //-> inventaire
 
         menu.render(g);
     }
@@ -252,11 +251,9 @@ public class Island implements UiInteracter {
     }
 
 
-
-
     /* MOUSE MANAGER */
     public void onMouseClicked(MouseEvent e) {
-        if (menu.isActive()) menu.onMouseClicked(e);
+        if(menu.isActive()) menu.onMouseClicked(e);
         else if (player[isPlaying].nearPlayer(e)) {
             Case clickedCase = getClickedCase(e);
             if (clickedCase != null) {
@@ -264,13 +261,13 @@ public class Island implements UiInteracter {
                 this.menu.setY(e.getY());
                 this.menu.setClickedCase(clickedCase);
                 this.menu.setPlayer(player[isPlaying]);
-                this.menu.setActive(true);
+                this.menu.setVisible(true);
             }
         }
     }
 
     public void onMouseMove(MouseEvent e) {
-        if (menu.isActive()) menu.onMouseMove(e);
+        if(menu.isVisible) menu.onMouseMove(e);
         else {
             for (int i = 0; i < cases.length; i++) {
                 for (int j = 0; j < cases.length; j++) {

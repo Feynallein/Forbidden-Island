@@ -75,7 +75,7 @@ public class TradesMenu implements UiInteracter {
                     island.trade(selectedPlayer, i);
                     selectedPlayer = null;
                     this.isActive = false;
-                    island.menu.setActive(false);
+                    //island.menu.setActive(false);
                 }
             }
         }

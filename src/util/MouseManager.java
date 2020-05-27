@@ -29,12 +29,12 @@ public class MouseManager implements MouseListener, MouseMotionListener {
     }
 
     @Override
-    public void mousePressed(MouseEvent mouseEvent) {
+    public void mouseReleased(MouseEvent mouseEvent) {
 
     }
 
     @Override
-    public void mouseReleased(MouseEvent mouseEvent) {
+    public void mousePressed(MouseEvent mouseEvent) {
 
     }
 

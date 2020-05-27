@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class UiManager {
     private Handler handler;
-    private ArrayList<UiInteracter> objects;
+    public ArrayList<UiInteracter> objects;
 
     public UiManager(Handler handler) {
         this.handler = handler;
@@ -39,7 +39,7 @@ public class UiManager {
         }
     }
 
-    public void addObserver(UiInteracter o) {
+    public void addObject(UiInteracter o) {
         objects.add(o);
     }
 
