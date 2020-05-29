@@ -25,7 +25,7 @@ public class Player implements UiInteracter {
     public Player(Handler handler, Island island, Color color, int order, int numberOfPlayers) {
         this.handler = handler;
         this.inventory = new int[6];
-        Arrays.fill(inventory, 1);
+        Arrays.fill(inventory, 0);
         this.color = color;
         this.pawn = Utils.colorToPawn(this.color);
         this.sprite = Utils.colorToSprite(this.color);
@@ -125,7 +125,7 @@ public class Player implements UiInteracter {
     }
 
     public void addInventory(int i) {
-        if (i < inventory.length) inventory[i]++;
+        if (i < inventory.length && i >= 0) inventory[i]++;
     }
 
     public void delInventory(int i) {
@@ -137,7 +137,7 @@ public class Player implements UiInteracter {
     }
 
     public void addSpecialInventory(int i) {
-        if (i < inventory.length-3 && i >= 0) inventory[i+3]++;
+        if (i < inventory.length-4 && i >= 0) inventory[i+4]++;
     }
 
     public int getSpecialInventory(int i){

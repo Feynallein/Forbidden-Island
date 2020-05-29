@@ -1,4 +1,4 @@
-package state;
+package gameCommons.state;
 
 import gameCommons.Board.Island;
 import gfx.Assets;

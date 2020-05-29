@@ -27,8 +27,10 @@ public class Island implements UiInteracter {
     private int[] heliport = new int[4];
     private int[][] casesWithArtifacts = new int[4][4];
     public gameCommons.Menus.Menu menu;
-    public Deck deck;
+    public TreasureDeck treasureDeck;
     private DiscardMenu discardMenu;
+    private int floodGauge, flood;
+    private FloodDeck floodDeck;
 
     public Island(Handler handler, int length, int numberOfPlayers) {
         this.handler = handler;
@@ -38,16 +40,19 @@ public class Island implements UiInteracter {
             yOffset = (handler.getHeight() - length * handler.getPixelByCase()) / 2 - (handler.getSpacing() * length) / 2;
         } else {
             System.out.println("Too wide grid");
-            System.exit(2);
+            System.exit(-1);
         }
         this.player = new ArrayList<>();
-        colors = new Color[]{Color.GREEN, Color.RED, Color.YELLOW, Color.BLUE, Color.BLACK, Color.WHITE};
+        this.colors = new Color[]{Color.GREEN, Color.RED, Color.YELLOW, Color.BLUE, Color.BLACK, Color.WHITE};
         this.artifactsGathered = new boolean[4];
         Arrays.fill(artifactsGathered, false);
         this.menu = new Menu(handler, this);
-        this.deck = new Deck(handler);
-        discardMenu = new DiscardMenu(handler, this);
+        this.treasureDeck = new TreasureDeck();
+        this.discardMenu = new DiscardMenu(handler, this);
         this.isPlaying = 0;
+        this.floodGauge = 0;
+        this.flood = 0;
+        this.floodDeck = new FloodDeck(handler);
         init(numberOfPlayers);
     }
 
@@ -89,6 +94,9 @@ public class Island implements UiInteracter {
         } else if (drownedArtifact()) { //artifact's location flooded
             handler.setDeath(2);
             return true;
+        } else if (floodGauge == 9) { //water level too high
+            handler.setDeath(3);
+            return true;
         } else return false;
     }
 
@@ -121,19 +129,21 @@ public class Island implements UiInteracter {
         return false;
     }
 
-    public void endOfTurn() { //version ou ca ne prend pas les zones deja inondees
+    public void endOfTurn() {
         int i = 0;
+        if (floodGauge >= 7) flood = 5;
+        else if (floodGauge >= 5) flood = 4;
+        else if (floodGauge >= 2) flood = 3;
+        else flood = 2;
         do {
-            int fstRandom = r.nextInt(cases.length);
-            int sndRandom = r.nextInt(cases.length);
-            if (cases[fstRandom][sndRandom].getState() == 0) {
-                cases[fstRandom][sndRandom].setState(1);
-                i++;
-            } else if (cases[fstRandom][sndRandom].getState() == 1) {
-                cases[fstRandom][sndRandom].setState(2);
-                i++;
+            Integer[] tile = floodDeck.drawCard();
+            if (cases[tile[0]][tile[1]].getState() == 0) cases[tile[0]][tile[1]].setState(1);
+            else {
+                cases[tile[0]][tile[1]].setState(2);
+                floodDeck.discard(tile);
             }
-        } while (i < 3);
+            i++;
+        } while (i < flood); //TODO: mettre sécurité si pas assez de cases
         for (Player p : player) {
             p.resetAction();
         }
@@ -158,7 +168,7 @@ public class Island implements UiInteracter {
         player.get(isPlaying).position[0] += Assets.playerDim * offsets[0];
         player.get(isPlaying).position[1] += Assets.playerDim * offsets[1];
         //player[isPlaying].addAction();
-        if (!nearby) player.get(isPlaying).delSpecialInventory(0); //TO DO : take other's player with him
+        if (!nearby) player.get(isPlaying).delSpecialInventory(0); //TODO : take other's player with him
     }
 
     public int[] alreadyOccupied() {
@@ -184,21 +194,6 @@ public class Island implements UiInteracter {
         //this.player[isPlaying].addAction();
     }
 
-    public void floodCase(Case clickedCase) {
-        for (int i = 0; i < cases.length; i++) {
-            for (int j = 0; j < cases.length; j++) {
-                if (cases[i][j] == clickedCase && cases[i][j].getState() == 0) cases[i][j].setState(1);
-                else if (cases[i][j] == clickedCase && cases[i][j].getState() == 1) cases[i][j].setState(2);
-            }
-        }
-        //player[isPlaying].addAction();
-    }
-
-    public void addInventory(int num) {
-        player.get(isPlaying).addInventory(num);
-        //player[isPlaying].addAction();
-    }
-
     public ArrayList<Player> playersOnTheCase(Case c) {
         ArrayList<Player> res = new ArrayList<>();
         for (Player p : player) {
@@ -219,26 +214,32 @@ public class Island implements UiInteracter {
     }
 
     public void draw() {
-        //TODO : animation
-        String effect = deck.drawCard();
-        if (effect.equals("flooded")) {
-            //TODO : flood
-        } else if (effect.equals("helicopter")) {
-            player.get(isPlaying).addSpecialInventory(0);
-        } else if (effect.equals("sandbag")) {
-            player.get(isPlaying).addSpecialInventory(1);
-        } else {
-            addInventory(Utils.artifactToValue(Integer.parseInt(effect)));
+        String effect = treasureDeck.drawCard();
+        switch (effect) {
+            case "flooded":
+                floodGauge++;
+                break;
+            case "helicopter":
+                player.get(isPlaying).addSpecialInventory(0);
+                break;
+            case "sandbag":
+                player.get(isPlaying).addSpecialInventory(1);
+                break;
+            default:
+                player.get(isPlaying).addInventory(Utils.artifactToValue(Integer.parseInt(effect)));
+                break;
         }
+        //player.get(isPlaying).addAction();
         if (player.get(isPlaying).inventorySize() >= 5) {
             discardMenu.setPlayer(player.get(isPlaying));
             discardMenu.setActive(true);
         }
+
     }
 
     public void discard(int i) {
-        if (i < 4) deck.discard(new Deck.Card(Assets.keys[i], Utils.invValueToString(i)));
-        else deck.discard(new Deck.Card(Assets.specialCards[i - 4], Utils.invValueToString(i)));
+        if (i < 4) treasureDeck.discard(new TreasureDeck.Card(Assets.keys[i], Utils.invValueToString(i)));
+        else treasureDeck.discard(new TreasureDeck.Card(Assets.specialCards[i - 4], Utils.invValueToString(i)));
         player.get(isPlaying).delInventory(i);
     }
 
@@ -252,6 +253,7 @@ public class Island implements UiInteracter {
                 cases[i][j].update();
             }
         }
+
     }
 
     public void render(Graphics g) {
@@ -272,9 +274,9 @@ public class Island implements UiInteracter {
         //render the special inventory
         player.get(isPlaying).renderSpecialInventory(g);
         //render the deck
-        if (!deck.isEmpty())
+        if (!treasureDeck.isEmpty())
             g.drawImage(Assets.cardsBack, handler.getWidth() - 3 * Assets.dim - 3 * handler.getSpacing(), handler.getHeight() - (Assets.dim + Assets.dim * 2 / 3 + handler.getSpacing() * 4), null);
-        g.drawImage(deck.lastGraveCardSprite(), handler.getWidth() - 2 * Assets.dim - handler.getSpacing(), handler.getHeight() - (Assets.dim + Assets.dim * 2 / 3 + handler.getSpacing() * 4), null);
+        g.drawImage(treasureDeck.lastGraveCardSprite(), handler.getWidth() - 2 * Assets.dim - handler.getSpacing(), handler.getHeight() - (Assets.dim + Assets.dim * 2 / 3 + handler.getSpacing() * 4), null);
         //render action
         Text.drawString(g, "Actions left :", handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2, true, Color.WHITE, Assets.font45);
         Text.drawString(g, Integer.toString(3 - player.get(isPlaying).getAction()), handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2 + 50, true, Color.WHITE, Assets.font45);
@@ -285,6 +287,8 @@ public class Island implements UiInteracter {
         //temporary
         g.drawImage(Assets.temp, handler.getWidth() - 5 * 96 - 32, 15, null); //->recap du joueur, a passer dans la classe player comme le specialInv
         g.drawRect(handler.getWidth() - 20, 15, 15, handler.getHeight() - 30); //-> futur jauge
+
+
     }
 
     private void artifactRender(Graphics g) {
@@ -314,6 +318,7 @@ public class Island implements UiInteracter {
                 this.menu.setVisible(true);
             }
         }
+
     }
 
     public void onMouseMove(MouseEvent e) {
@@ -326,6 +331,7 @@ public class Island implements UiInteracter {
                 }
             }
         }
+
     }
 
 

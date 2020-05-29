@@ -32,6 +32,7 @@ public abstract class Utils {
         else if (c == Color.GREEN) return "green";
         else if (c == Color.WHITE) return "white";
         else if (c == Color.YELLOW) return "yellow";
+        else if(c.equals(new Color(0xCC7832))) return "couleur de debugging";
         else {
             System.out.println("aucune couleur correspondante");
             System.exit(-1);

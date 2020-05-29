@@ -1,4 +1,4 @@
-package state;
+package gameCommons.state;
 
 import gfx.Assets;
 import gfx.Text;

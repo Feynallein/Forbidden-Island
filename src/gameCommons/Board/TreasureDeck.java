@@ -1,13 +1,12 @@
 package gameCommons.Board;
 
 import gfx.Assets;
-import util.Handler;
 import util.Utils;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Deck {
+public class TreasureDeck {
     static class Card {
         private BufferedImage sprite;
         private String value;
@@ -17,25 +16,19 @@ public class Deck {
             this.value = value;
         }
 
-        public String getValue() {
-            return value;
-        }
-
         public BufferedImage getSprite() {
             return sprite;
         }
 
-        public String toString() {
-            return this.value;
+        public String getValue() {
+            return value;
         }
     }
 
-    private Handler handler;
     private ArrayList<Card> deck;
     private ArrayList<Card> grave;
 
-    public Deck(Handler handler) {
-        this.handler = handler;
+    public TreasureDeck() {
         deck = shuffleDeck();
         grave = new ArrayList<>();
     }
@@ -54,19 +47,12 @@ public class Deck {
         return res;
     }
 
-    public void mixGrave() {
-        while (!grave.isEmpty()) {
-            deck.add(deck.size(), grave.get(grave.size() - 1));
-            grave.remove(grave.get(grave.size() - 1));
-        }
-    }
-
     public String drawCard() {
         if (deck.isEmpty()) {
-            mixGrave();
+            shuffleDeck();
         }
         Card card = deck.get(0);
-        if (!card.value.equals("flooded")) deck.remove(card);
+        if (!card.getValue().equals("flooded")) deck.remove(card);
         else grave.add(card);
         return card.getValue();
     }

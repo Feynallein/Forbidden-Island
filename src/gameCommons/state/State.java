@@ -1,4 +1,4 @@
-package state;
+package gameCommons.state;
 
 import util.Handler;
 

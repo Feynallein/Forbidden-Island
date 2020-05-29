@@ -1,6 +1,7 @@
 package util;
 
 import gameCommons.Game;
+import gfx.Assets;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class Handler {
     }
 
     public int getPixelByCase() {
-        return 128;
+        return Assets.dim*4/3;
     }
 
     public int getSpacing() {

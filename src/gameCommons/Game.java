@@ -1,8 +1,8 @@
 package gameCommons;
 
+import gameCommons.state.GameState;
+import gameCommons.state.State;
 import gfx.Assets;
-import state.GameState;
-import state.State;
 import ui.Observable;
 import util.Handler;
 import util.KeyManager;
