@@ -69,7 +69,7 @@ public class Island implements UiInteracter {
             }
         }
         for (int i = 0; i < numberOfPlayer; i++) {
-            player.add(new Player(handler, this, colors[i], i, numberOfPlayer));
+            player.add(new Player(handler, this, colors[i], i));
         }
     }
 
@@ -152,14 +152,13 @@ public class Island implements UiInteracter {
     }
 
     public void thirstCase(Case clickedCase, boolean nearby) {
-        for (int i = 0; i < cases.length; i++) {
+        for (Case[] aCase : cases) {
             for (int j = 0; j < cases.length; j++) {
-                if (cases[i][j] == clickedCase && cases[i][j].getState() == 1) cases[i][j].setState(0);
+                if (aCase[j] == clickedCase && aCase[j].getState() == 1) aCase[j].setState(0);
             }
         }
         //player[isPlaying].addAction();
         if (!nearby) player.get(isPlaying).delSpecialInventory(1);
-        ;
     }
 
     public void movePlayer(Case clickedCase, boolean nearby) {
@@ -248,9 +247,9 @@ public class Island implements UiInteracter {
 
     public void update() {
         menu.update();
-        for (int i = 0; i < cases.length; i++) {
+        for (Case[] aCase : cases) {
             for (int j = 0; j < cases.length; j++) {
-                cases[i][j].update();
+                aCase[j].update();
             }
         }
 
@@ -260,9 +259,9 @@ public class Island implements UiInteracter {
         //render "it's player.isPlaying's turn"
         Text.drawString(g, "It's " + player.get(isPlaying).toString() + "'s turn.", handler.getWidth() / 2, 50, true, Color.WHITE, Assets.font45);
         //render the board
-        for (int i = 0; i < cases.length; i++) {
+        for (Case[] aCase : cases) {
             for (int j = 0; j < cases[0].length; j++) {
-                cases[i][j].render(g);
+                aCase[j].render(g);
             }
         }
         //render the players
@@ -273,6 +272,8 @@ public class Island implements UiInteracter {
         artifactRender(g);
         //render the special inventory
         player.get(isPlaying).renderSpecialInventory(g);
+        //render player's description
+        player.get(isPlaying).renderDescription(g);
         //render the deck
         if (!treasureDeck.isEmpty())
             g.drawImage(Assets.cardsBack, handler.getWidth() - 3 * Assets.dim - 3 * handler.getSpacing(), handler.getHeight() - (Assets.dim + Assets.dim * 2 / 3 + handler.getSpacing() * 4), null);
@@ -280,15 +281,11 @@ public class Island implements UiInteracter {
         //render action
         Text.drawString(g, "Actions left :", handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2, true, Color.WHITE, Assets.font45);
         Text.drawString(g, Integer.toString(3 - player.get(isPlaying).getAction()), handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2 + 50, true, Color.WHITE, Assets.font45);
+        //render the gauge
+        g.drawImage(Assets.gauge[floodGauge], handler.getWidth() - 2*handler.getSpacing(), handler.getSpacing(), Assets.gauge[flood].getWidth(), handler.getHeight() - 30, null); //-> futur jauge
         //render the menus
         menu.render(g);
         discardMenu.render(g);
-
-        //temporary
-        g.drawImage(Assets.temp, handler.getWidth() - 5 * 96 - 32, 15, null); //->recap du joueur, a passer dans la classe player comme le specialInv
-        g.drawRect(handler.getWidth() - 20, 15, 15, handler.getHeight() - 30); //-> futur jauge
-
-
     }
 
     private void artifactRender(Graphics g) {
@@ -325,9 +322,9 @@ public class Island implements UiInteracter {
         if (menu.isVisible) menu.onMouseMove(e);
         else if (discardMenu.isActive()) discardMenu.onMouseMove(e);
         else {
-            for (int i = 0; i < cases.length; i++) {
+            for (Case[] aCase : cases) {
                 for (int j = 0; j < cases.length; j++) {
-                    cases[i][j].onMouseMove(e);
+                    aCase[j].onMouseMove(e);
                 }
             }
         }

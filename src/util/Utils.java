@@ -32,7 +32,7 @@ public abstract class Utils {
         else if (c == Color.GREEN) return "green";
         else if (c == Color.WHITE) return "white";
         else if (c == Color.YELLOW) return "yellow";
-        else if(c.equals(new Color(0xCC7832))) return "couleur de debugging";
+        else if (c.equals(new Color(0xCC7832))) return "couleur de debugging";
         else {
             System.out.println("aucune couleur correspondante");
             System.exit(-1);
@@ -146,7 +146,7 @@ public abstract class Utils {
         else return "";
     }
 
-    public static String invValueToString(int value){
+    public static String invValueToString(int value) {
         if (value == 0) return "18";
         else if (value == 1) return "16";
         else if (value == 2) return "22";
@@ -154,5 +154,19 @@ public abstract class Utils {
         else if (value == 4) return "helicopter";
         else if (value == 5) return "sandbag";
         else return "";
+    }
+
+    public static BufferedImage colorToDesc(Color c) {
+        if (c == Color.BLACK) return Assets.playerDescription[4];
+        else if (c == Color.BLUE) return Assets.playerDescription[2];
+        else if (c == Color.RED) return Assets.playerDescription[3];
+        else if (c == Color.GREEN) return Assets.playerDescription[0];
+        else if (c == Color.WHITE) return Assets.playerDescription[5];
+        else if (c == Color.YELLOW) return Assets.playerDescription[1];
+        else {
+            System.out.println("aucune couleur correspondante");
+            System.exit(-1);
+            return null;
+        }
     }
 }
