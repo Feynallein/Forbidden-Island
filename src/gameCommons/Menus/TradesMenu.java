@@ -18,9 +18,11 @@ public class TradesMenu implements UiInteracter {
     private boolean isActive = false;
     private ArrayList<Player> players;
     private Player selectedPlayer;
+    private Player inventoryPlayer;
     private ArrayList<Rectangle> pawnsBounds = new ArrayList<>();
     private ArrayList<Rectangle> artifactsBounds = new ArrayList<>();
     private boolean toTrade;
+    private int size;
 
     public TradesMenu(Handler handler, Island island) {
         this.handler = handler;
@@ -42,10 +44,15 @@ public class TradesMenu implements UiInteracter {
         if (!toTrade) selectPlayer(g);
 
         if (selectedPlayer != null) {
+            int y = 0;
             Text.drawString(g, "Which key do you want to give to " + Utils.colorToString(selectedPlayer.color) + "?", handler.getWidth() / 2, handler.getHeight() / 4, true, Color.WHITE, Assets.font45);
             for (int i = 0; i < artifactsBounds.size(); i++) {
-                g.drawImage(Assets.keys[i], handler.getWidth() / 2 - Assets.keys.length * Assets.dim / 2 + i * Assets.dim + i * handler.getSpacing() * 2 - Assets.keys.length / 2 * handler.getSpacing() * 2,
-                        handler.getHeight() / 2 - Assets.dim / 2, Assets.dim, Assets.dim + Assets.dim * 2 / 3, null);
+                if (inventoryPlayer.inventory[i] > 0) {
+                    g.drawImage(Assets.keys[i], (handler.getWidth() - (size * (Assets.dim + handler.getSpacing() * 2)) + handler.getSpacing()) / 2 + y * (Assets.dim + (handler.getSpacing() * 2)),
+                            (handler.getHeight() - Assets.dim) / 2, Assets.dim, Assets.cardHeightDim, null);
+                    y++;
+                    //TODO : adding the number (like in player's inventory)
+                }
             }
         }
     }
@@ -53,7 +60,7 @@ public class TradesMenu implements UiInteracter {
     private void selectPlayer(Graphics g) {
         Text.drawString(g, "Which player do you want to trade with?", handler.getWidth() / 2, handler.getHeight() / 4, true, Color.WHITE, Assets.font45);
         for (int i = 0; i < pawnsBounds.size(); i++) {
-            g.drawImage(Utils.colorToPawn(players.get(i).color), handler.getWidth() / 2 - players.size() * Assets.playerDim + i * Assets.playerDim * 2 + i * handler.getSpacing() - players.size() / 2 * handler.getSpacing(),
+            g.drawImage(Utils.colorToPawn(players.get(i).color), (handler.getWidth() - (size * Assets.playerDim * 2) - handler.getSpacing()) / 2 + i * (Assets.playerDim * 2 + handler.getSpacing()) - players.size() * handler.getSpacing(),
                     handler.getHeight() / 2 - Assets.playerDim, Assets.playerDim * 2, Assets.playerDim * 2, null);
         }
     }
@@ -65,11 +72,6 @@ public class TradesMenu implements UiInteracter {
                 if (pawnsBounds.get(i).contains(e.getX(), e.getY())) {
                     selectedPlayer = players.get(i);
                     toTrade = true;
-                    artifactsBounds.clear();
-                    for (int y = 0; y < selectedPlayer.inventory.length; y++) {
-                        artifactsBounds.add(new Rectangle(handler.getWidth() / 2 - Assets.keys.length * Assets.dim / 2 + y * Assets.dim + y * handler.getSpacing() * 2 - Assets.keys.length / 2 * handler.getSpacing() * 2,
-                                handler.getHeight() / 2 - Assets.dim / 2, Assets.dim, Assets.dim));
-                    }
                 }
             }
         } else {
@@ -78,7 +80,7 @@ public class TradesMenu implements UiInteracter {
                     island.trade(selectedPlayer, i);
                     selectedPlayer = null;
                     this.isActive = false;
-                    //island.menu.setVisible(false);
+                    island.menu.setVisible(false);
                 }
             }
         }
@@ -103,12 +105,31 @@ public class TradesMenu implements UiInteracter {
         if (p.size() > 1) {
             toTrade = false;
             for (int i = 0; i < players.size(); i++) {
-                pawnsBounds.add(i, new Rectangle(handler.getWidth() / 2 - players.size() * Assets.playerDim + i * Assets.playerDim * 2 + i * handler.getSpacing() - players.size() / 2 * handler.getSpacing(),
+                pawnsBounds.add(i, new Rectangle((handler.getWidth() - (size * Assets.playerDim * 2) - handler.getSpacing()) / 2 + i * (Assets.playerDim * 2 + handler.getSpacing()) - players.size() * handler.getSpacing(),
                         handler.getHeight() / 2 - Assets.playerDim, Assets.playerDim * 2, Assets.playerDim * 2));
             }
         } else {
             selectedPlayer = p.get(0);
             toTrade = true;
+        }
+    }
+
+    public void setInventoryPlayer(Player p) {
+        int y = 0;
+        size = 0;
+        inventoryPlayer = p;
+        for(int i = 0; i < inventoryPlayer.inventory.length - 2;i++){ // -2 bcs we don't want the special inventory
+            if(inventoryPlayer.inventory[i] > 0) size++;
+        }
+        artifactsBounds.clear();
+        for (int i = 0; i < inventoryPlayer.inventory.length - 2; i++) {
+            if (inventoryPlayer.inventory[i] > 0) {
+                artifactsBounds.add(new Rectangle((handler.getWidth() - (size * (Assets.dim + handler.getSpacing() * 2)) + handler.getSpacing()) / 2 + y * (Assets.dim + (handler.getSpacing() * 2)),
+                        handler.getHeight() / 2 - Assets.dim / 2, Assets.dim, Assets.cardHeightDim));
+                y++;
+            } else {
+                artifactsBounds.add(new Rectangle(0, 0, 0, 0));
+            }
         }
     }
 }

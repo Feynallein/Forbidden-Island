@@ -3,7 +3,7 @@ package ui;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public abstract class UiObject implements UiInteracter{
+public abstract class UiObject implements UiInteracter {
     float x, y;
     int width, height;
     private Rectangle bounds;

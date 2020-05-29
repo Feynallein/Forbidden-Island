@@ -20,7 +20,7 @@ public class Menu implements UiInteracter {
     private Case clickedCase;
     private Player player;
     private Island island;
-    private int textWidth = 80, textHeight = 30; //arbitraire
+    private int textWidth = 80, textHeight = 30; //textHeight = height of the text block, textWidth = width of the text block (not the text itself)
     public TradesMenu tradesMenu;
     HashMap<String, Rectangle> bounds = new HashMap<>();
     ArrayList<String> texts = new ArrayList<>();
@@ -48,10 +48,10 @@ public class Menu implements UiInteracter {
     public void render(Graphics g) {
         if (!isVisible)
             return;
-
+        FontMetrics fm = g.getFontMetrics(Assets.font20);
         for (int i = 0; i < texts.size(); i++) {
             g.drawImage(Assets.menuBg, x + 1, y + 1 + i * textHeight, textWidth, textHeight, null);
-            Text.drawString(g, texts.get(i), x + 1, y + 1 + 25 + i * textHeight, false, Color.WHITE, Assets.font20); //a changer le 25
+            Text.drawString(g, texts.get(i), x + 1, y + 1 + fm.getHeight() / 2 + fm.getAscent() + i * textHeight, false, Color.WHITE, Assets.font20); //a changer le 25
         }
         tradesMenu.render(g);
     }
@@ -69,19 +69,23 @@ public class Menu implements UiInteracter {
         } else {
             if (bounds.get("Move") != null && bounds.get("Move").contains(e.getX(), e.getY())) {
                 island.movePlayer(clickedCase, nearby);
+                isVisible = false;
             } else if (bounds.get("Thirst") != null && bounds.get("Thirst").contains(e.getX(), e.getY())) {
                 island.thirstCase(clickedCase, nearby);
+                isVisible = false;
             } else if (bounds.get("Dig") != null && bounds.get("Dig").contains(e.getX(), e.getY())) {
                 island.draw();
+                isVisible = false;
             } else if (bounds.get("Gather") != null && bounds.get("Gather").contains(e.getX(), e.getY())) {
-                if (clickedCase.isArtifact && player.inventory[clickedCase.artiValue] >= 1) { //change 1 to 4
-                    island.gatherArtifact(clickedCase.artiValue);
+                if (clickedCase.isArtifact && player.inventory[clickedCase.artifactValue] >= 1) { //change 1 to 4
+                    island.gatherArtifact(clickedCase.artifactValue);
+                    isVisible = false;
                 }
             } else if ((bounds.get("Trade") != null && bounds.get("Trade").contains(e.getX(), e.getY()))) {
                 tradesMenu.setPlayers(players);
+                tradesMenu.setInventoryPlayer(player);
                 tradesMenu.setActive(true);
             }
-            isVisible = false;
         }
     }
 
@@ -123,20 +127,20 @@ public class Menu implements UiInteracter {
     public void setRectangleAndTexts() {
         bounds.clear();
         texts.clear();
-        if (!onCase && clickedCase.getState() == 0  && (nearby || player.specialInventory[0] != 0)) {
+        if (!onCase && clickedCase.getState() == 0 && player.getAction() < 3 && (nearby || player.getSpecialInventory(0) != 0)) {
             texts.add("Move");
         }
-        if (clickedCase.getState() == 1  && (nearby || player.specialInventory[1] != 0)) {
+        if (clickedCase.getState() == 1 && player.getAction() < 3 && (nearby || player.getSpecialInventory(1) != 0)) {
             texts.add("Thirst");
         }
-        if (onCase && clickedCase.getState() != 2 && nearby) {
+        if (onCase && clickedCase.getState() != 2 && player.getAction() < 3 && nearby) {
             if (clickedCase.isArtifact) {
                 texts.add("Gather");
             } else {
                 texts.add("Dig");
             }
         }
-        if (onCase && !players.isEmpty() && nearby) {
+        if (onCase && !players.isEmpty() && player.getAction() < 3 && nearby) {
             texts.add("Trade");
         }
         if (texts.size() == 0) isVisible = false;

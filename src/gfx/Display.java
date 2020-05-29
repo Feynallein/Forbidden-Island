@@ -5,7 +5,7 @@ import gameCommons.Game;
 import javax.swing.*;
 import java.awt.*;
 
-public class Display extends JFrame{
+public class Display extends JFrame {
     public Display(Game game, int width, int height) {
         this.setTitle("Forbidden Island");
         this.setPreferredSize(new Dimension(width, height));

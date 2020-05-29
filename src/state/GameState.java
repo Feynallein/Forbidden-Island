@@ -2,8 +2,8 @@ package state;
 
 import gameCommons.Board.Island;
 import gfx.Assets;
-import ui.UiManager;
 import ui.UiImageButton;
+import ui.UiManager;
 import util.Handler;
 
 import java.awt.*;
@@ -15,13 +15,14 @@ public class GameState extends State {
 
     public GameState(Handler handler) {
         super(handler);
-        this.island = new Island(handler, handler.getIslandLength(), 6);
+        this.island = new Island(handler, handler.getIslandLength(), handler.getNumberOfPlayers());
         this.manager = new UiManager(handler);
         handler.getMouseManager().setUiManager(this.manager);
         //not yet finished
         this.manager.addObject(new UiImageButton((float) (handler.getWidth() - 162) / 2, (float) (handler.getHeight() - 2 * 26), 162, 26, Assets.turn, () -> {
             island.endOfTurn();
         }));
+
         this.manager.addObject(island);
     }
 
@@ -39,8 +40,7 @@ public class GameState extends State {
 
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ESCAPE)) {
             System.exit(0);
-        }
-        else if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_ESCAPE) && island.menu.tradesMenu.isActive()){
+        } else if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ESCAPE) && island.menu.tradesMenu.isActive()) {
             island.menu.tradesMenu.setActive(false);
             island.menu.setVisible(false);
         }

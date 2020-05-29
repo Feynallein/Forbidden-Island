@@ -144,4 +144,14 @@ public abstract class Utils {
         else if (value >= 23 && value <= 28) return "20";
         else return "";
     }
+
+    public static String invValueToString(int value){
+        if (value == 0) return "18";
+        else if (value == 1) return "16";
+        else if (value == 2) return "22";
+        else if (value == 3) return "20";
+        else if (value == 4) return "helicopter";
+        else if (value == 5) return "sandbag";
+        else return "";
+    }
 }

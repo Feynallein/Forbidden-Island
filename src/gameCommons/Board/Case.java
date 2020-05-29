@@ -17,17 +17,15 @@ public class Case implements UiInteracter {
     public int x, y;
     private boolean isHovered;
     private BufferedImage sprite;
-    private Island island;
     public Color color;
     public boolean isArtifact;
-    public int artiValue;
+    public int artifactValue;
 
     public Case(Handler handler, int i, int j, int xOffset, int yOffset, Island island) {
         this.handler = handler;
         this.x = i * handler.getSpacing() + i * handler.getPixelByCase() + xOffset;
         this.y = j * handler.getSpacing() + j * handler.getPixelByCase() + yOffset;
         this.bounds = new Rectangle(x, y, handler.getPixelByCase(), handler.getPixelByCase());
-        //this.isVisible = !(((j == 0 || j == 5) && (i == 0 || i == 1 || i == 4 || i == 5)) || ((j == 1 || j == 4) && (i == 0 || i == 5)));
         this.isVisible = (j != 0 && j != 5 && i != 0 && i != 5) || (j != 0 && j != 5 && j != 1 && j != 4) || (i != 0 && i != 1 && i != 4 && i != 5);
         this.state = this.isVisible ? 0 : 3;
         this.isHovered = false;
@@ -36,7 +34,7 @@ public class Case implements UiInteracter {
             this.sprite = Assets.board[num];
             this.color = Utils.getStarterColors(num);
             this.isArtifact = Utils.isArtifact(num);
-            this.artiValue = Utils.artifactToValue(num);
+            this.artifactValue = Utils.artifactToValue(num);
         }
     }
 

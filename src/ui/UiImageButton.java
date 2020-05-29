@@ -15,18 +15,15 @@ public class UiImageButton extends UiObject {
 
     @Override
     public void update() {
-        //no update
     }
 
     @Override
     public void render(Graphics g) {
-        if(click) {
+        if (click) {
             g.drawImage(images[2], (int) x, (int) y, width, height, null);
-        }
-        else if(isHovering()) {
+        } else if (isHovering()) {
             g.drawImage(images[1], (int) x, (int) y, width, height, null);
-        }
-        else
+        } else
             g.drawImage(images[0], (int) x, (int) y, width, height, null);
     }
 

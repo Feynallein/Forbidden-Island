@@ -1,5 +1,6 @@
 package gameCommons.Board;
 
+import gameCommons.Menus.DiscardMenu;
 import gameCommons.Menus.Menu;
 import gameCommons.Player;
 import gfx.Assets;
@@ -18,15 +19,16 @@ public class Island implements UiInteracter {
     private Handler handler;
     public Case[][] cases;
     public int xOffset, yOffset;
-    public Player[] player;
+    public ArrayList<Player> player;
     public static Random r = new Random();
     private Color[] colors;
-    private int isPlaying = 0;
+    private int isPlaying;
     private boolean[] artifactsGathered;
     private int[] heliport = new int[4];
     private int[][] casesWithArtifacts = new int[4][4];
     public gameCommons.Menus.Menu menu;
     public Deck deck;
+    private DiscardMenu discardMenu;
 
     public Island(Handler handler, int length, int numberOfPlayers) {
         this.handler = handler;
@@ -38,29 +40,31 @@ public class Island implements UiInteracter {
             System.out.println("Too wide grid");
             System.exit(2);
         }
-        this.player = new Player[numberOfPlayers];
+        this.player = new ArrayList<>();
         colors = new Color[]{Color.GREEN, Color.RED, Color.YELLOW, Color.BLUE, Color.BLACK, Color.WHITE};
         this.artifactsGathered = new boolean[4];
         Arrays.fill(artifactsGathered, false);
-        init();
-        menu = new Menu(handler, this);
-        deck = new Deck(handler);
+        this.menu = new Menu(handler, this);
+        this.deck = new Deck(handler);
+        discardMenu = new DiscardMenu(handler, this);
+        this.isPlaying = 0;
+        init(numberOfPlayers);
     }
 
-    private void init() {
+    private void init(int numberOfPlayer) {
         int offset;
         for (int i = 0; i < cases.length; i++) {
             for (int j = 0; j < cases[0].length; j++) {
                 cases[i][j] = new Case(handler, i, j, xOffset, yOffset, this);
                 if (cases[i][j].isArtifact) {
-                    offset = casesWithArtifacts[cases[i][j].artiValue][0] != 0 ? 2 : 0;
-                    casesWithArtifacts[cases[i][j].artiValue][offset] = i;
-                    casesWithArtifacts[cases[i][j].artiValue][1 + offset] = j;
+                    offset = casesWithArtifacts[cases[i][j].artifactValue][0] != 0 ? 2 : 0;
+                    casesWithArtifacts[cases[i][j].artifactValue][offset] = i;
+                    casesWithArtifacts[cases[i][j].artifactValue][1 + offset] = j;
                 }
             }
         }
-        for (int i = 0; i < player.length; i++) {
-            player[i] = new Player(handler, this, colors[i], i);
+        for (int i = 0; i < numberOfPlayer; i++) {
+            player.add(new Player(handler, this, colors[i], i, numberOfPlayer));
         }
     }
 
@@ -134,7 +138,7 @@ public class Island implements UiInteracter {
             p.resetAction();
         }
         isPlaying++;
-        if (isPlaying == player.length) isPlaying = 0;
+        if (isPlaying == player.size()) isPlaying = 0;
     }
 
     public void thirstCase(Case clickedCase, boolean nearby) {
@@ -144,16 +148,17 @@ public class Island implements UiInteracter {
             }
         }
         //player[isPlaying].addAction();
-        if(!nearby) player[isPlaying].specialInventory[1]--;
+        if (!nearby) player.get(isPlaying).delSpecialInventory(1);
+        ;
     }
 
     public void movePlayer(Case clickedCase, boolean nearby) {
-        player[isPlaying].position = new int[]{clickedCase.x, clickedCase.y};
+        player.get(isPlaying).position = new int[]{clickedCase.x, clickedCase.y};
         int[] offsets = alreadyOccupied();
-        player[isPlaying].position[0] += Assets.playerDim * offsets[0];
-        player[isPlaying].position[1] += Assets.playerDim * offsets[1];
+        player.get(isPlaying).position[0] += Assets.playerDim * offsets[0];
+        player.get(isPlaying).position[1] += Assets.playerDim * offsets[1];
         //player[isPlaying].addAction();
-        if(!nearby) player[isPlaying].specialInventory[0]--; //TO DO : take other's player with him
+        if (!nearby) player.get(isPlaying).delSpecialInventory(0); //TO DO : take other's player with him
     }
 
     public int[] alreadyOccupied() {
@@ -164,17 +169,18 @@ public class Island implements UiInteracter {
                 offset = offset % 4;
                 yOffset++;
             }
-            for (int i = 0; i < player.length; i++) {
-                if (i != isPlaying && player[i].position[0] == player[isPlaying].position[0] + offset * Assets.playerDim &&
-                        player[i].position[1] == player[isPlaying].position[1] + yOffset * Assets.playerDim) offset++;
+            for (int i = 0; i < player.size(); i++) {
+                if (i != isPlaying && player.get(i).position[0] == player.get(isPlaying).position[0] + offset * Assets.playerDim &&
+                        player.get(i).position[1] == player.get(isPlaying).position[1] + yOffset * Assets.playerDim)
+                    offset++;
             }
         } while (offset != backup);
         return new int[]{offset, yOffset};
     }
 
     public void gatherArtifact(int num) {
-        this.artifactsGathered[num] = true;
-        this.player[isPlaying].inventory[num] -= 1; //a changer a 4
+        artifactsGathered[num] = true;
+        player.get(isPlaying).inventory[num] -= 1; //a changer a 4
         //this.player[isPlaying].addAction();
     }
 
@@ -189,14 +195,14 @@ public class Island implements UiInteracter {
     }
 
     public void addInventory(int num) {
-        player[isPlaying].addInventory(num);
+        player.get(isPlaying).addInventory(num);
         //player[isPlaying].addAction();
     }
 
     public ArrayList<Player> playersOnTheCase(Case c) {
         ArrayList<Player> res = new ArrayList<>();
         for (Player p : player) {
-            if (onCase(p, c) && !p.equals(player[isPlaying])) res.add(p);
+            if (onCase(p, c) && !p.equals(player.get(isPlaying))) res.add(p);
         }
         return res;
     }
@@ -208,26 +214,32 @@ public class Island implements UiInteracter {
     public void trade(Player p, int artifactValue) {
         for (Player players : player) {
             if (players == p) players.addInventory(artifactValue);
-            else if (players == player[isPlaying]) players.delInventory(artifactValue);
+            else if (players == player.get(isPlaying)) players.delInventory(artifactValue);
         }
     }
 
-    public void draw(){
-        if(player[isPlaying].inventorySize() < 5) {
-            String effect = deck.drawCard();
-            if (effect.equals("flooded")) {
-                //to do
-            } else if (effect.equals("helicopter")) {
-                player[isPlaying].addSpecialInventory(0);
-            } else if (effect.equals("sandbag")) {
-                player[isPlaying].addSpecialInventory(1);
-            } else {
-                addInventory(Utils.artifactToValue(Integer.parseInt(effect)));
-            }
+    public void draw() {
+        //TODO : animation
+        String effect = deck.drawCard();
+        if (effect.equals("flooded")) {
+            //TODO : flood
+        } else if (effect.equals("helicopter")) {
+            player.get(isPlaying).addSpecialInventory(0);
+        } else if (effect.equals("sandbag")) {
+            player.get(isPlaying).addSpecialInventory(1);
+        } else {
+            addInventory(Utils.artifactToValue(Integer.parseInt(effect)));
         }
-        else {
-            //to do -> défausse d'une carte
+        if (player.get(isPlaying).inventorySize() >= 5) {
+            discardMenu.setPlayer(player.get(isPlaying));
+            discardMenu.setActive(true);
         }
+    }
+
+    public void discard(int i) {
+        if (i < 4) deck.discard(new Deck.Card(Assets.keys[i], Utils.invValueToString(i)));
+        else deck.discard(new Deck.Card(Assets.specialCards[i - 4], Utils.invValueToString(i)));
+        player.get(isPlaying).delInventory(i);
     }
 
 
@@ -243,30 +255,36 @@ public class Island implements UiInteracter {
     }
 
     public void render(Graphics g) {
-        Text.drawString(g, "It's " + player[isPlaying].toString() + "'s turn.", handler.getWidth() / 2, 50, true, Color.WHITE, Assets.font45);
+        //render "it's player.isPlaying's turn"
+        Text.drawString(g, "It's " + player.get(isPlaying).toString() + "'s turn.", handler.getWidth() / 2, 50, true, Color.WHITE, Assets.font45);
+        //render the board
         for (int i = 0; i < cases.length; i++) {
             for (int j = 0; j < cases[0].length; j++) {
                 cases[i][j].render(g);
             }
         }
+        //render the players
         for (Player p : player) {
             p.render(g);
         }
+        //render the gathered artifacts
         artifactRender(g);
-
+        //render the special inventory
+        player.get(isPlaying).renderSpecialInventory(g);
+        //render the deck
+        if (!deck.isEmpty())
+            g.drawImage(Assets.cardsBack, handler.getWidth() - 3 * Assets.dim - 3 * handler.getSpacing(), handler.getHeight() - (Assets.dim + Assets.dim * 2 / 3 + handler.getSpacing() * 4), null);
+        g.drawImage(deck.lastGraveCardSprite(), handler.getWidth() - 2 * Assets.dim - handler.getSpacing(), handler.getHeight() - (Assets.dim + Assets.dim * 2 / 3 + handler.getSpacing() * 4), null);
+        //render action
+        Text.drawString(g, "Actions left :", handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2, true, Color.WHITE, Assets.font45);
+        Text.drawString(g, Integer.toString(3 - player.get(isPlaying).getAction()), handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2 + 50, true, Color.WHITE, Assets.font45);
+        //render the menus
+        menu.render(g);
+        discardMenu.render(g);
 
         //temporary
         g.drawImage(Assets.temp, handler.getWidth() - 5 * 96 - 32, 15, null); //->recap du joueur, a passer dans la classe player comme le specialInv
-
-
-        player[isPlaying].renderSpecialInventory(g);
-
-        if(!deck.isEmpty()) g.drawImage(Assets.cardsBack, handler.getWidth() - 3*Assets.dim - 3*handler.getSpacing(), handler.getHeight() - (Assets.dim+Assets.dim*2/3 + handler.getSpacing()*4), null);
-        g.drawImage(deck.lastGraveCardSprite(), handler.getWidth() - 2*Assets.dim - handler.getSpacing(), handler.getHeight() - (Assets.dim+Assets.dim*2/3 + handler.getSpacing()*4), null);
-
-        //g.drawRect(handler.getWidth() - 20, 15, 15, handler.getHeight() - 30); //-> futur jauge
-
-        menu.render(g);
+        g.drawRect(handler.getWidth() - 20, 15, 15, handler.getHeight() - 30); //-> futur jauge
     }
 
     private void artifactRender(Graphics g) {
@@ -282,23 +300,25 @@ public class Island implements UiInteracter {
 
     /* MOUSE MANAGER */
     public void onMouseClicked(MouseEvent e) {
-        if(menu.isActive()) menu.onMouseClicked(e);
-        else if (player[isPlaying].nearPlayer(e) || player[isPlaying].specialInventory[0] != 0 || player[isPlaying].specialInventory[1] != 0) {
+        if (menu.isActive()) menu.onMouseClicked(e);
+        if (discardMenu.isActive()) discardMenu.onMouseClicked(e);
+        else if (player.get(isPlaying).nearPlayer(e) || player.get(isPlaying).getSpecialInventory(0) != 0 || player.get(isPlaying).getSpecialInventory(0) != 0) {
             Case clickedCase = getClickedCase(e);
             if (clickedCase != null) {
-                if(!player[isPlaying].nearPlayer(e)) this.menu.setNearby(false);
+                if (!player.get(isPlaying).nearPlayer(e)) this.menu.setNearby(false);
                 else this.menu.setNearby(true);
                 this.menu.setX(e.getX());
                 this.menu.setY(e.getY());
                 this.menu.setClickedCase(clickedCase);
-                this.menu.setPlayer(player[isPlaying]);
+                this.menu.setPlayer(player.get(isPlaying));
                 this.menu.setVisible(true);
             }
         }
     }
 
     public void onMouseMove(MouseEvent e) {
-        if(menu.isVisible) menu.onMouseMove(e);
+        if (menu.isVisible) menu.onMouseMove(e);
+        else if (discardMenu.isActive()) discardMenu.onMouseMove(e);
         else {
             for (int i = 0; i < cases.length; i++) {
                 for (int j = 0; j < cases.length; j++) {

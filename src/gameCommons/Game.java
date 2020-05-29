@@ -1,9 +1,12 @@
 package gameCommons;
 
 import gfx.Assets;
-import state.*;
+import state.GameState;
+import state.State;
 import ui.Observable;
-import util.*;
+import util.Handler;
+import util.KeyManager;
+import util.MouseManager;
 
 import java.awt.*;
 
@@ -31,6 +34,7 @@ public class Game extends Observable implements Runnable {
         keyManager = new KeyManager();
         gameState = new GameState(handler);
         State.setState(gameState);
+
     }
 
     /* Update & Render */

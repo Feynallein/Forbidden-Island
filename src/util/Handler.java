@@ -12,23 +12,35 @@ public class Handler {
     public Color color = new Color(0xCC7832);
     public int artifact = 0;
 
-    public Handler(Game game){ this.game = game; }
+    public Handler(Game game) {
+        this.game = game;
+    }
 
-    public int getWidth(){ return game.getWidth(); }
+    public int getWidth() {
+        return game.getWidth();
+    }
 
-    public int getHeight(){ return game.getHeight(); }
+    public int getHeight() {
+        return game.getHeight();
+    }
 
-    public KeyManager getKeyManager(){ return game.getKeyManager(); }
+    public KeyManager getKeyManager() {
+        return game.getKeyManager();
+    }
 
-    public MouseManager getMouseManager(){ return game.getMouseManager(); }
+    public MouseManager getMouseManager() {
+        return game.getMouseManager();
+    }
 
     public Game getGame() {
         return game;
     }
 
-    public int getPixelByCase(){return 128;}
+    public int getPixelByCase() {
+        return 128;
+    }
 
-    public int getSpacing(){
+    public int getSpacing() {
         return 10;
     }
 
@@ -36,11 +48,11 @@ public class Handler {
         return this.game.getLength();
     }
 
-    public void addNumber(int num){
+    public void addNumber(int num) {
         this.takenNumbers.add(num);
     }
 
-    public ArrayList<Integer> getTakenNumbers(){
+    public ArrayList<Integer> getTakenNumbers() {
         return this.takenNumbers;
     }
 
@@ -48,11 +60,15 @@ public class Handler {
         this.death = i;
     }
 
-    public void setColor(Color c){
+    public void setColor(Color c) {
         this.color = c;
     }
 
-    public void setArtifact(int i){
+    public void setArtifact(int i) {
         this.artifact = i;
+    }
+
+    public int getNumberOfPlayers(){
+        return 4; //TODO : make this not stable
     }
 }

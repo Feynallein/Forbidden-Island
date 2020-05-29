@@ -9,7 +9,7 @@ import java.awt.*;
 public class GamePanel extends JPanel implements Observer {
     private Game game;
 
-    public GamePanel(Game game, int width, int height){
+    public GamePanel(Game game, int width, int height) {
         this.game = game;
         game.addObserver(this);
         this.setPreferredSize(new Dimension(width, height));
@@ -25,7 +25,7 @@ public class GamePanel extends JPanel implements Observer {
     }
 
     @Override
-    protected void paintComponent(Graphics g){
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         super.repaint();
         game.render(g);

@@ -21,14 +21,11 @@ public class Player implements UiInteracter {
     private BufferedImage sprite;
     private int order;
     public int[] inventory;
-    public int[] specialInventory;
 
-    public Player(Handler handler, Island island, Color color, int order) {
+    public Player(Handler handler, Island island, Color color, int order, int numberOfPlayers) {
         this.handler = handler;
-        this.inventory = new int[4];
-        this.specialInventory = new int[2];
-        Arrays.fill(inventory, 0); //set to 0
-        Arrays.fill(specialInventory, 0); //set to 0
+        this.inventory = new int[6];
+        Arrays.fill(inventory, 1);
         this.color = color;
         this.pawn = Utils.colorToPawn(this.color);
         this.sprite = Utils.colorToSprite(this.color);
@@ -48,13 +45,10 @@ public class Player implements UiInteracter {
         return Utils.colorToString(this.color);
     }
 
-    public int inventorySize(){
+    public int inventorySize() {
         int size = 0;
-        for(int i : inventory){
-            size+=i;
-        }
-        for(int i : specialInventory){
-            size+=i;
+        for (int i : inventory) {
+            size += i;
         }
         return size;
     }
@@ -67,35 +61,37 @@ public class Player implements UiInteracter {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics g) {//TODO : simplifications mathématiques
         g.drawImage(pawn, position[0], position[1], null);
-        g.drawImage(sprite, handler.getSpacing(), (handler.getHeight() - 6 * (Assets.dim + Assets.dim * 2 / 3) - handler.getSpacing() * 6) / 2 + order * handler.getSpacing() + order * (Assets.dim + Assets.dim * 2 / 3), null);
-        //pour corriger le spacing on doit multiplier le nb total (ici nb joueur = 6) * spacing (*2 car ici le spacing est double)
+        g.drawImage(sprite, handler.getSpacing(),
+                (handler.getHeight() - handler.getNumberOfPlayers() * (Assets.dim + Assets.dim * 2 / 3) - handler.getSpacing() * handler.getNumberOfPlayers()) / 2 + order * handler.getSpacing() + order * (Assets.dim + Assets.dim * 2 / 3)
+                , null);
+        //pour corriger le spacing on doit multiplier le nb total * spacing (*2 car ici le spacing est double)
         renderInventory(g);
     }
 
-    private void renderInventory(Graphics g) { //simplifications mathématiques possibles ?
+    private void renderInventory(Graphics g) {
         int xOffset = 0;
         FontMetrics fm = g.getFontMetrics(Assets.font45);
-        for (int i = 0; i < inventory.length; i++) {
+        for (int i = 0; i < inventory.length-2; i++) {
             if (inventory[i] > 0) {
-                g.drawImage(Assets.keys[i], handler.getSpacing()*2 + Assets.dim + xOffset * handler.getSpacing() + xOffset * Assets.dim,
-                        (handler.getHeight() - 6 * (Assets.dim + Assets.dim * 2 / 3) - handler.getSpacing() * 6) / 2 + order * handler.getSpacing() + order * (Assets.dim + Assets.dim * 2 / 3), null);
+                g.drawImage(Assets.keys[i], handler.getSpacing() * 2 + Assets.dim + xOffset * handler.getSpacing() + xOffset * Assets.dim,
+                        (handler.getHeight() - handler.getNumberOfPlayers() * (Assets.dim + Assets.dim * 2 / 3) - handler.getSpacing() * handler.getNumberOfPlayers()) / 2 + order * handler.getSpacing() + order * (Assets.dim + Assets.dim * 2 / 3), null);
                 Text.drawString(g, Integer.toString(inventory[i]),
                         handler.getSpacing() + Assets.dim + xOffset * handler.getSpacing() + xOffset * Assets.dim + (Assets.dim + (inventory.length + 1) * handler.getSpacing()) / 2 - fm.stringWidth(Integer.toString(inventory[i])),
-                        (handler.getHeight() - 6 * (Assets.dim + Assets.dim * 2 / 3) - handler.getSpacing() * 6) / 2 + order * handler.getSpacing() + (order + 1) * (Assets.dim + Assets.dim * 2 / 3),
+                        (handler.getHeight() - handler.getNumberOfPlayers() * (Assets.dim + Assets.dim * 2 / 3) - handler.getSpacing() * handler.getNumberOfPlayers()) / 2 + order * handler.getSpacing() + (order + 1) * (Assets.dim + Assets.dim * 2 / 3),
                         false, Color.WHITE, Assets.font45);
                 xOffset++;
             }
         }
     }
 
-    public void renderSpecialInventory(Graphics g){
-        for(int i = 0; i < specialInventory[0]; i++){
-            g.drawImage(Assets.specialCards[0], handler.getWidth() - 3*handler.getSpacing() - (i+1)*Assets.dim - i*handler.getSpacing(), 32 + handler.getHeight()/3 + handler.getSpacing(), null);
+    public void renderSpecialInventory(Graphics g) {
+        for (int i = 0; i < inventory[4]; i++) {
+            g.drawImage(Assets.specialCards[0], handler.getWidth() - 3 * handler.getSpacing() - (i + 1) * Assets.dim - i * handler.getSpacing(), 32 + handler.getHeight() / 3 + handler.getSpacing(), null);
         }
-        for(int i = 0; i < specialInventory[1]; i++){
-            g.drawImage(Assets.specialCards[1], handler.getWidth() - 3*handler.getSpacing() - (i+1)*Assets.dim - i*handler.getSpacing(), 32 + handler.getHeight()/3 + handler.getSpacing()*2 + Assets.dim+Assets.dim*2/3, null);
+        for (int i = 0; i < inventory[5]; i++) {
+            g.drawImage(Assets.specialCards[1], handler.getWidth() - 3 * handler.getSpacing() - (i + 1) * Assets.dim - i * handler.getSpacing(), 32 + handler.getHeight() / 3 + handler.getSpacing() * 2 + Assets.dim + Assets.dim * 2 / 3, null);
         }
     }
 
@@ -136,8 +132,17 @@ public class Player implements UiInteracter {
         if (i < inventory.length && i >= 0) inventory[i]--;
     }
 
-    public void addSpecialInventory(int i){
-        if(i < specialInventory.length && i >= 0) specialInventory[i]++;
+    public void delSpecialInventory(int i) {
+        if (i < inventory.length-4 && i >= 0) inventory[i+4]--;
+    }
+
+    public void addSpecialInventory(int i) {
+        if (i < inventory.length-3 && i >= 0) inventory[i+3]++;
+    }
+
+    public int getSpecialInventory(int i){
+        if(i < inventory.length-4 && i >= 0) return inventory[i+4];
+        else return -1;
     }
 
 }

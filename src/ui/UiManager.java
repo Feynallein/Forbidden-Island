@@ -43,7 +43,7 @@ public class UiManager {
         objects.add(o);
     }
 
-    public void clear(){
+    public void clear() {
         this.objects.clear();
     }
 
