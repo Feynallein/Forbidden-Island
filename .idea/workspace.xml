@@ -1,31 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3f22b8dc-7fb2-495f-b3a8-4ed5bcb51b93" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Resources/textures/Description_Area.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Resources/textures/Jauge.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/textures/Untitled_Artwork.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/Board/FloodDeck.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/Board/FloodDeck.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/Board/Island.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/Board/Island.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/Game.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/Menus/DiscardMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/Menus/DiscardMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/Menus/TradesMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/Menus/TradesMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/Player.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/gfx/Assets.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Forbidden Island/gfx/Assets.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/state/GameState.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/state/LoseState.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/state/State.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/state/WinState.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/textures/Untitled_Artwork.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/util/Handler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Forbidden Island/util/Handler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/util/Utils.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Forbidden Island/util/Utils.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gameCommons/Board/Island.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameCommons/Board/Island.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gameCommons/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameCommons/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gfx/Assets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gfx/Assets.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gfx/Display.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gfx/Display.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Utils.java" afterDir="false" />
-    </list>
+    <list default="true" id="3f22b8dc-7fb2-495f-b3a8-4ed5bcb51b93" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -134,7 +110,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590771141640</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="almost done!">
+      <created>1590787451019</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1590787451019</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -174,34 +157,34 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="690" y="287" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1590781301256" />
-    <state x="597" y="134" key="CommitChangelistDialog2" timestamp="1590771139330">
+    <state x="597" y="134" key="CommitChangelistDialog2" timestamp="1590787447873">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="597" y="134" key="CommitChangelistDialog2/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1590771139330" />
+    <state x="597" y="134" key="CommitChangelistDialog2/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1590787447873" />
     <state x="761" y="349" key="FileChooserDialogImpl" timestamp="1590570193867">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="761" y="349" key="FileChooserDialogImpl/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1590570193867" />
-    <state width="1877" height="229" key="GridCell.Tab.0.bottom" timestamp="1590786697798">
+    <state width="1877" height="229" key="GridCell.Tab.0.bottom" timestamp="1590787451982">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1237" height="229" key="GridCell.Tab.0.bottom/0.0.1920.1080/-1280.54.1280.1024@-1280.54.1280.1024" timestamp="1590581539096" />
-    <state width="1877" height="229" key="GridCell.Tab.0.bottom/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1590786697798" />
-    <state width="1877" height="229" key="GridCell.Tab.0.center" timestamp="1590786697797">
+    <state width="1877" height="229" key="GridCell.Tab.0.bottom/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1590787451982" />
+    <state width="1877" height="229" key="GridCell.Tab.0.center" timestamp="1590787451982">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1237" height="229" key="GridCell.Tab.0.center/0.0.1920.1080/-1280.54.1280.1024@-1280.54.1280.1024" timestamp="1590581539096" />
-    <state width="1877" height="229" key="GridCell.Tab.0.center/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1590786697797" />
-    <state width="1877" height="229" key="GridCell.Tab.0.left" timestamp="1590786697797">
+    <state width="1877" height="229" key="GridCell.Tab.0.center/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1590787451982" />
+    <state width="1877" height="229" key="GridCell.Tab.0.left" timestamp="1590787451982">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1237" height="229" key="GridCell.Tab.0.left/0.0.1920.1080/-1280.54.1280.1024@-1280.54.1280.1024" timestamp="1590581539096" />
-    <state width="1877" height="229" key="GridCell.Tab.0.left/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1590786697797" />
-    <state width="1877" height="229" key="GridCell.Tab.0.right" timestamp="1590786697797">
+    <state width="1877" height="229" key="GridCell.Tab.0.left/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1590787451982" />
+    <state width="1877" height="229" key="GridCell.Tab.0.right" timestamp="1590787451982">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1237" height="229" key="GridCell.Tab.0.right/0.0.1920.1080/-1280.54.1280.1024@-1280.54.1280.1024" timestamp="1590581539096" />
-    <state width="1877" height="229" key="GridCell.Tab.0.right/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1590786697797" />
+    <state width="1877" height="229" key="GridCell.Tab.0.right/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1590787451982" />
     <state width="1877" height="363" key="GridCell.Tab.1.bottom" timestamp="1590754631637">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
