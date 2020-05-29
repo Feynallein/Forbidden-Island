@@ -1,6 +1,6 @@
 package state;
 
-import gameCommons.Island;
+import gameCommons.Board.Island;
 import gfx.Assets;
 import ui.UiManager;
 import ui.UiImageButton;

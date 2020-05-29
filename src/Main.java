@@ -13,7 +13,7 @@ public class Main{
         SwingUtilities.invokeLater(() -> {
             Game game = new Game(width, height);
             Display display = new Display(game, width, height);
-            Timer timer = new Timer(1000/60, e -> game.run());
+            Timer timer = new Timer(10, e -> game.run());
             timer.start();
         });
     }

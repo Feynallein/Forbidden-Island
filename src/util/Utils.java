@@ -133,4 +133,15 @@ public abstract class Utils {
                 return null;
         }
     }
+
+    public static String valueToString(int value) {
+        if (value >= 0 && value <= 2) return "helicopter";
+        else if (value >= 3 && value <= 5) return "flooded";
+        else if (value >= 6 && value <= 7) return "sandbag";
+        else if (value >= 8 && value <= 12) return "18";
+        else if (value >= 13 && value <= 17) return "16";
+        else if (value >= 18 && value <= 22) return "22";
+        else if (value >= 23 && value <= 28) return "20";
+        else return "";
+    }
 }

@@ -1,4 +1,4 @@
-package gameCommons;
+package gameCommons.Board;
 
 import gfx.Assets;
 import ui.UiInteracter;

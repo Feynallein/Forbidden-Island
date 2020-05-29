@@ -1,5 +1,7 @@
-package gameCommons;
+package gameCommons.Board;
 
+import gameCommons.Menus.Menu;
+import gameCommons.Player;
 import gfx.Assets;
 import gfx.Text;
 import ui.UiInteracter;
@@ -11,7 +13,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class Island implements UiInteracter {
     private Handler handler;
@@ -24,7 +25,8 @@ public class Island implements UiInteracter {
     private boolean[] artifactsGathered;
     private int[] heliport = new int[4];
     private int[][] casesWithArtifacts = new int[4][4];
-    public Menu menu;
+    public gameCommons.Menus.Menu menu;
+    public Deck deck;
 
     public Island(Handler handler, int length, int numberOfPlayers) {
         this.handler = handler;
@@ -42,6 +44,7 @@ public class Island implements UiInteracter {
         Arrays.fill(artifactsGathered, false);
         init();
         menu = new Menu(handler, this);
+        deck = new Deck(handler);
     }
 
     private void init() {
@@ -134,21 +137,23 @@ public class Island implements UiInteracter {
         if (isPlaying == player.length) isPlaying = 0;
     }
 
-    public void thirstCase(Case clickedCase) {
+    public void thirstCase(Case clickedCase, boolean nearby) {
         for (int i = 0; i < cases.length; i++) {
             for (int j = 0; j < cases.length; j++) {
                 if (cases[i][j] == clickedCase && cases[i][j].getState() == 1) cases[i][j].setState(0);
             }
         }
-        player[isPlaying].addAction(1);
+        //player[isPlaying].addAction();
+        if(!nearby) player[isPlaying].specialInventory[1]--;
     }
 
-    public void movePlayer(Case clickedCase) {
+    public void movePlayer(Case clickedCase, boolean nearby) {
         player[isPlaying].position = new int[]{clickedCase.x, clickedCase.y};
         int[] offsets = alreadyOccupied();
         player[isPlaying].position[0] += Assets.playerDim * offsets[0];
         player[isPlaying].position[1] += Assets.playerDim * offsets[1];
-        //player[isPlaying].addAction(0);
+        //player[isPlaying].addAction();
+        if(!nearby) player[isPlaying].specialInventory[0]--; //TO DO : take other's player with him
     }
 
     public int[] alreadyOccupied() {
@@ -170,7 +175,7 @@ public class Island implements UiInteracter {
     public void gatherArtifact(int num) {
         this.artifactsGathered[num] = true;
         this.player[isPlaying].inventory[num] -= 1; //a changer a 4
-        this.player[isPlaying].addAction(2);
+        //this.player[isPlaying].addAction();
     }
 
     public void floodCase(Case clickedCase) {
@@ -180,12 +185,12 @@ public class Island implements UiInteracter {
                 else if (cases[i][j] == clickedCase && cases[i][j].getState() == 1) cases[i][j].setState(2);
             }
         }
-        player[isPlaying].addAction(2);
+        //player[isPlaying].addAction();
     }
 
     public void addInventory(int num) {
         player[isPlaying].addInventory(num);
-        player[isPlaying].addAction(2);
+        //player[isPlaying].addAction();
     }
 
     public ArrayList<Player> playersOnTheCase(Case c) {
@@ -207,6 +212,23 @@ public class Island implements UiInteracter {
         }
     }
 
+    public void draw(){
+        if(player[isPlaying].inventorySize() < 5) {
+            String effect = deck.drawCard();
+            if (effect.equals("flooded")) {
+                //to do
+            } else if (effect.equals("helicopter")) {
+                player[isPlaying].addSpecialInventory(0);
+            } else if (effect.equals("sandbag")) {
+                player[isPlaying].addSpecialInventory(1);
+            } else {
+                addInventory(Utils.artifactToValue(Integer.parseInt(effect)));
+            }
+        }
+        else {
+            //to do -> défausse d'une carte
+        }
+    }
 
 
     /* UPDATE & RENDER */
@@ -234,8 +256,15 @@ public class Island implements UiInteracter {
 
 
         //temporary
-        g.drawImage(Assets.temp, handler.getWidth() - 5 * 96 - 32, 32, null);
-        g.fillRect(handler.getWidth() - 5 * 96 - 32, 32 + handler.getHeight() / 3 + 10, 5 * 96, handler.getHeight() / 3); //-> inventaire
+        g.drawImage(Assets.temp, handler.getWidth() - 5 * 96 - 32, 15, null); //->recap du joueur, a passer dans la classe player comme le specialInv
+
+
+        player[isPlaying].renderSpecialInventory(g);
+
+        if(!deck.isEmpty()) g.drawImage(Assets.cardsBack, handler.getWidth() - 3*Assets.dim - 3*handler.getSpacing(), handler.getHeight() - (Assets.dim+Assets.dim*2/3 + handler.getSpacing()*4), null);
+        g.drawImage(deck.lastGraveCardSprite(), handler.getWidth() - 2*Assets.dim - handler.getSpacing(), handler.getHeight() - (Assets.dim+Assets.dim*2/3 + handler.getSpacing()*4), null);
+
+        //g.drawRect(handler.getWidth() - 20, 15, 15, handler.getHeight() - 30); //-> futur jauge
 
         menu.render(g);
     }
@@ -254,9 +283,11 @@ public class Island implements UiInteracter {
     /* MOUSE MANAGER */
     public void onMouseClicked(MouseEvent e) {
         if(menu.isActive()) menu.onMouseClicked(e);
-        else if (player[isPlaying].nearPlayer(e)) {
+        else if (player[isPlaying].nearPlayer(e) || player[isPlaying].specialInventory[0] != 0 || player[isPlaying].specialInventory[1] != 0) {
             Case clickedCase = getClickedCase(e);
             if (clickedCase != null) {
+                if(!player[isPlaying].nearPlayer(e)) this.menu.setNearby(false);
+                else this.menu.setNearby(true);
                 this.menu.setX(e.getX());
                 this.menu.setY(e.getY());
                 this.menu.setClickedCase(clickedCase);

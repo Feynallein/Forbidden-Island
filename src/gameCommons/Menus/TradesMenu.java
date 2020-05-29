@@ -1,5 +1,7 @@
-package gameCommons;
+package gameCommons.Menus;
 
+import gameCommons.Board.Island;
+import gameCommons.Player;
 import gfx.Assets;
 import gfx.Text;
 import ui.UiInteracter;
@@ -34,6 +36,7 @@ public class TradesMenu implements UiInteracter {
     public void render(Graphics g) {
         if (!isActive)
             return;
+
         g.drawImage(Assets.menuBg, 0, 0, handler.getWidth(), handler.getHeight(), null);
 
         if (!toTrade) selectPlayer(g);
@@ -75,7 +78,7 @@ public class TradesMenu implements UiInteracter {
                     island.trade(selectedPlayer, i);
                     selectedPlayer = null;
                     this.isActive = false;
-                    //island.menu.setActive(false);
+                    //island.menu.setVisible(false);
                 }
             }
         }

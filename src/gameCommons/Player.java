@@ -1,5 +1,6 @@
 package gameCommons;
 
+import gameCommons.Board.Island;
 import gfx.Assets;
 import gfx.Text;
 import ui.UiInteracter;
@@ -15,23 +16,25 @@ public class Player implements UiInteracter {
     private Handler handler;
     public BufferedImage pawn;
     public int[] position;
-    private boolean[] action;
+    private int action;
     public Color color;
     private BufferedImage sprite;
     private int order;
     public int[] inventory;
+    public int[] specialInventory;
 
     public Player(Handler handler, Island island, Color color, int order) {
         this.handler = handler;
-        this.action = new boolean[3];
-        Arrays.fill(action, false);
         this.inventory = new int[4];
-        Arrays.fill(inventory, 1);
+        this.specialInventory = new int[2];
+        Arrays.fill(inventory, 0); //set to 0
+        Arrays.fill(specialInventory, 0); //set to 0
         this.color = color;
         this.pawn = Utils.colorToPawn(this.color);
         this.sprite = Utils.colorToSprite(this.color);
         this.position = island.getStarterCases(this.color);
         this.order = order;
+        this.action = 0;
     }
 
     public boolean nearPlayer(MouseEvent e) {
@@ -45,6 +48,17 @@ public class Player implements UiInteracter {
         return Utils.colorToString(this.color);
     }
 
+    public int inventorySize(){
+        int size = 0;
+        for(int i : inventory){
+            size+=i;
+        }
+        for(int i : specialInventory){
+            size+=i;
+        }
+        return size;
+    }
+
 
     /* UPDATE & RENDER */
 
@@ -55,7 +69,7 @@ public class Player implements UiInteracter {
     @Override
     public void render(Graphics g) {
         g.drawImage(pawn, position[0], position[1], null);
-        g.drawImage(sprite, 1, (handler.getHeight() - 6 * (Assets.dim + Assets.dim * 2 / 3) - handler.getSpacing() * 6) / 2 + order * handler.getSpacing() + order * (Assets.dim + Assets.dim * 2 / 3), null);
+        g.drawImage(sprite, handler.getSpacing(), (handler.getHeight() - 6 * (Assets.dim + Assets.dim * 2 / 3) - handler.getSpacing() * 6) / 2 + order * handler.getSpacing() + order * (Assets.dim + Assets.dim * 2 / 3), null);
         //pour corriger le spacing on doit multiplier le nb total (ici nb joueur = 6) * spacing (*2 car ici le spacing est double)
         renderInventory(g);
     }
@@ -65,10 +79,10 @@ public class Player implements UiInteracter {
         FontMetrics fm = g.getFontMetrics(Assets.font45);
         for (int i = 0; i < inventory.length; i++) {
             if (inventory[i] > 0) {
-                g.drawImage(Assets.keys[i], Assets.dim + (xOffset + 1) * handler.getSpacing() + xOffset * Assets.dim,
+                g.drawImage(Assets.keys[i], handler.getSpacing()*2 + Assets.dim + xOffset * handler.getSpacing() + xOffset * Assets.dim,
                         (handler.getHeight() - 6 * (Assets.dim + Assets.dim * 2 / 3) - handler.getSpacing() * 6) / 2 + order * handler.getSpacing() + order * (Assets.dim + Assets.dim * 2 / 3), null);
                 Text.drawString(g, Integer.toString(inventory[i]),
-                        Assets.dim + xOffset * handler.getSpacing() + xOffset * Assets.dim + (Assets.dim + (inventory.length + 1) * handler.getSpacing()) / 2 - fm.stringWidth(Integer.toString(inventory[i])),
+                        handler.getSpacing() + Assets.dim + xOffset * handler.getSpacing() + xOffset * Assets.dim + (Assets.dim + (inventory.length + 1) * handler.getSpacing()) / 2 - fm.stringWidth(Integer.toString(inventory[i])),
                         (handler.getHeight() - 6 * (Assets.dim + Assets.dim * 2 / 3) - handler.getSpacing() * 6) / 2 + order * handler.getSpacing() + (order + 1) * (Assets.dim + Assets.dim * 2 / 3),
                         false, Color.WHITE, Assets.font45);
                 xOffset++;
@@ -76,6 +90,14 @@ public class Player implements UiInteracter {
         }
     }
 
+    public void renderSpecialInventory(Graphics g){
+        for(int i = 0; i < specialInventory[0]; i++){
+            g.drawImage(Assets.specialCards[0], handler.getWidth() - 3*handler.getSpacing() - (i+1)*Assets.dim - i*handler.getSpacing(), 32 + handler.getHeight()/3 + handler.getSpacing(), null);
+        }
+        for(int i = 0; i < specialInventory[1]; i++){
+            g.drawImage(Assets.specialCards[1], handler.getWidth() - 3*handler.getSpacing() - (i+1)*Assets.dim - i*handler.getSpacing(), 32 + handler.getHeight()/3 + handler.getSpacing()*2 + Assets.dim+Assets.dim*2/3, null);
+        }
+    }
 
 
     /* MOUSE MANAGER */
@@ -94,17 +116,16 @@ public class Player implements UiInteracter {
 
     /* GETTERS & SETTERS */
 
-    public boolean getAction(int i) {
-        if (i < action.length && i >= 0) return action[i];
-        return false;
+    public int getAction() {
+        return action;
     }
 
-    public void addAction(int i) {
-        if (i < action.length && i >= 0) action[i] = true;
+    public void addAction() {
+        action++;
     }
 
     public void resetAction() {
-        Arrays.fill(action, false);
+        action = 0;
     }
 
     public void addInventory(int i) {
@@ -112,11 +133,11 @@ public class Player implements UiInteracter {
     }
 
     public void delInventory(int i) {
-        if (i < inventory.length) inventory[i]--;
+        if (i < inventory.length && i >= 0) inventory[i]--;
     }
 
-    public int getInventory(int i){
-        if(i >= 0 && i < inventory.length) return inventory[i];
-        return 0;
+    public void addSpecialInventory(int i){
+        if(i < specialInventory.length && i >= 0) specialInventory[i]++;
     }
+
 }
