@@ -22,7 +22,7 @@ public class Player implements UiInteracter {
     public Player(Handler handler, Island island, Color color, int order) {
         this.handler = handler;
         this.inventory = new int[6];
-        Arrays.fill(inventory, 1);
+        Arrays.fill(inventory, 1); //debugging purpose
         this.color = color;
         this.pawn = Utils.colorToPawn(this.color);
         this.sprite = Utils.colorToSprite(this.color);
@@ -97,6 +97,16 @@ public class Player implements UiInteracter {
 
     @Override
     public void onMouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void onMousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void onMouseReleased(MouseEvent e) {
 
     }
 

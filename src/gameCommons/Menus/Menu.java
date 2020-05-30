@@ -13,58 +13,56 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+//TODO: faire qu'on ne voit pas l'ancien menu quand on affiche le nouveau
+
 public class Menu implements UiInteracter {
-    private Handler handler;
-    public boolean isVisible = false;
-    private int x, y; //precise location where we clicked
+    private boolean isVisible, onCase, nearby;
+    private int x, y, textBackgroundWidth, textBackgroundHeight;
     private Case clickedCase;
     private Player player;
     private Island island;
-    private int textWidth = 80, textHeight = 30; //textHeight = height of the text block, textWidth = width of the text block (not the text itself)
-    public TradesMenu tradesMenu;
-    HashMap<String, Rectangle> bounds = new HashMap<>();
-    ArrayList<String> texts = new ArrayList<>();
+    private TradesMenu tradesMenu;
+    private HashMap<String, Rectangle> bounds = new HashMap<>();
+    private ArrayList<String> texts = new ArrayList<>();
     private ArrayList<Player> players = new ArrayList<>();
-    private boolean onCase;
-    private boolean nearby;
 
     public Menu(Handler handler, Island island) {
-        this.handler = handler;
         this.island = island;
         this.tradesMenu = new TradesMenu(handler, island);
+        this.isVisible = false;
+        this.textBackgroundWidth = Assets.dim - handler.getSpacing();
+        this.textBackgroundHeight = Assets.playerDim;
     }
 
-    /* UPDATE & RENDER */
+    /* Update & Render */
 
+    @Override
     public void update() {
-        if (!isVisible)
-            return;
-
+        if (!isVisible) return;
         setRectangleAndTexts();
         players = island.playersOnTheCase(clickedCase);
         onCase = island.onCase(player, clickedCase);
     }
 
+    @Override
     public void render(Graphics g) {
-        if (!isVisible)
-            return;
+        if (!isVisible) return;
         FontMetrics fm = g.getFontMetrics(Assets.font20);
         for (int i = 0; i < texts.size(); i++) {
-            g.drawImage(Assets.menuBg, x + 1, y + 1 + i * textHeight, textWidth, textHeight, null);
-            Text.drawString(g, texts.get(i), x + 1, y + 1 + fm.getHeight() / 2 + fm.getAscent() + i * textHeight, false, Color.WHITE, Assets.font20); //a changer le 25
+            g.drawImage(Assets.menuBg, x + 1, y + 1 + i * textBackgroundHeight, textBackgroundWidth, textBackgroundHeight, null);
+            Text.drawString(g, texts.get(i), x + 1, y + 1 + fm.getHeight() / 2 + fm.getAscent() + i * textBackgroundHeight, false, Color.WHITE, Assets.font20);
         }
         tradesMenu.render(g);
     }
 
 
-    /* MOUSE MANAGER */
+    /* Mouse Manager */
 
+    @Override
     public void onMouseClicked(MouseEvent e) {
-        if (!isVisible)
-            return;
-
+        if (!isVisible) return;
         if (tradesMenu.isActive()) tradesMenu.onMouseClicked(e);
-        else if (e.getX() < x || e.getX() > x + textWidth || e.getY() < y || e.getY() > y + textHeight * bounds.size()) {
+        else if (e.getX() < x || e.getX() > x + textBackgroundWidth || e.getY() < y || e.getY() > y + textBackgroundHeight * bounds.size()) {
             isVisible = false;
         } else {
             if (bounds.get("Move") != null && bounds.get("Move").contains(e.getX(), e.getY())) {
@@ -77,7 +75,7 @@ public class Menu implements UiInteracter {
                 island.draw();
                 isVisible = false;
             } else if (bounds.get("Gather") != null && bounds.get("Gather").contains(e.getX(), e.getY())) {
-                if (clickedCase.isArtifact && player.inventory[clickedCase.artifactValue] >= 1) { //change 1 to 4
+                if (clickedCase.isArtifact && player.inventory[clickedCase.artifactValue] >= 1) { //CHANGE 1 TO 4
                     island.gatherArtifact(clickedCase.artifactValue);
                     isVisible = false;
                 }
@@ -89,8 +87,21 @@ public class Menu implements UiInteracter {
         }
     }
 
-    public void onMouseMove(MouseEvent e) {
+    @Override
+    public void onMousePressed(MouseEvent e) {
+        if (!isVisible) return;
+        tradesMenu.onMousePressed(e);
+    }
 
+    @Override
+    public void onMouseReleased(MouseEvent e) {
+        if (!isVisible) return;
+        tradesMenu.onMouseReleased(e);
+    }
+
+    public void onMouseMove(MouseEvent e) {
+        if (!isVisible) return;
+        tradesMenu.onMouseMove(e);
     }
 
 
@@ -104,24 +115,24 @@ public class Menu implements UiInteracter {
         this.y = y;
     }
 
-    public void setClickedCase(Case clickedCase) {
-        this.clickedCase = clickedCase;
+    public void setClickedCase(Case c) {
+        clickedCase = c;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setPlayer(Player p) {
+        player = p;
     }
 
     public void setVisible(boolean b) {
-        this.isVisible = b;
+        isVisible = b;
     }
 
     public boolean isActive() {
-        return this.isVisible;
+        return isVisible;
     }
 
     public void setNearby(boolean b) {
-        this.nearby = b;
+        nearby = b;
     }
 
     public void setRectangleAndTexts() {
@@ -145,7 +156,7 @@ public class Menu implements UiInteracter {
         }
         if (texts.size() == 0) isVisible = false;
         for (int i = 0; i < texts.size(); i++) {
-            bounds.put(texts.get(i), new Rectangle(x + 1, y + i * textHeight, textWidth, textHeight));
+            bounds.put(texts.get(i), new Rectangle(x + 1, y + i * textBackgroundHeight, textBackgroundWidth, textBackgroundHeight));
         }
     }
 }

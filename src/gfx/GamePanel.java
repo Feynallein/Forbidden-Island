@@ -14,7 +14,6 @@ public class GamePanel extends JPanel implements Observer {
         game.addObserver(this);
         this.setPreferredSize(new Dimension(width, height));
         this.setBackground(new Color(0x3C3F41));
-        this.addKeyListener(game.keyManager);
         this.addMouseListener(game.mouseManager);
         this.addMouseMotionListener(game.mouseManager);
     }

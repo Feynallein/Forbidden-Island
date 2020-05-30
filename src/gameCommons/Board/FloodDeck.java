@@ -31,7 +31,7 @@ public class FloodDeck{
         ArrayList<Integer[]> res = new ArrayList<>();
         int randomValue;
         while (!grave.isEmpty()) {
-            randomValue = Island.r.nextInt(grave.size());
+            randomValue = Handler.r.nextInt(grave.size());
             if (grave.get(randomValue) != null) {
                 res.add(grave.get(randomValue));
                 grave.remove(randomValue);
@@ -53,5 +53,17 @@ public class FloodDeck{
     public void discard(Integer[] tile) {
         flooded.add(tile);
         grave.remove(tile);
+    }
+
+    public boolean enoughCards(){
+        return flooded.size() == 24;
+    }
+
+    public int getBoardSize(){
+        return board.size();
+    }
+
+    public int getFloodedSize(){
+        return flooded.size();
     }
 }

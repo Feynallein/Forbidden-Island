@@ -33,6 +33,18 @@ public class UiManager {
         }
     }
 
+    public void onMousePressed(MouseEvent e){
+        for(UiInteracter o : objects){
+            o.onMousePressed(e);
+        }
+    }
+
+    public void onMouseReleased(MouseEvent e){
+        for(UiInteracter o : objects){
+            o.onMouseReleased(e);
+        }
+    }
+
     public void onMouseClicked(MouseEvent e) {
         for (UiInteracter o : objects) {
             o.onMouseClicked(e);

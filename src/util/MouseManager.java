@@ -7,35 +7,35 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 public class MouseManager implements MouseListener, MouseMotionListener {
-    private UiManager uiManager;
+    private UiManager manager;
 
     public MouseManager() {
     }
 
     public void setUiManager(UiManager uiManager) {
-        this.uiManager = uiManager;
+        this.manager = uiManager;
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (uiManager != null)
-            uiManager.onMouseMove(e);
+        if (manager != null)
+            manager.onMouseMove(e);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (uiManager != null)
-            uiManager.onMouseClicked(e);
+        if (manager != null)
+            manager.onMouseClicked(e);
     }
 
     @Override
-    public void mouseReleased(MouseEvent mouseEvent) {
-
+    public void mousePressed(MouseEvent e) {
+        if(manager != null) manager.onMousePressed(e);
     }
 
     @Override
-    public void mousePressed(MouseEvent mouseEvent) {
-
+    public void mouseReleased(MouseEvent e) {
+        if(manager != null) manager.onMouseReleased(e);
     }
 
     @Override

@@ -5,21 +5,14 @@ import gameCommons.state.State;
 import gfx.Assets;
 import ui.Observable;
 import util.Handler;
-import util.KeyManager;
 import util.MouseManager;
 
 import java.awt.*;
 
 public class Game extends Observable implements Runnable {
-    /* states */
     //public State menuState;
     public State gameState;
-    public State loseState;
-    public State winState;
-
-    /* managers */
     public MouseManager mouseManager;
-    public KeyManager keyManager;
 
     /* window size */
     private int width;
@@ -31,7 +24,6 @@ public class Game extends Observable implements Runnable {
         Handler handler = new Handler(this);
         Assets.init();
         mouseManager = new MouseManager();
-        keyManager = new KeyManager();
         gameState = new GameState(handler);
         State.setState(gameState);
 
@@ -47,7 +39,6 @@ public class Game extends Observable implements Runnable {
 
     @Override
     public void run() {
-        keyManager.update();
         if (State.getState() != null) {
             State.getState().update();
         }
@@ -67,10 +58,6 @@ public class Game extends Observable implements Runnable {
 
     public MouseManager getMouseManager() {
         return mouseManager;
-    }
-
-    public KeyManager getKeyManager() {
-        return keyManager;
     }
 
     public int getLength() {

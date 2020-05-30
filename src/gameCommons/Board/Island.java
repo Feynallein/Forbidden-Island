@@ -2,9 +2,11 @@ package gameCommons.Board;
 
 import gameCommons.Menus.DiscardMenu;
 import gameCommons.Menus.Menu;
+import gameCommons.Menus.PlayerSelectionMenu;
 import gameCommons.Player;
 import gfx.Assets;
 import gfx.Text;
+import ui.UiImageButton;
 import ui.UiInteracter;
 import util.Handler;
 import util.Utils;
@@ -12,25 +14,24 @@ import util.Utils;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
 
 public class Island implements UiInteracter {
     private Handler handler;
     public Case[][] cases;
     public int xOffset, yOffset;
     public ArrayList<Player> player;
-    public static Random r = new Random();
     private Color[] colors;
     private int isPlaying;
     private boolean[] artifactsGathered;
     private int[] heliport = new int[4];
     private int[][] casesWithArtifacts = new int[4][4];
-    public gameCommons.Menus.Menu menu;
+    public Menu menu;
     public TreasureDeck treasureDeck;
     private DiscardMenu discardMenu;
     private int floodGauge, flood;
     private FloodDeck floodDeck;
+    private UiImageButton endOfTurnButton;
+    private PlayerSelectionMenu playerSelectionMenu;
 
     public Island(Handler handler, int length, int numberOfPlayers) {
         this.handler = handler;
@@ -45,7 +46,7 @@ public class Island implements UiInteracter {
         this.player = new ArrayList<>();
         this.colors = new Color[]{Color.GREEN, Color.RED, Color.YELLOW, Color.BLUE, Color.BLACK, Color.WHITE};
         this.artifactsGathered = new boolean[4];
-        Arrays.fill(artifactsGathered, false);
+        //Arrays.fill(artifactsGathered, true); //debugging purpose
         this.menu = new Menu(handler, this);
         this.treasureDeck = new TreasureDeck();
         this.discardMenu = new DiscardMenu(handler, this);
@@ -53,6 +54,8 @@ public class Island implements UiInteracter {
         this.floodGauge = 0;
         this.flood = 0;
         this.floodDeck = new FloodDeck(handler);
+        this.endOfTurnButton = new UiImageButton((float) (handler.getWidth() - Assets.turn[0].getWidth()) / 2, (float) (handler.getHeight() - 2 * (Assets.playerDim + handler.getSpacing())), Assets.turn[0].getWidth(), Assets.playerDim * 2, Assets.turn, this::endOfTurn);
+        this.playerSelectionMenu = new PlayerSelectionMenu(handler, this);
         init(numberOfPlayers);
     }
 
@@ -97,6 +100,9 @@ public class Island implements UiInteracter {
         } else if (floodGauge == 9) { //water level too high
             handler.setDeath(3);
             return true;
+        } else if (floodDeck.getFloodedSize() == 24){ //the board is empty technically impossible but we never know...
+            handler.setDeath(4);
+            return true;
         } else return false;
     }
 
@@ -135,15 +141,16 @@ public class Island implements UiInteracter {
         else if (floodGauge >= 5) flood = 4;
         else if (floodGauge >= 2) flood = 3;
         else flood = 2;
+        if(!floodDeck.enoughCards()) flood = floodDeck.getBoardSize(); //security in case there isn't enough cards //todo: corriger un soucis ici...
         do {
-            Integer[] tile = floodDeck.drawCard();
+            Integer[] tile = floodDeck.drawCard(); //TODO : si il y a un joueur, il doit se déplacer sur une case adjacente (automatique... ?)
             if (cases[tile[0]][tile[1]].getState() == 0) cases[tile[0]][tile[1]].setState(1);
             else {
                 cases[tile[0]][tile[1]].setState(2);
                 floodDeck.discard(tile);
             }
             i++;
-        } while (i < flood); //TODO: mettre sécurité si pas assez de cases
+        } while (i < flood);
         for (Player p : player) {
             p.resetAction();
         }
@@ -157,17 +164,40 @@ public class Island implements UiInteracter {
                 if (aCase[j] == clickedCase && aCase[j].getState() == 1) aCase[j].setState(0);
             }
         }
-        //player[isPlaying].addAction();
         if (!nearby) player.get(isPlaying).delSpecialInventory(1);
+        else player.get(isPlaying).addAction();
     }
 
     public void movePlayer(Case clickedCase, boolean nearby) {
-        player.get(isPlaying).position = new int[]{clickedCase.x, clickedCase.y};
-        int[] offsets = alreadyOccupied();
-        player.get(isPlaying).position[0] += Assets.playerDim * offsets[0];
-        player.get(isPlaying).position[1] += Assets.playerDim * offsets[1];
-        //player[isPlaying].addAction();
-        if (!nearby) player.get(isPlaying).delSpecialInventory(0); //TODO : take other's player with him
+        if (!nearby) {
+            int i = (player.get(isPlaying).position[0] - xOffset) / (handler.getSpacing() + handler.getPixelByCase());
+            int j = (player.get(isPlaying).position[1] - yOffset) / (handler.getSpacing() + handler.getPixelByCase());
+            playerSelectionMenu.setPlayersOnCase(playersOnTheCase(new Case(handler, i, j, xOffset, yOffset)));
+            playerSelectionMenu.setClickedCase(clickedCase);
+            playerSelectionMenu.setActive(true);
+        } else {
+            player.get(isPlaying).position = new int[]{clickedCase.x, clickedCase.y};
+            int[] offsets = alreadyOccupied();
+            player.get(isPlaying).position[0] += Assets.playerDim * offsets[0];
+            player.get(isPlaying).position[1] += Assets.playerDim * offsets[1];
+            player.get(isPlaying).addAction();
+        }
+    }
+
+    public void moveMultiplePlayers(ArrayList<Player> playerToMove, Case c) {
+        player.get(isPlaying).delSpecialInventory(0);
+        playerToMove.add(player.get(isPlaying));
+        for (Player p : playerToMove) {
+            for (Player p2 : player) {
+                if (p.equals(p2)) {
+                    p2.position = new int[]{c.x, c.y};
+                    int[] offsets = alreadyOccupied(); //todo: soucis avec le isPlaying au niveau de l'affichage
+                    p2.position[0] += Assets.playerDim * offsets[0];
+                    p2.position[1] += Assets.playerDim * offsets[1];
+                }
+            }
+        }
+        player.get(isPlaying).addAction();
     }
 
     public int[] alreadyOccupied() {
@@ -190,7 +220,7 @@ public class Island implements UiInteracter {
     public void gatherArtifact(int num) {
         artifactsGathered[num] = true;
         player.get(isPlaying).inventory[num] -= 1; //a changer a 4
-        //this.player[isPlaying].addAction();
+        player.get(isPlaying).addAction();
     }
 
     public ArrayList<Player> playersOnTheCase(Case c) {
@@ -228,12 +258,11 @@ public class Island implements UiInteracter {
                 player.get(isPlaying).addInventory(Utils.artifactToValue(Integer.parseInt(effect)));
                 break;
         }
-        //player.get(isPlaying).addAction();
-        if (player.get(isPlaying).inventorySize() >= 5) {
+        player.get(isPlaying).addAction();
+        if (player.get(isPlaying).inventorySize() > 5) {
             discardMenu.setPlayer(player.get(isPlaying));
             discardMenu.setActive(true);
         }
-
     }
 
     public void discard(int i) {
@@ -256,6 +285,8 @@ public class Island implements UiInteracter {
     }
 
     public void render(Graphics g) {
+        //render the button
+        endOfTurnButton.render(g);
         //render "it's player.isPlaying's turn"
         Text.drawString(g, "It's " + player.get(isPlaying).toString() + "'s turn.", handler.getWidth() / 2, 50, true, Color.WHITE, Assets.font45);
         //render the board
@@ -282,10 +313,11 @@ public class Island implements UiInteracter {
         Text.drawString(g, "Actions left :", handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2, true, Color.WHITE, Assets.font45);
         Text.drawString(g, Integer.toString(3 - player.get(isPlaying).getAction()), handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2 + 50, true, Color.WHITE, Assets.font45);
         //render the gauge
-        g.drawImage(Assets.gauge[floodGauge], handler.getWidth() - 2*handler.getSpacing(), handler.getSpacing(), Assets.gauge[flood].getWidth(), handler.getHeight() - 30, null); //-> futur jauge
+        g.drawImage(Assets.gauge[floodGauge], handler.getWidth() - 2 * handler.getSpacing(), handler.getSpacing(), Assets.gauge[flood].getWidth(), handler.getHeight() - 30, null); //-> futur jauge
         //render the menus
         menu.render(g);
         discardMenu.render(g);
+        playerSelectionMenu.render(g);
     }
 
     private void artifactRender(Graphics g) {
@@ -298,11 +330,11 @@ public class Island implements UiInteracter {
         }
     }
 
-
-    /* MOUSE MANAGER */
+    /* Mouse Manager */
     public void onMouseClicked(MouseEvent e) {
         if (menu.isActive()) menu.onMouseClicked(e);
-        if (discardMenu.isActive()) discardMenu.onMouseClicked(e);
+        else if (discardMenu.isActive()) discardMenu.onMouseClicked(e);
+        else if (playerSelectionMenu.isActive()) playerSelectionMenu.onMouseClicked(e);
         else if (player.get(isPlaying).nearPlayer(e) || player.get(isPlaying).getSpecialInventory(0) != 0 || player.get(isPlaying).getSpecialInventory(0) != 0) {
             Case clickedCase = getClickedCase(e);
             if (clickedCase != null) {
@@ -315,32 +347,45 @@ public class Island implements UiInteracter {
                 this.menu.setVisible(true);
             }
         }
+        endOfTurnButton.onMouseClicked(e);
+    }
 
+    @Override
+    public void onMousePressed(MouseEvent e) {
+        endOfTurnButton.onMousePressed(e);
+        menu.onMousePressed(e);
+        playerSelectionMenu.onMousePressed(e);
+    }
+
+    @Override
+    public void onMouseReleased(MouseEvent e) {
+        endOfTurnButton.onMouseReleased(e);
+        menu.onMouseReleased(e);
+        playerSelectionMenu.onMouseReleased(e);
     }
 
     public void onMouseMove(MouseEvent e) {
-        if (menu.isVisible) menu.onMouseMove(e);
+        if (menu.isActive()) menu.onMouseMove(e);
         else if (discardMenu.isActive()) discardMenu.onMouseMove(e);
+        else if (playerSelectionMenu.isActive()) playerSelectionMenu.onMouseMove(e);
         else {
             for (Case[] aCase : cases) {
                 for (int j = 0; j < cases.length; j++) {
                     aCase[j].onMouseMove(e);
                 }
             }
+            endOfTurnButton.onMouseMove(e);
         }
-
     }
 
-
-
-    /* GETTERS & SETTER */
+    /* Getters & Setters */
 
     public int[] getStarterCases(Color color) {
         for (int i = 0; i < cases.length; i++) {
             for (int j = 0; j < cases.length; j++) {
-                if (cases[i][j].color == Color.GREEN) {
-                    heliport = new int[]{i * handler.getSpacing() + i * handler.getPixelByCase() + xOffset,
-                            j * handler.getSpacing() + j * handler.getPixelByCase() + yOffset, i, j};
+                if (cases[i][j].color == Color.GREEN) { //CHANGE TO BLUE
+                    heliport = new int[]{i * (handler.getSpacing() + handler.getPixelByCase()) + xOffset,
+                            j * (handler.getSpacing() + handler.getPixelByCase()) + yOffset, i, j};
                 }
                 if (cases[i][j].color == color)
                     /*return new int[]{i * handler.getSpacing() + i * handler.getPixelByCase() + xOffset,
@@ -354,7 +399,7 @@ public class Island implements UiInteracter {
     public int getBoardTile() {
         int number;
         do {
-            number = r.nextInt(Assets.board.length);
+            number = Handler.r.nextInt(Assets.board.length);
         } while (handler.getTakenNumbers().contains(number));
         handler.addNumber(number);
         return number;

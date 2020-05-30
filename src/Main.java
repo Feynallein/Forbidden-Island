@@ -18,3 +18,10 @@ public class Main {
         });
     }
 }
+
+//TODO:
+// - le menu
+// - la dim (et la taille des fonts) en fct de la dimension de l'écran
+// - la selection des personnages
+// - commenter le code
+// - continuer d'optimiser

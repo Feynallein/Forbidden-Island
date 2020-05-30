@@ -1,6 +1,7 @@
 package gameCommons.Board;
 
 import gfx.Assets;
+import util.Handler;
 import util.Utils;
 
 import java.awt.image.BufferedImage;
@@ -38,7 +39,7 @@ public class TreasureDeck {
         ArrayList<Card> res = new ArrayList<>();
         int randomValue;
         while (alreadyUsedNumbers.size() != Assets.deck.length) {
-            randomValue = Island.r.nextInt(Assets.deck.length);
+            randomValue = Handler.r.nextInt(Assets.deck.length);
             if (!alreadyUsedNumbers.contains(randomValue)) {
                 res.add(new Card(Assets.deck[randomValue], Utils.valueToString(randomValue)));
                 alreadyUsedNumbers.add(randomValue);

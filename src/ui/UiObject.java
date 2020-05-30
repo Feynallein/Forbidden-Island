@@ -28,8 +28,15 @@ public abstract class UiObject implements UiInteracter {
     }
 
     public void onMouseClicked(MouseEvent e) {
-        if (hovering)
-            onClick();
+        if (hovering) onClick();
+    }
+
+    public void onMousePressed(MouseEvent e) {
+        if (hovering) click = true;
+    }
+
+    public void onMouseReleased(MouseEvent e) {
+        if (hovering) click = false;
     }
 
 

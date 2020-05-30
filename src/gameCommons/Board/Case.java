@@ -38,6 +38,10 @@ public class Case implements UiInteracter {
         }
     }
 
+    public Case(Handler handler, int i, int j, int xOffset, int yOffset) {
+        this.x = i * handler.getSpacing() + i * handler.getPixelByCase() + xOffset;
+        this.y = j * handler.getSpacing() + j * handler.getPixelByCase() + yOffset;
+    }
 
 
     /* UPDATE & RENDER */
@@ -71,6 +75,16 @@ public class Case implements UiInteracter {
 
     @Override
     public void onMouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void onMousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void onMouseReleased(MouseEvent e) {
 
     }
 

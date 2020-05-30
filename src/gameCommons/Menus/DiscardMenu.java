@@ -31,23 +31,28 @@ public class DiscardMenu implements UiInteracter {
     }
 
     @Override
-    public void render(Graphics g) {//TODO : simplifications mathématiques
-        if (!isActive)
-            return;
+    public void render(Graphics g) {
+        if (!isActive) return;
 
         g.drawImage(Assets.menuBg, 0, 0, handler.getWidth(), handler.getHeight(), null);
         int y = 0;
         Text.drawString(g, "Which card do you want to throw?", handler.getWidth() / 2, handler.getHeight() / 4, true, Color.WHITE, Assets.font45);
+        FontMetrics fm = g.getFontMetrics(Assets.font45);
         for (int i = 0; i < bounds.size(); i++) {
+            String str;
             if (player.inventory[i] > 0) {
-                if (i < 4)
+                if (i < 4) {
+                    str = Integer.toString(player.inventory[i]);
                     g.drawImage(Assets.keys[i], (handler.getWidth() - (size * (Assets.dim + handler.getSpacing() * 2)) + handler.getSpacing()) / 2 + y * (Assets.dim + (handler.getSpacing() * 2)),
                             (handler.getHeight() - Assets.dim) / 2, Assets.dim, Assets.cardHeightDim, null);
-                else
+                } else {
+                    str = Integer.toString(player.inventory[i - 4]);
                     g.drawImage(Assets.specialCards[i - 4], (handler.getWidth() - (size * (Assets.dim + handler.getSpacing() * 2)) + handler.getSpacing()) / 2 + y * (Assets.dim + (handler.getSpacing() * 2)),
                             (handler.getHeight() - Assets.dim) / 2, Assets.dim, Assets.cardHeightDim, null);
+                }
+                Text.drawString(g, str, (handler.getWidth() - (size * (Assets.dim + handler.getSpacing() * 2)) + handler.getSpacing()) / 2 + y * (Assets.dim + (handler.getSpacing() * 2)) + (Assets.dim - fm.stringWidth(str)) / 2,
+                        (handler.getHeight() - Assets.dim) / 2 + Assets.cardHeightDim, false, Color.WHITE, Assets.font45);
                 y++;
-                //TODO : adding the number (like in player's inventory)
             }
         }
     }
@@ -65,6 +70,16 @@ public class DiscardMenu implements UiInteracter {
                 this.isActive = false;
             }
         }
+    }
+
+    @Override
+    public void onMousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void onMouseReleased(MouseEvent e) {
+
     }
 
     public void setActive(boolean b) {

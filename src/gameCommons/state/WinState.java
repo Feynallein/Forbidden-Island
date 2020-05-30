@@ -5,7 +5,6 @@ import gfx.Text;
 import util.Handler;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 public class WinState extends State {
     WinState(Handler handler) {
@@ -14,9 +13,6 @@ public class WinState extends State {
 
     @Override
     public void update() {
-        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ESCAPE)) {
-            //handler.getDisplay().close();
-        }
     }
 
     @Override

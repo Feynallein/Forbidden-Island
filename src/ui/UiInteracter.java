@@ -11,4 +11,8 @@ public interface UiInteracter {
     void onMouseMove(MouseEvent e);
 
     void onMouseClicked(MouseEvent e);
+
+    void onMousePressed(MouseEvent e);
+
+    void onMouseReleased(MouseEvent e);
 }
