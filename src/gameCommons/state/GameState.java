@@ -21,7 +21,6 @@ public class GameState extends State {
         this.manager.addObject(new Button((float) handler.getSpacing(), (float) handler.getSpacing(), Assets.playerDim, Assets.playerDim, Assets.pause, () -> {
             handler.saveObjectManager(manager);
             handler.saveGameState(this);
-            handler.getMouseManager().setObjectManager(null);
             State.setState(new PauseState(handler));
         }));
     }
