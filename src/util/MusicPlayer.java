@@ -5,7 +5,6 @@ import javafx.scene.media.Media;
 
 import java.io.File;
 
-
 public class MusicPlayer {
     //todo: ameliorer pour avoir un controle sur le volume
     public static void player(String path) {

@@ -11,6 +11,7 @@ public class Main {
         Toolkit tk = Toolkit.getDefaultToolkit();
         int width = (int) tk.getScreenSize().getWidth();
         int height = (int) tk.getScreenSize().getHeight();
+        /* if troubles with JAVAFX comment the line below */
         MusicPlayer.player("Resources/music/music.mp3");
         SwingUtilities.invokeLater(() -> {
             Game game = new Game(width, height);
