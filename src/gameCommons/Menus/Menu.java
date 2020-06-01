@@ -75,7 +75,7 @@ public class Menu implements Interacts {
                 island.draw();
                 isVisible = false;
             } else if (bounds.get("Gather") != null && bounds.get("Gather").contains(e.getX(), e.getY())) {
-                if (clickedCase.isArtifact && player.inventory[clickedCase.artifactValue] >= 1) { //CHANGE 1 TO 4
+                if (clickedCase.isArtifact && player.inventory[clickedCase.artifactValue] >= 4) {
                     island.gatherArtifact(clickedCase.artifactValue);
                     isVisible = false;
                 }

@@ -225,7 +225,7 @@ public class Island implements Interacts {
 
     public void gatherArtifact(int num) {
         artifactsGathered[num] = true;
-        player.get(isPlaying).inventory[num] -= 1; //a changer a 4
+        player.get(isPlaying).inventory[num] -= 4;
         player.get(isPlaying).addAction();
     }
 
