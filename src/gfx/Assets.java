@@ -35,9 +35,6 @@ public class Assets {
     public static void init() {
         int y;
 
-        font20 = FontLoader.loadFont("Resources/fonts/manaspc.ttf", 20);
-        font45 = FontLoader.loadFont("Resources/fonts/manaspc.ttf", 45);
-
         floodedBg = ImageLoader.loadImage("/textures/Flooded_Bg.png");
         menuBg = ImageLoader.loadImage("/textures/Menu_Bg.png");
         pauseIndicator = ImageLoader.loadImage("/textures/Pause_2.png");
@@ -136,5 +133,12 @@ public class Assets {
         }
 
         cardsBack = animation[0];
+
+        dim = 96;
+        playerDim = dim / 3;
+        cardHeightDim = dim * 5 / 3;
+        buttonDim = playerDim*2;
+        font20 = FontLoader.loadFont("Resources/fonts/manaspc.ttf", dim/5);
+        font45 = FontLoader.loadFont("Resources/fonts/manaspc.ttf", dim/2);
     }
 }
