@@ -46,7 +46,7 @@ public class DiscardMenu implements Interacts {
                     g.drawImage(Assets.keys[i], (handler.getWidth() - (size * (Assets.dim + handler.getSpacing() * 2)) + handler.getSpacing()) / 2 + y * (Assets.dim + (handler.getSpacing() * 2)),
                             (handler.getHeight() - Assets.dim) / 2, Assets.dim, Assets.cardHeightDim, null);
                 } else {
-                    str = Integer.toString(player.inventory[i - 4]);
+                    str = Integer.toString(player.inventory[i]);
                     g.drawImage(Assets.specialCards[i - 4], (handler.getWidth() - (size * (Assets.dim + handler.getSpacing() * 2)) + handler.getSpacing()) / 2 + y * (Assets.dim + (handler.getSpacing() * 2)),
                             (handler.getHeight() - Assets.dim) / 2, Assets.dim, Assets.cardHeightDim, null);
                 }
