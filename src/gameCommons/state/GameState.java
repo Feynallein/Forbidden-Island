@@ -19,7 +19,8 @@ public class GameState extends State {
         this.island = new Island(handler, handler.getIslandLength(), handler.getNumberOfPlayers(), handler.getColorArray());
         this.manager.addObject(island);
         this.manager.addObject(new Button((float) handler.getSpacing(), (float) handler.getSpacing(), Assets.playerDim, Assets.playerDim, Assets.pause, () -> {
-            handler.saveUiManager(manager);
+            handler.saveObjectManager(manager);
+            handler.saveGameState(this);
             handler.getMouseManager().setObjectManager(null);
             State.setState(new PauseState(handler));
         }));

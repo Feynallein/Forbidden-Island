@@ -24,6 +24,7 @@ public class Assets {
     public static BufferedImage[] resume;
     public static BufferedImage[] halo;
     public static BufferedImage[] play;
+    public static BufferedImage[] mainMenu;
     public static BufferedImage selection;
     public static BufferedImage pauseIndicator;
     public static BufferedImage cardsBack;
@@ -59,6 +60,7 @@ public class Assets {
         SpriteSheet quitSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Quit.png"));
         SpriteSheet haloSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Halo.png"));
         SpriteSheet playSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Play.png"));
+        SpriteSheet mainMenuSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Main_Menu.png"));
 
 
         board = new BufferedImage[24];
@@ -78,6 +80,7 @@ public class Assets {
         quit = new BufferedImage[3];
         resume = new BufferedImage[3];
         play = new BufferedImage[3];
+        mainMenu = new BufferedImage[3];
 
         halo = new BufferedImage[2];
 
@@ -116,6 +119,7 @@ public class Assets {
             resume[i] = resumeSpriteSheet.crop((cardHeightDim+playerDim)*i, 0, (cardHeightDim+playerDim), playerDim*2);
             turn[i] = endTurnButtonSheet.crop((3*dim+2*playerDim)*i, 0, (3*dim+2*playerDim), playerDim*2);
             play[i] = playSpriteSheet.crop(i*buttonDim*2, 0, 2*buttonDim, buttonDim);
+            mainMenu[i] = mainMenuSpriteSheet.crop(i*dim*3, 0, dim*3, buttonDim);
 
             /* filling half of the deck */
             deck[i] = specialCards[0];

@@ -14,17 +14,17 @@ public class PauseState extends State {
         super(handler);
         manager = new ObjectManager(handler);
         handler.getMouseManager().setObjectManager(this.manager);
-        manager.addObject(new Button((float) (handler.getWidth() - Assets.resume[0].getWidth()) / 2, (float) (handler.getHeight() * 2 / 3 - Assets.resume[0].getHeight() / 2), Assets.resume[0].getWidth(), Assets.resume[0].getHeight(),
+        manager.addObject(new Button((float) (handler.getWidth() - (Assets.cardHeightDim+Assets.playerDim)) / 2, (float) (handler.getHeight() * 5 / 8 - Assets.buttonDim / 2), Assets.cardHeightDim+Assets.playerDim, Assets.buttonDim,
                 Assets.resume, () -> {
             handler.getMouseManager().setObjectManager(handler.getUiManager());
-            //State.setState(handler.getGame().gameState);
+            State.setState(handler.getSavedGameState());
         }));
-        //TODO: bouton 'main menu' qui retourne au menu
-//        manager.addObject(new UiImageButton((float) (handler.getWidth()/2 - Assets.widths.get(2)/2),  (float) (handler.getHeight()*5/8 - Assets.buttonSize/2), Assets.widths.get(2), Assets.buttonSize,
-//                Assets.mainMenu, () -> {
-//               handler.getMouseManager().setUiManager(null);
-//        }));
-        manager.addObject(new Button((float) (handler.getWidth() - Assets.quit[0].getWidth()) / 2, (float) (handler.getHeight() * 7 / 8 - Assets.quit[0].getHeight() / 2), Assets.quit[0].getWidth(), Assets.quit[0].getHeight(),
+        manager.addObject(new Button((float) (handler.getWidth()/2 - Assets.dim*3/2),  (float) (handler.getHeight()*6/8 - Assets.buttonDim/2), Assets.dim*3, Assets.buttonDim,
+                Assets.mainMenu, () -> {
+               handler.getMouseManager().setObjectManager(null);
+               State.setState(handler.getGame().menuState);
+        }));
+        manager.addObject(new Button((float) (handler.getWidth() - (Assets.dim+Assets.playerDim)) / 2, (float) (handler.getHeight() * 7 / 8 - Assets.buttonDim / 2), Assets.dim+Assets.playerDim, Assets.buttonDim,
                 Assets.quit, () -> {
             //TODO: qq chose pour exit moins... brutalement
             System.exit(0);

@@ -1,6 +1,7 @@
 package util;
 
 import gameCommons.Game;
+import gameCommons.state.GameState;
 import gfx.Assets;
 import ui.ObjectManager;
 
@@ -17,6 +18,7 @@ public class Handler {
     public static Random r = new Random();
     private ObjectManager manager;
     private ArrayList<Color> colors;
+    private GameState gamestate;
 
     public Handler(Game game) {
         this.game = game;
@@ -78,7 +80,7 @@ public class Handler {
         return manager;
     }
 
-    public void saveUiManager(ObjectManager m){
+    public void saveObjectManager(ObjectManager m){
         manager = m;
     }
 
@@ -88,5 +90,13 @@ public class Handler {
 
     public void setColors(ArrayList<Color> c){
         colors = c;
+    }
+
+    public void saveGameState(GameState state){
+        gamestate = state;
+    }
+
+    public GameState getSavedGameState(){
+        return gamestate;
     }
 }
