@@ -35,6 +35,7 @@ public class Island implements Interacts {
 
     public Island(Handler handler, int length, int numberOfPlayers, ArrayList<Color> colors) {
         this.handler = handler;
+        this.handler.resetTakenNumbers();
         if (length * handler.getPixelByCase() < handler.getWidth() && length * handler.getPixelByCase() < handler.getHeight()) {
             cases = new Case[length][length];
             xOffset = (handler.getWidth() - length * handler.getPixelByCase()) / 2 - (handler.getSpacing() * length) / 2;
@@ -54,7 +55,7 @@ public class Island implements Interacts {
         this.floodGauge = 0;
         this.flood = 0;
         this.floodDeck = new FloodDeck(handler);
-        this.endOfTurnButton = new Button((float) (handler.getWidth() - Assets.turn[0].getWidth()) / 2, (float) (handler.getHeight() - 2 * (Assets.playerDim + handler.getSpacing())), Assets.turn[0].getWidth(), Assets.playerDim * 2, Assets.turn, this::endOfTurn);
+        this.endOfTurnButton = new Button((float) (handler.getWidth() - (3 * Assets.dim + Assets.buttonDim)) / 2, (float) (handler.getHeight() - 2 * (Assets.playerDim + handler.getSpacing())), (3 * Assets.dim + Assets.buttonDim), Assets.buttonDim, Assets.turn, this::endOfTurn);
         this.playerSelectionMenu = new PlayerSelectionMenu(handler, this);
         init(numberOfPlayers);
     }
@@ -74,6 +75,7 @@ public class Island implements Interacts {
         for (int i = 0; i < numberOfPlayer; i++) {
             player.add(new Player(handler, this, colors.get(i), i));
         }
+        System.out.println("");
     }
 
     public boolean win() {
@@ -182,8 +184,8 @@ public class Island implements Interacts {
         if (!nearby) {
             int i = (player.get(isPlaying).position[0] - xOffset) / (handler.getSpacing() + handler.getPixelByCase());
             int j = (player.get(isPlaying).position[1] - yOffset) / (handler.getSpacing() + handler.getPixelByCase());
-            playerSelectionMenu.setPlayersOnCase(playersOnTheCase(new Case(handler, i, j, xOffset, yOffset), false));
             playerSelectionMenu.setClickedCase(clickedCase);
+            playerSelectionMenu.setPlayersOnCase(playersOnTheCase(new Case(handler, i, j, xOffset, yOffset), false));
             playerSelectionMenu.setActive(true);
         } else {
             player.get(isPlaying).position = new int[]{clickedCase.x, clickedCase.y};
@@ -206,6 +208,7 @@ public class Island implements Interacts {
     public void moveMultiplePlayers(ArrayList<Player> playerToMove, Case c) {
         player.get(isPlaying).delSpecialInventory(0);
         playerToMove.add(0, player.get(isPlaying));
+        System.out.println(c.toString());
         for (Player p : playerToMove) {
             movePlayer(c, p);
         }
@@ -313,7 +316,7 @@ public class Island implements Interacts {
         //render the deck
         if (!treasureDeck.isEmpty())
             g.drawImage(Assets.cardsBack, handler.getWidth() - 3 * Assets.dim - 3 * handler.getSpacing(), handler.getHeight() - (Assets.dim + Assets.dim * 2 / 3 + handler.getSpacing() * 4), null);
-        g.drawImage(treasureDeck.lastGraveCardSprite(), handler.getWidth() - 2 * Assets.dim - handler.getSpacing(), handler.getHeight() - (Assets.dim + Assets.dim * 2 / 3 + handler.getSpacing() * 4), null);
+        g.drawImage(treasureDeck.lastGraveCardSprite(), handler.getWidth() - 2 * Assets.dim - handler.getSpacing(), handler.getHeight() - (Assets.dim + Assets.dim * 2 / 3 + handler.getSpacing() * 4), Assets.dim, Assets.cardHeightDim, null);
         //render action
         Text.drawString(g, "Actions left :", handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2, true, Color.WHITE, Assets.font45);
         Text.drawString(g, Integer.toString(3 - player.get(isPlaying).getAction()), handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2 + 50, true, Color.WHITE, Assets.font45);

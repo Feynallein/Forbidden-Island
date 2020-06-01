@@ -16,8 +16,7 @@ public class PauseState extends State {
         handler.getMouseManager().setObjectManager(this.manager);
         manager.addObject(new Button((float) (handler.getWidth() - 7 * Assets.playerDim) / 2, (float) (handler.getHeight() * 4 / 8 - Assets.buttonDim / 2), 7 * Assets.playerDim, Assets.buttonDim,
                 Assets.restart, () -> {
-            handler.getMouseManager().setObjectManager(null);
-            State.setState(new GameState(handler));
+            State.setState(new PlayerSelectionState(handler));
         }));
         manager.addObject(new Button((float) (handler.getWidth() - (Assets.cardHeightDim + Assets.playerDim)) / 2, (float) (handler.getHeight() * 5 / 8 - Assets.buttonDim / 2), Assets.cardHeightDim + Assets.playerDim, Assets.buttonDim,
                 Assets.resume, () -> {

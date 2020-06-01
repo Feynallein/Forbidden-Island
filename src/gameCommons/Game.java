@@ -1,6 +1,6 @@
 package gameCommons;
 
-import gameCommons.state.GameState;
+import gameCommons.state.PlayerSelectionState;
 import gameCommons.state.State;
 import gfx.Assets;
 import ui.Observable;
@@ -21,13 +21,13 @@ public class Game extends Observable implements Runnable {
         Handler handler = new Handler(this);
         Assets.init();
         mouseManager = new MouseManager();
-        menuState = new GameState(handler);
+        menuState = new PlayerSelectionState(handler);
         State.setState(menuState);
     }
 
     /* Update & Render */
 
-    public void render(Graphics g) { //called by GamePanel to repaint
+    public void render(Graphics g) {
         if (State.getState() != null) {
             State.getState().render(g);
         }

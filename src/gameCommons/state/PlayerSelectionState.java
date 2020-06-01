@@ -1,8 +1,8 @@
 package gameCommons.state;
 
 import gfx.Assets;
+import ui.AnimatedCard;
 import ui.Button;
-import ui.ButtonCard;
 import ui.ObjectManager;
 import util.Handler;
 import util.Utils;
@@ -25,8 +25,8 @@ public class PlayerSelectionState extends State{
             Color c = color.get(Handler.r.nextInt(color.size()));
             this.color.remove(c);
             int maxSize = 6;
-            this.manager.addObject(new ButtonCard((float) ((handler.getWidth() - maxSize *(Assets.dim + handler.getSpacing()*2))/2 + i*(Assets.dim + handler.getSpacing()*2)),
-                    (float) ((handler.getHeight() - Assets.cardHeightDim)*4/7), Assets.dim, Assets.cardHeightDim, Assets.animation, Utils.colorToSprite(c), () -> {
+            this.manager.addObject(new AnimatedCard((float) ((handler.getWidth() - maxSize *(Assets.dim + handler.getSpacing()*2))/2 + i*(Assets.dim + handler.getSpacing()*2)),
+                    (float) ((handler.getHeight() - Assets.cardHeightDim)*4/7), Assets.dim, Assets.cardHeightDim, Assets.animation, Utils.colorToSprite(c), this.handler, () -> {
                 if(selectedColors.size() < 4 && !selectedColors.contains(c)) selectedColors.add(c);
             }));
             i++;
@@ -52,6 +52,7 @@ public class PlayerSelectionState extends State{
     @Override
     public void update() {
         manager.update();
+        if(selectedColors.size() >= 4) this.handler.setColors(selectedColors);
     }
 
     @Override

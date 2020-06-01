@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Assets {
-    public static int dim = 96, playerDim = dim / 3, cardHeightDim = dim * 5 / 3, buttonDim = playerDim*2;
+    public static int dim = 96, playerDim = dim / 3, cardHeightDim = dim * 5 / 3, buttonDim = playerDim * 2;
     /* -> dim = 96, playerDim = 32, cardHeightDim = 160, buttonDim = 64 */
     public static BufferedImage[] turn;
     public static BufferedImage[] board;
@@ -102,7 +102,7 @@ public class Assets {
             pawn[i] = pawnSpriteSheet.crop((i % 3) * playerDim, y * playerDim, playerDim, playerDim);
             player[i] = playerSpriteSheet.crop(i * dim, 0, dim, dim + dim * 2 / 3);
             animation[i] = animationSpriteSheet.crop(i * dim, 0, dim, dim + dim * 2 / 3);
-            playerDescription[i] = descriptionSpriteSheet.crop((i%3)*5*dim, (i/3)*4*dim, 5*dim, 4*dim);
+            playerDescription[i] = descriptionSpriteSheet.crop((i % 3) * 5 * dim, (i / 3) * 4 * dim, 5 * dim, 4 * dim);
         }
 
         for (int i = 0; i < keys.length; i++) { //length == 4
@@ -110,28 +110,28 @@ public class Assets {
             artifacts[i] = artifactsSpriteSheet.crop(i * (dim + 32), 0, dim + 32, dim + 32);
         }
 
-        for(int i = 0; i < gauge.length; i++){ //length == 10
-            gauge[i] = gaugeSpriteSheet.crop(i*15, 0, 15, cardHeightDim);
+        for (int i = 0; i < gauge.length; i++) { //length == 10
+            gauge[i] = gaugeSpriteSheet.crop(i * 15, 0, 15, cardHeightDim);
         }
 
-        for(int i = 0; i < halo.length; i++){ //length == 2
-            halo[i] = haloSpriteSheet.crop(i*playerDim, 0, playerDim, playerDim);
+        for (int i = 0; i < halo.length; i++) { //length == 2
+            halo[i] = haloSpriteSheet.crop(i * playerDim, 0, playerDim, playerDim);
         }
 
         for (int i = 0; i < specialCards.length; i++) { // length == 3
             specialCards[i] = specialCardsSpriteSheet.crop(i * dim, 0, dim, dim + dim * 2 / 3);
-            pause[i] = pauseSpriteSheet.crop(i*playerDim, 0, playerDim, playerDim);
-            go[i] = goSpriteSheet.crop(2*playerDim*i, 0, 2*playerDim, 2*playerDim);
-            returned[i] = returnedSpriteSheet.crop(2*playerDim*i, 0, 2*playerDim, 2*playerDim);
-            quit[i] = quitSpriteSheet.crop((dim+playerDim)*i, 0, dim+playerDim, playerDim*2);
-            resume[i] = resumeSpriteSheet.crop((cardHeightDim+playerDim)*i, 0, (cardHeightDim+playerDim), playerDim*2);
-            turn[i] = endTurnButtonSheet.crop((3*dim+2*playerDim)*i, 0, (3*dim+2*playerDim), playerDim*2);
-            play[i] = playSpriteSheet.crop(i*buttonDim*2, 0, 2*buttonDim, buttonDim);
-            mainMenu[i] = mainMenuSpriteSheet.crop(i*dim*3, 0, dim*3, buttonDim);
-            settings[i] = settingsSpriteSheet.crop(i*buttonDim*4, 0, buttonDim*4, buttonDim);
-            newGame[i] = newGameSpriteSheet.crop(i*buttonDim*4, 0, buttonDim*4, buttonDim);
-            credits[i] = creditsSpriteSheet.crop((cardHeightDim+playerDim)*i, 0, cardHeightDim+playerDim, buttonDim);
-            restart[i] = restartSpriteSheet.crop(i*7*playerDim, 0, 7*playerDim, buttonDim);
+            pause[i] = pauseSpriteSheet.crop(i * playerDim, 0, playerDim, playerDim);
+            go[i] = goSpriteSheet.crop(2 * playerDim * i, 0, 2 * playerDim, 2 * playerDim);
+            returned[i] = returnedSpriteSheet.crop(2 * playerDim * i, 0, 2 * playerDim, 2 * playerDim);
+            quit[i] = quitSpriteSheet.crop((dim + playerDim) * i, 0, dim + playerDim, playerDim * 2);
+            resume[i] = resumeSpriteSheet.crop((cardHeightDim + playerDim) * i, 0, (cardHeightDim + playerDim), playerDim * 2);
+            turn[i] = endTurnButtonSheet.crop((3 * dim + buttonDim) * i, 0, (3 * dim + 2 * playerDim), playerDim * 2);
+            play[i] = playSpriteSheet.crop(i * buttonDim * 2, 0, 2 * buttonDim, buttonDim);
+            mainMenu[i] = mainMenuSpriteSheet.crop(i * dim * 3, 0, dim * 3, buttonDim);
+            settings[i] = settingsSpriteSheet.crop(i * buttonDim * 4, 0, buttonDim * 4, buttonDim);
+            newGame[i] = newGameSpriteSheet.crop(i * buttonDim * 4, 0, buttonDim * 4, buttonDim);
+            credits[i] = creditsSpriteSheet.crop((cardHeightDim + playerDim) * i, 0, cardHeightDim + playerDim, buttonDim);
+            restart[i] = restartSpriteSheet.crop(i * 7 * playerDim, 0, 7 * playerDim, buttonDim);
 
             /* filling half of the deck */
             deck[i] = specialCards[0];
@@ -152,8 +152,8 @@ public class Assets {
         dim = 96;
         playerDim = dim / 3;
         cardHeightDim = dim * 5 / 3;
-        buttonDim = playerDim*2;
-        font20 = FontLoader.loadFont("Resources/fonts/manaspc.ttf", dim/5);
-        font45 = FontLoader.loadFont("Resources/fonts/manaspc.ttf", dim/2);
+        buttonDim = playerDim * 2;
+        font20 = FontLoader.loadFont("Resources/fonts/manaspc.ttf", dim / 5);
+        font45 = FontLoader.loadFont("Resources/fonts/manaspc.ttf", dim / 2);
     }
 }

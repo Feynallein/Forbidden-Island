@@ -102,4 +102,8 @@ public class Handler {
     public GameState getSavedGameState(){
         return gamestate;
     }
+
+    public void resetTakenNumbers(){
+        takenNumbers = new ArrayList<>();
+    }
 }

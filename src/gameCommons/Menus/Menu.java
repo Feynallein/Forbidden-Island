@@ -13,8 +13,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-//TODO: faire qu'on ne voit pas l'ancien menu quand on affiche le nouveau
-
 public class Menu implements Interacts {
     private boolean isVisible, onCase, nearby;
     private int x, y, textBackgroundWidth, textBackgroundHeight;
@@ -38,7 +36,14 @@ public class Menu implements Interacts {
 
     @Override
     public void update() {
-        if (!isVisible) return;
+        if (!isVisible) {
+            players.clear();
+            texts.clear();
+            bounds.clear();
+            clickedCase = null;
+            player = null;
+            return;
+        }
         setRectangleAndTexts();
         players = island.playersOnTheCase(clickedCase, false);
         onCase = island.onCase(player, clickedCase);
