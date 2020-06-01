@@ -22,18 +22,14 @@ public class LoseState extends State {
         manager = new ObjectManager(handler);
         handler.getMouseManager().setObjectManager(manager);
         manager.addObject(new ui.Button((float) (handler.getWidth() - 7 * Assets.playerDim) / 2, (float) (handler.getHeight() * 5 / 8 - Assets.buttonDim / 2), 7 * Assets.playerDim, Assets.buttonDim,
-                Assets.restart, () -> {
-            State.setState(new PlayerSelectionState(handler));
-        }));
+                Assets.restart, () -> State.setState(new PlayerSelectionState(handler))));
         manager.addObject(new ui.Button((float) (handler.getWidth() / 2 - Assets.dim * 3 / 2), (float) (handler.getHeight() * 6 / 8 - Assets.buttonDim / 2), Assets.dim * 3, Assets.buttonDim,
                 Assets.mainMenu, () -> {
             handler.getMouseManager().setObjectManager(null);
             State.setState(new MenuState(handler));
         }));
         manager.addObject(new Button((float) (handler.getWidth() - (Assets.dim + Assets.playerDim)) / 2, (float) (handler.getHeight() * 7 / 8 - Assets.buttonDim / 2), Assets.dim + Assets.playerDim, Assets.buttonDim,
-                Assets.quit, () -> {
-            System.exit(0);
-        }));
+                Assets.quit, () -> System.exit(0)));
     }
 
     @Override

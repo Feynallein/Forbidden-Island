@@ -4,13 +4,13 @@ import util.Handler;
 
 import java.util.ArrayList;
 
-public class FloodDeck{
+public class FloodDeck {
     private Handler handler;
     private ArrayList<Integer[]> board;
     private ArrayList<Integer[]> grave;
-    private ArrayList<Integer[]>  flooded;
+    private ArrayList<Integer[]> flooded;
 
-    public FloodDeck(Handler handler){
+    public FloodDeck(Handler handler) {
         this.handler = handler;
         board = new ArrayList<>();
         grave = new ArrayList<>();
@@ -19,9 +19,10 @@ public class FloodDeck{
     }
 
     private void init() {
-        for(int i = 0; i < handler.getIslandLength(); i++) {
-            for(int j = 0; j < handler.getIslandLength(); j++) {
-                if((j != 0 && j != 5 && i != 0 && i != 5) || (j != 0 && j != 5 && j != 1 && j != 4) || (i != 0 && i != 1 && i != 4 && i != 5)) grave.add(new Integer[]{i, j});
+        for (int i = 0; i < handler.getIslandLength(); i++) {
+            for (int j = 0; j < handler.getIslandLength(); j++) {
+                if ((j != 0 && j != 5 && i != 0 && i != 5) || (j != 0 && j != 5 && j != 1 && j != 4) || (i != 0 && i != 1 && i != 4 && i != 5))
+                    grave.add(new Integer[]{i, j});
                 else flooded.add(new Integer[]{i, j});
             }
         }
@@ -41,7 +42,7 @@ public class FloodDeck{
     }
 
     public Integer[] drawCard() {
-        if(board.isEmpty()){
+        if (board.isEmpty()) {
             board = shuffleDeck();
         }
         Integer[] card = board.get(0);
@@ -53,17 +54,5 @@ public class FloodDeck{
     public void discard(Integer[] tile) {
         flooded.add(tile);
         grave.remove(tile);
-    }
-
-    public boolean enoughCards(){
-        return flooded.size() == 24;
-    }
-
-    public int getBoardSize(){
-        return board.size();
-    }
-
-    public int getFloodedSize(){
-        return flooded.size();
     }
 }

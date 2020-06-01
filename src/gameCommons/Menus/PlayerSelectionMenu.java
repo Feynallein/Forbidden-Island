@@ -23,12 +23,10 @@ public class PlayerSelectionMenu implements Interacts {
     private ArrayList<Boolean> hovered = new ArrayList<>();
     private ArrayList<Boolean> selected = new ArrayList<>();
     private ArrayList<Player> selectedPlayers = new ArrayList<>();
-    private Island island;
     private Case clickedCase;
 
     public PlayerSelectionMenu(Handler handler, Island island) {
         this.handler = handler;
-        this.island = island;
         this.go = new Button((float) handler.getWidth() / 2, (float) handler.getHeight() / 2 + 100, Assets.playerDim * 2, Assets.playerDim * 2, Assets.go, () -> {
             for (int i = 0; i < selected.size(); i++) {
                 if (selected.get(i)) selectedPlayers.add(playersOnCase.get(i));
@@ -53,7 +51,7 @@ public class PlayerSelectionMenu implements Interacts {
     @Override
     public void render(Graphics g) {
         if (!active) return;
-        if(pawnsBounds.isEmpty()) active = false;
+        if (pawnsBounds.isEmpty()) active = false;
         g.drawImage(Assets.menuBg, 0, 0, handler.getWidth(), handler.getHeight(), null);
         Text.drawString(g, "Which player do you want to fly with?", handler.getWidth() / 2, handler.getHeight() / 4, true, Color.WHITE, Assets.font45);
         for (int i = 0; i < pawnsBounds.size(); i++) {
@@ -130,7 +128,7 @@ public class PlayerSelectionMenu implements Interacts {
             hovered.add(false);
             selected.add(false);
         }
-        if(playersOnCase.isEmpty()){
+        if (playersOnCase.isEmpty()) {
             go.onClick();
         }
     }

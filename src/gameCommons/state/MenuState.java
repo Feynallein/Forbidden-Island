@@ -28,9 +28,7 @@ public class MenuState extends State {
             State.setState(new CreditsState(this.handler));
         }));
         manager.addObject(new Button((float) (handler.getWidth() - (Assets.dim + Assets.playerDim)) / 2, (float) (handler.getHeight() * 7 / 8 - Assets.buttonDim / 2), Assets.dim + Assets.playerDim, Assets.buttonDim,
-                Assets.quit, () -> {
-            System.exit(0);
-        }));
+                Assets.quit, () -> System.exit(0)));
     }
 
     @Override

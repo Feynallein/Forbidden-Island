@@ -10,7 +10,7 @@ import util.Utils;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class PlayerSelectionState extends State{
+public class PlayerSelectionState extends State {
     private ObjectManager manager;
     private ArrayList<Color> color = new ArrayList<>();
     private ArrayList<Color> selectedColors = new ArrayList<>();
@@ -21,18 +21,18 @@ public class PlayerSelectionState extends State{
         initializeColor();
         handler.getMouseManager().setObjectManager(manager);
         int i = 0;
-        while(!color.isEmpty()){
+        while (!color.isEmpty()) {
             Color c = color.get(Handler.r.nextInt(color.size()));
             this.color.remove(c);
             int maxSize = 6;
-            this.manager.addObject(new AnimatedCard((float) ((handler.getWidth() - maxSize *(Assets.dim + handler.getSpacing()*2))/2 + i*(Assets.dim + handler.getSpacing()*2)),
-                    (float) ((handler.getHeight() - Assets.cardHeightDim)*4/7), Assets.dim, Assets.cardHeightDim, Assets.animation, Utils.colorToSprite(c), this.handler, () -> {
-                if(selectedColors.size() < 4 && !selectedColors.contains(c)) selectedColors.add(c);
+            this.manager.addObject(new AnimatedCard((float) ((handler.getWidth() - maxSize * (Assets.dim + handler.getSpacing() * 2)) / 2 + i * (Assets.dim + handler.getSpacing() * 2)),
+                    (float) ((handler.getHeight() - Assets.cardHeightDim) * 4 / 7), Assets.dim, Assets.cardHeightDim, Assets.animation, Utils.colorToSprite(c), this.handler, () -> {
+                if (selectedColors.size() < 4 && !selectedColors.contains(c)) selectedColors.add(c);
             }));
             i++;
         }
-        this.manager.addObject(new Button((float) ((handler.getWidth() - Assets.buttonDim*2)/2), (float) (handler.getHeight()*6/7), Assets.buttonDim*2, Assets.buttonDim, Assets.play, () -> {
-            if(selectedColors.size() >= 2){
+        this.manager.addObject(new Button((float) ((handler.getWidth() - Assets.buttonDim * 2) / 2), (float) (handler.getHeight() * 6 / 7), Assets.buttonDim * 2, Assets.buttonDim, Assets.play, () -> {
+            if (selectedColors.size() >= 2) {
                 this.handler.setColors(selectedColors);
                 this.handler.getMouseManager().setObjectManager(null);
                 State.setState(new GameState(this.handler));
@@ -40,7 +40,7 @@ public class PlayerSelectionState extends State{
         }));
     }
 
-    private void initializeColor(){
+    private void initializeColor() {
         color.add(Color.GREEN);
         color.add(Color.RED);
         color.add(Color.YELLOW);
@@ -52,12 +52,12 @@ public class PlayerSelectionState extends State{
     @Override
     public void update() {
         manager.update();
-        if(selectedColors.size() >= 4) this.handler.setColors(selectedColors);
+        if (selectedColors.size() >= 4) this.handler.setColors(selectedColors);
     }
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.selection, (handler.getWidth() - Assets.buttonDim*8)/2, handler.getHeight()/3, Assets.buttonDim*8, Assets.buttonDim, null);
-         manager.render(g);
+        g.drawImage(Assets.selection, (handler.getWidth() - Assets.buttonDim * 8) / 2, handler.getHeight() / 3, Assets.buttonDim * 8, Assets.buttonDim, null);
+        manager.render(g);
     }
 }

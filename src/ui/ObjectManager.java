@@ -33,14 +33,14 @@ public class ObjectManager {
         }
     }
 
-    public void onMousePressed(MouseEvent e){
-        for(Interacts o : objects){
+    public void onMousePressed(MouseEvent e) {
+        for (Interacts o : objects) {
             o.onMousePressed(e);
         }
     }
 
-    public void onMouseReleased(MouseEvent e){
-        for(Interacts o : objects){
+    public void onMouseReleased(MouseEvent e) {
+        for (Interacts o : objects) {
             o.onMouseReleased(e);
         }
     }

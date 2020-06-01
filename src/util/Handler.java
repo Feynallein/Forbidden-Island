@@ -44,7 +44,7 @@ public class Handler {
     }
 
     public int getPixelByCase() {
-        return Assets.dim*4/3;
+        return Assets.dim * 4 / 3;
     } /* Pixel by case = 128 */
 
     public int getSpacing() {
@@ -75,35 +75,35 @@ public class Handler {
         this.artifact = i;
     }
 
-    public int getNumberOfPlayers(){
+    public int getNumberOfPlayers() {
         return colors.size();
     }
 
-    public ObjectManager getUiManager(){
+    public ObjectManager getUiManager() {
         return manager;
     }
 
-    public void saveObjectManager(ObjectManager m){
+    public void saveObjectManager(ObjectManager m) {
         manager = m;
     }
 
-    public ArrayList<Color> getColorArray(){
+    public ArrayList<Color> getColorArray() {
         return colors;
     }
 
-    public void setColors(ArrayList<Color> c){
+    public void setColors(ArrayList<Color> c) {
         colors = c;
     }
 
-    public void saveGameState(GameState state){
+    public void saveGameState(GameState state) {
         gamestate = state;
     }
 
-    public GameState getSavedGameState(){
+    public GameState getSavedGameState() {
         return gamestate;
     }
 
-    public void resetTakenNumbers(){
+    public void resetTakenNumbers() {
         takenNumbers = new ArrayList<>();
     }
 }

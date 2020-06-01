@@ -46,7 +46,7 @@ public class AnimatedCard extends Object {
 
     @Override
     public void onClick() {
-        if(handler.getColorArray().size() < 4) {
+        if (handler.getColorArray().size() < 4) {
             clicker.onClick();
             clicked = true;
         }

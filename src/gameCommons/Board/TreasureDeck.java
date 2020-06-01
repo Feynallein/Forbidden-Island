@@ -26,7 +26,7 @@ public class TreasureDeck {
         }
 
         @Override
-        public String toString(){
+        public String toString() {
             return value;
         }
     }
@@ -59,7 +59,7 @@ public class TreasureDeck {
         }
         Card card = deck.get(0);
         deck.remove(card);
-        if(card.value.equals("flooded")) grave.add(card);
+        if (card.value.equals("flooded")) grave.add(card);
         return card.getValue();
     }
 

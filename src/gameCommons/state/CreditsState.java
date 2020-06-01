@@ -15,9 +15,7 @@ public class CreditsState extends State {
         super(handler);
         this.manager = new ObjectManager(handler);
         this.handler.getMouseManager().setObjectManager(manager);
-        this.manager.addObject(new Button((float) (handler.getWidth() * 3 / 4), (float) (handler.getHeight() * 3 / 4), Assets.playerDim * 2, Assets.playerDim * 2, Assets.returned, () -> {
-            State.setState(new MenuState(handler));
-        }));
+        this.manager.addObject(new Button((float) (handler.getWidth() * 3 / 4), (float) (handler.getHeight() * 3 / 4), Assets.playerDim * 2, Assets.playerDim * 2, Assets.returned, () -> State.setState(new MenuState(handler))));
     }
 
     @Override

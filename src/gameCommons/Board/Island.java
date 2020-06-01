@@ -75,7 +75,6 @@ public class Island implements Interacts {
         for (int i = 0; i < numberOfPlayer; i++) {
             player.add(new Player(handler, this, colors.get(i), i));
         }
-        System.out.println("");
     }
 
     public boolean win() {
@@ -143,7 +142,7 @@ public class Island implements Interacts {
         do {
             Integer[] tile = floodDeck.drawCard();
             if (cases[tile[0]][tile[1]].getState() == 0) cases[tile[0]][tile[1]].setState(1);
-            else if(cases[tile[0]][tile[1]].getState() == 1){
+            else if (cases[tile[0]][tile[1]].getState() == 1) {
                 ArrayList<Player> onCasePlayers = playersOnTheCase(cases[tile[0]][tile[1]], true);
                 if (onCasePlayers.size() != 0) {
                     for (Player p : onCasePlayers) {
@@ -220,7 +219,8 @@ public class Island implements Interacts {
         do {
             if (offset != backup) backup = offset;
             for (Player value : player) {
-                if (!value.equals(p) && value.position[0] == p.position[0] + offset * Assets.playerDim && value.position[1] == p.position[1]) offset++;
+                if (!value.equals(p) && value.position[0] == p.position[0] + offset * Assets.playerDim && value.position[1] == p.position[1])
+                    offset++;
             }
         } while (offset != backup);
         return offset;
@@ -361,10 +361,10 @@ public class Island implements Interacts {
     public boolean nearPlayer(MouseEvent e) {
         int i = (player.get(isPlaying).position[0] - xOffset) / (handler.getSpacing() + handler.getPixelByCase());
         int j = (player.get(isPlaying).position[1] - yOffset) / (handler.getSpacing() + handler.getPixelByCase());
-        i = i*(handler.getSpacing() + handler.getPixelByCase()) + xOffset;
-        j = j*(handler.getSpacing() + handler.getPixelByCase()) + yOffset;
-        Rectangle horizontalPos = new Rectangle(i - handler.getPixelByCase() - handler.getSpacing(), j, 3 * handler.getPixelByCase() + 2*handler.getSpacing(), handler.getPixelByCase());
-        Rectangle verticalPos = new Rectangle(i, j - handler.getPixelByCase() - handler.getSpacing(), handler.getPixelByCase(), 3 * handler.getPixelByCase() + 2*handler.getSpacing());
+        i = i * (handler.getSpacing() + handler.getPixelByCase()) + xOffset;
+        j = j * (handler.getSpacing() + handler.getPixelByCase()) + yOffset;
+        Rectangle horizontalPos = new Rectangle(i - handler.getPixelByCase() - handler.getSpacing(), j, 3 * handler.getPixelByCase() + 2 * handler.getSpacing(), handler.getPixelByCase());
+        Rectangle verticalPos = new Rectangle(i, j - handler.getPixelByCase() - handler.getSpacing(), handler.getPixelByCase(), 3 * handler.getPixelByCase() + 2 * handler.getSpacing());
         return horizontalPos.contains(e.getX(), e.getY()) || verticalPos.contains(e.getX(), e.getY());
     }
 
