@@ -2,17 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3f22b8dc-7fb2-495f-b3a8-4ed5bcb51b93" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Resources/music/music.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Resources/music/videoplayback.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Resources/textures/Credits.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Resources/textures/New_Game.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Resources/textures/Settings.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/gameCommons/state/CreditsState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/util/MusicPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/Board/Island.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/Board/Island.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/credits.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Forbidden Island/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/credits.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/Game.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/Player.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/state/GameState.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Forbidden Island/gameCommons/state/GameState.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/gfx/Assets.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Forbidden Island/gfx/Assets.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/util/Handler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Forbidden Island/util/Handler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gameCommons/Board/Island.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameCommons/Board/Island.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gameCommons/Board/TreasureDeck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameCommons/Board/TreasureDeck.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Forbidden Island/util/MouseManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Forbidden Island/util/MouseManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gameCommons/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameCommons/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameCommons/state/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameCommons/state/GameState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameCommons/state/MenuState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameCommons/state/MenuState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameCommons/state/PauseState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameCommons/state/PauseState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameCommons/state/PlayerSelectionState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameCommons/state/PlayerSelectionState.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gfx/Assets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gfx/Assets.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/ButtonCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/ButtonCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/Handler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Handler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/MouseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/MouseManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +66,7 @@
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -178,7 +193,21 @@
       <option name="project" value="LOCAL" />
       <updated>1591021329620</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="WaterRise bug fix">
+      <created>1591025513067</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1591025513067</updated>
+    </task>
+    <task id="LOCAL-00015" summary="WaterRise bug fix">
+      <created>1591025634265</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1591025634265</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -193,7 +222,8 @@
     <MESSAGE value="almost done!&#10;7 more todo to go...." />
     <MESSAGE value="Main game done !" />
     <MESSAGE value="PlayerSelection" />
-    <option name="LAST_COMMIT_MESSAGE" value="PlayerSelection" />
+    <MESSAGE value="WaterRise bug fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="WaterRise bug fix" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
@@ -201,10 +231,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="414" y="195" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1589027745085" />
-    <state x="765" y="249" key="#com.intellij.ide.util.MemberChooser" timestamp="1591016188855">
+    <state x="765" y="249" key="#com.intellij.ide.util.MemberChooser" timestamp="1591040663856">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="765" y="249" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1591016188855" />
+    <state x="765" y="249" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1591040663856" />
     <state x="689" y="324" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1589027740460">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -221,34 +251,34 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="690" y="287" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1590875130276" />
-    <state x="597" y="134" key="CommitChangelistDialog2" timestamp="1591025511841">
+    <state x="597" y="134" key="CommitChangelistDialog2" timestamp="1591025633323">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="597" y="134" key="CommitChangelistDialog2/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1591025511841" />
-    <state x="761" y="349" key="FileChooserDialogImpl" timestamp="1590570193867">
+    <state x="597" y="134" key="CommitChangelistDialog2/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1591025633323" />
+    <state x="761" y="349" key="FileChooserDialogImpl" timestamp="1591040469364">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="761" y="349" key="FileChooserDialogImpl/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1590570193867" />
-    <state width="1877" height="229" key="GridCell.Tab.0.bottom" timestamp="1591025593213">
+    <state x="761" y="349" key="FileChooserDialogImpl/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1591040469364" />
+    <state width="1877" height="229" key="GridCell.Tab.0.bottom" timestamp="1591041647082">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1237" height="229" key="GridCell.Tab.0.bottom/0.0.1920.1080/-1280.54.1280.1024@-1280.54.1280.1024" timestamp="1590581539096" />
-    <state width="1877" height="229" key="GridCell.Tab.0.bottom/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1591025593213" />
-    <state width="1877" height="229" key="GridCell.Tab.0.center" timestamp="1591025593213">
+    <state width="1877" height="229" key="GridCell.Tab.0.bottom/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1591041647082" />
+    <state width="1877" height="229" key="GridCell.Tab.0.center" timestamp="1591041647082">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1237" height="229" key="GridCell.Tab.0.center/0.0.1920.1080/-1280.54.1280.1024@-1280.54.1280.1024" timestamp="1590581539096" />
-    <state width="1877" height="229" key="GridCell.Tab.0.center/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1591025593213" />
-    <state width="1877" height="229" key="GridCell.Tab.0.left" timestamp="1591025593213">
+    <state width="1877" height="229" key="GridCell.Tab.0.center/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1591041647082" />
+    <state width="1877" height="229" key="GridCell.Tab.0.left" timestamp="1591041647082">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1237" height="229" key="GridCell.Tab.0.left/0.0.1920.1080/-1280.54.1280.1024@-1280.54.1280.1024" timestamp="1590581539096" />
-    <state width="1877" height="229" key="GridCell.Tab.0.left/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1591025593213" />
-    <state width="1877" height="229" key="GridCell.Tab.0.right" timestamp="1591025593213">
+    <state width="1877" height="229" key="GridCell.Tab.0.left/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1591041647082" />
+    <state width="1877" height="229" key="GridCell.Tab.0.right" timestamp="1591041647082">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1237" height="229" key="GridCell.Tab.0.right/0.0.1920.1080/-1280.54.1280.1024@-1280.54.1280.1024" timestamp="1590581539096" />
-    <state width="1877" height="229" key="GridCell.Tab.0.right/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1591025593213" />
+    <state width="1877" height="229" key="GridCell.Tab.0.right/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1591041647082" />
     <state width="1877" height="363" key="GridCell.Tab.1.bottom" timestamp="1590754631637">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -273,10 +303,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="498" height="446" key="SwitcherDM/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1590915251519" />
-    <state x="552" y="273" key="Vcs.Push.Dialog.v2" timestamp="1591025514696">
+    <state x="552" y="273" key="Vcs.Push.Dialog.v2" timestamp="1591025636430">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="552" y="273" key="Vcs.Push.Dialog.v2/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1591025514696" />
+    <state x="552" y="273" key="Vcs.Push.Dialog.v2/0.0.1920.1080/-1280.54.1280.1024@0.0.1920.1080" timestamp="1591025636430" />
     <state x="769" y="457" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590604308863">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>

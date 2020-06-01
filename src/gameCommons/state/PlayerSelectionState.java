@@ -33,8 +33,8 @@ public class PlayerSelectionState extends State{
         }
         this.manager.addObject(new Button((float) ((handler.getWidth() - Assets.buttonDim*2)/2), (float) (handler.getHeight()*6/7), Assets.buttonDim*2, Assets.buttonDim, Assets.play, () -> {
             if(selectedColors.size() >= 2){
-                handler.setColors(selectedColors);
-                handler.getMouseManager().setObjectManager(null);
+                this.handler.setColors(selectedColors);
+                this.handler.getMouseManager().setObjectManager(null);
                 State.setState(new GameState(this.handler));
             }
         }));

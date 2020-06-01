@@ -26,7 +26,6 @@ public class PauseState extends State {
         }));
         manager.addObject(new Button((float) (handler.getWidth() - (Assets.dim+Assets.playerDim)) / 2, (float) (handler.getHeight() * 7 / 8 - Assets.buttonDim / 2), Assets.dim+Assets.playerDim, Assets.buttonDim,
                 Assets.quit, () -> {
-            //TODO: qq chose pour exit moins... brutalement
             System.exit(0);
         }));
     }

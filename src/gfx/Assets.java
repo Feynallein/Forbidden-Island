@@ -25,6 +25,10 @@ public class Assets {
     public static BufferedImage[] halo;
     public static BufferedImage[] play;
     public static BufferedImage[] mainMenu;
+    public static BufferedImage[] settings;
+    public static BufferedImage[] newGame;
+    public static BufferedImage[] credits;
+    public static BufferedImage[] restart;
     public static BufferedImage selection;
     public static BufferedImage pauseIndicator;
     public static BufferedImage cardsBack;
@@ -58,6 +62,10 @@ public class Assets {
         SpriteSheet haloSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Halo.png"));
         SpriteSheet playSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Play.png"));
         SpriteSheet mainMenuSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Main_Menu.png"));
+        SpriteSheet settingsSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Settings.png"));
+        SpriteSheet creditsSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Credits.png"));
+        SpriteSheet newGameSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/New_Game.png"));
+        SpriteSheet restartSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Restart.png"));
 
         deck = new BufferedImage[28];
         board = new BufferedImage[24];
@@ -77,6 +85,10 @@ public class Assets {
         resume = new BufferedImage[3];
         play = new BufferedImage[3];
         mainMenu = new BufferedImage[3];
+        settings = new BufferedImage[3];
+        newGame = new BufferedImage[3];
+        credits = new BufferedImage[3];
+        restart = new BufferedImage[3];
 
         halo = new BufferedImage[2];
 
@@ -116,6 +128,10 @@ public class Assets {
             turn[i] = endTurnButtonSheet.crop((3*dim+2*playerDim)*i, 0, (3*dim+2*playerDim), playerDim*2);
             play[i] = playSpriteSheet.crop(i*buttonDim*2, 0, 2*buttonDim, buttonDim);
             mainMenu[i] = mainMenuSpriteSheet.crop(i*dim*3, 0, dim*3, buttonDim);
+            settings[i] = settingsSpriteSheet.crop(i*buttonDim*4, 0, buttonDim*4, buttonDim);
+            newGame[i] = newGameSpriteSheet.crop(i*buttonDim*4, 0, buttonDim*4, buttonDim);
+            credits[i] = creditsSpriteSheet.crop((cardHeightDim+playerDim)*i, 0, cardHeightDim+playerDim, buttonDim);
+            restart[i] = restartSpriteSheet.crop(i*7*playerDim, 0, 7*playerDim, buttonDim);
 
             /* filling half of the deck */
             deck[i] = specialCards[0];

@@ -18,14 +18,12 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (manager != null)
-            manager.onMouseMove(e);
+        if (manager != null) manager.onMouseMove(e);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (manager != null)
-            manager.onMouseClicked(e);
+        if (manager != null) manager.onMouseClicked(e);
     }
 
     @Override
