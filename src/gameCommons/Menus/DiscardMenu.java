@@ -4,14 +4,14 @@ import gameCommons.Board.Island;
 import gameCommons.Player;
 import gfx.Assets;
 import gfx.Text;
-import ui.UiInteracter;
+import ui.Interacts;
 import util.Handler;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class DiscardMenu implements UiInteracter {
+public class DiscardMenu implements Interacts {
     private Handler handler;
     private Player player;
     private int size;

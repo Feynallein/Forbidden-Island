@@ -1,13 +1,13 @@
 package gameCommons.state;
 
-import ui.UiManager;
+import ui.ObjectManager;
 import util.Handler;
 
 import java.awt.*;
 
 public abstract class State {
     private static State currentState = null;
-    protected UiManager manager;
+    protected ObjectManager manager;
 
     public static void setState(State state) {
         currentState = state;

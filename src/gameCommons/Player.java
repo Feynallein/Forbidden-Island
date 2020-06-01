@@ -3,16 +3,15 @@ package gameCommons;
 import gameCommons.Board.Island;
 import gfx.Assets;
 import gfx.Text;
-import ui.UiInteracter;
+import ui.Interacts;
 import util.Handler;
 import util.Utils;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
-public class Player implements UiInteracter {
+public class Player implements Interacts {
     private Handler handler;
     public BufferedImage pawn, sprite, descSprite;
     public int[] position, inventory;
@@ -22,7 +21,7 @@ public class Player implements UiInteracter {
     public Player(Handler handler, Island island, Color color, int order) {
         this.handler = handler;
         this.inventory = new int[6];
-        Arrays.fill(inventory, 1); //debugging purpose
+        //Arrays.fill(inventory, 1); //debugging purpose
         this.color = color;
         this.pawn = Utils.colorToPawn(this.color);
         this.sprite = Utils.colorToSprite(this.color);

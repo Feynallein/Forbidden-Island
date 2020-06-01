@@ -1,7 +1,7 @@
 package gameCommons.Board;
 
 import gfx.Assets;
-import ui.UiInteracter;
+import ui.Interacts;
 import util.Handler;
 import util.Utils;
 
@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-public class Case implements UiInteracter {
+public class Case implements Interacts {
     private Handler handler;
     private int state;
     public Rectangle bounds;

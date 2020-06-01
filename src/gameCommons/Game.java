@@ -1,6 +1,6 @@
 package gameCommons;
 
-import gameCommons.state.GameState;
+import gameCommons.state.PlayerSelectionState;
 import gameCommons.state.State;
 import gfx.Assets;
 import ui.Observable;
@@ -11,7 +11,7 @@ import java.awt.*;
 
 public class Game extends Observable implements Runnable {
     //public State menuState;
-    public State gameState; //temporary (because we don't want to go to the menu state first
+    public State state; //temporary
     public MouseManager mouseManager;
     private int width;
     private int height;
@@ -22,8 +22,8 @@ public class Game extends Observable implements Runnable {
         Handler handler = new Handler(this);
         Assets.init();
         mouseManager = new MouseManager();
-        gameState = new GameState(handler);
-        State.setState(gameState);
+        state = new PlayerSelectionState(handler); //set to menu
+        State.setState(state);
 
     }
 

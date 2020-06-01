@@ -3,7 +3,7 @@ package ui;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public interface UiInteracter {
+public interface Interacts {
     void update();
 
     void render(Graphics g);

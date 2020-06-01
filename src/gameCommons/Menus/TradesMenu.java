@@ -4,8 +4,8 @@ import gameCommons.Board.Island;
 import gameCommons.Player;
 import gfx.Assets;
 import gfx.Text;
-import ui.UiImageButton;
-import ui.UiInteracter;
+import ui.Button;
+import ui.Interacts;
 import util.Handler;
 import util.Utils;
 
@@ -13,7 +13,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class TradesMenu implements UiInteracter {
+public class TradesMenu implements Interacts {
     private Handler handler;
     private Island island;
     private boolean isActive = false;
@@ -24,13 +24,13 @@ public class TradesMenu implements UiInteracter {
     private ArrayList<Rectangle> artifactsBounds = new ArrayList<>();
     private boolean toTrade;
     private int size;
-    private UiImageButton returned;
+    private Button returned;
     private ArrayList<Boolean> hovered = new ArrayList<>();
 
     public TradesMenu(Handler handler, Island island) {
         this.handler = handler;
         this.island = island;
-        returned = new UiImageButton((float) (handler.getWidth() * 2 / 3), (float) (handler.getHeight() * 3 / 4), Assets.playerDim * 2, Assets.playerDim * 2, Assets.returned, () -> {
+        returned = new Button((float) (handler.getWidth() * 2 / 3), (float) (handler.getHeight() * 3 / 4), Assets.playerDim * 2, Assets.playerDim * 2, Assets.returned, () -> {
             this.selectedPlayer = null;
             this.isActive = false;
             island.menu.setVisible(false);

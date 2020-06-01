@@ -23,6 +23,8 @@ public class Assets {
     public static BufferedImage[] quit;
     public static BufferedImage[] resume;
     public static BufferedImage[] halo;
+    public static BufferedImage[] play;
+    public static BufferedImage selection;
     public static BufferedImage pauseIndicator;
     public static BufferedImage cardsBack;
     public static BufferedImage floodedBg;
@@ -38,6 +40,7 @@ public class Assets {
         floodedBg = ImageLoader.loadImage("/textures/Flooded_Bg.png");
         menuBg = ImageLoader.loadImage("/textures/Menu_Bg.png");
         pauseIndicator = ImageLoader.loadImage("/textures/Pause_2.png");
+        selection = ImageLoader.loadImage("/textures/PlayerSelection.png");
 
         SpriteSheet endTurnButtonSheet = new SpriteSheet(ImageLoader.loadImage("/textures/End_of_Turn.png"));
         SpriteSheet boardSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Board.png"));
@@ -55,6 +58,7 @@ public class Assets {
         SpriteSheet resumeSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Resume.png"));
         SpriteSheet quitSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Quit.png"));
         SpriteSheet haloSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Halo.png"));
+        SpriteSheet playSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Play.png"));
 
 
         board = new BufferedImage[24];
@@ -73,6 +77,8 @@ public class Assets {
         go = new BufferedImage[3];
         quit = new BufferedImage[3];
         resume = new BufferedImage[3];
+        play = new BufferedImage[3];
+
         halo = new BufferedImage[2];
 
         for (int i = 0; i < board.length; i++) { //length == 24
@@ -109,6 +115,7 @@ public class Assets {
             quit[i] = quitSpriteSheet.crop((dim+playerDim)*i, 0, dim+playerDim, playerDim*2);
             resume[i] = resumeSpriteSheet.crop((cardHeightDim+playerDim)*i, 0, (cardHeightDim+playerDim), playerDim*2);
             turn[i] = endTurnButtonSheet.crop((3*dim+2*playerDim)*i, 0, (3*dim+2*playerDim), playerDim*2);
+            play[i] = playSpriteSheet.crop(i*buttonDim*2, 0, 2*buttonDim, buttonDim);
 
             /* filling half of the deck */
             deck[i] = specialCards[0];

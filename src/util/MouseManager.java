@@ -1,19 +1,19 @@
 package util;
 
-import ui.UiManager;
+import ui.ObjectManager;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 public class MouseManager implements MouseListener, MouseMotionListener {
-    private UiManager manager;
+    private ObjectManager manager;
 
     public MouseManager() {
     }
 
-    public void setUiManager(UiManager uiManager) {
-        this.manager = uiManager;
+    public void setObjectManager(ObjectManager objectManager) {
+        this.manager = objectManager;
     }
 
     @Override

@@ -2,7 +2,7 @@ package util;
 
 import gameCommons.Game;
 import gfx.Assets;
-import ui.UiManager;
+import ui.ObjectManager;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -15,7 +15,8 @@ public class Handler {
     public Color color = new Color(0xCC7832);
     public int artifact = 0;
     public static Random r = new Random();
-    private UiManager manager;
+    private ObjectManager manager;
+    private ArrayList<Color> colors;
 
     public Handler(Game game) {
         this.game = game;
@@ -70,14 +71,22 @@ public class Handler {
     }
 
     public int getNumberOfPlayers(){
-        return 4; //a changer avec la selection de personnages
+        return colors.size();
     }
 
-    public UiManager getUiManager(){
+    public ObjectManager getUiManager(){
         return manager;
     }
 
-    public void saveUiManager(UiManager m){
+    public void saveUiManager(ObjectManager m){
         manager = m;
+    }
+
+    public ArrayList<Color> getColorArray(){
+        return colors;
+    }
+
+    public void setColors(ArrayList<Color> c){
+        colors = c;
     }
 }

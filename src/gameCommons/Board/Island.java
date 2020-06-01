@@ -6,8 +6,8 @@ import gameCommons.Menus.PlayerSelectionMenu;
 import gameCommons.Player;
 import gfx.Assets;
 import gfx.Text;
-import ui.UiImageButton;
-import ui.UiInteracter;
+import ui.Button;
+import ui.Interacts;
 import util.Handler;
 import util.Utils;
 
@@ -15,25 +15,25 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class Island implements UiInteracter {
+public class Island implements Interacts {
     private Handler handler;
     public Case[][] cases;
     public int xOffset, yOffset;
     public ArrayList<Player> player;
-    private Color[] colors;
     private int isPlaying;
     private boolean[] artifactsGathered;
     private int[] heliport = new int[4];
     private int[][] casesWithArtifacts = new int[4][4];
+    private ArrayList<Color> colors;
     public Menu menu;
     public TreasureDeck treasureDeck;
     private DiscardMenu discardMenu;
     private int floodGauge, flood;
     private FloodDeck floodDeck;
-    private UiImageButton endOfTurnButton;
+    private Button endOfTurnButton;
     private PlayerSelectionMenu playerSelectionMenu;
 
-    public Island(Handler handler, int length, int numberOfPlayers) {
+    public Island(Handler handler, int length, int numberOfPlayers, ArrayList<Color> colors) {
         this.handler = handler;
         if (length * handler.getPixelByCase() < handler.getWidth() && length * handler.getPixelByCase() < handler.getHeight()) {
             cases = new Case[length][length];
@@ -43,8 +43,8 @@ public class Island implements UiInteracter {
             System.out.println("Too wide grid");
             System.exit(-1);
         }
+        this.colors = colors;
         this.player = new ArrayList<>();
-        this.colors = new Color[]{Color.GREEN, Color.RED, Color.YELLOW, Color.BLUE, Color.BLACK, Color.WHITE};
         this.artifactsGathered = new boolean[4];
         //Arrays.fill(artifactsGathered, true); //debugging purpose
         this.menu = new Menu(handler, this);
@@ -54,7 +54,7 @@ public class Island implements UiInteracter {
         this.floodGauge = 0;
         this.flood = 0;
         this.floodDeck = new FloodDeck(handler);
-        this.endOfTurnButton = new UiImageButton((float) (handler.getWidth() - Assets.turn[0].getWidth()) / 2, (float) (handler.getHeight() - 2 * (Assets.playerDim + handler.getSpacing())), Assets.turn[0].getWidth(), Assets.playerDim * 2, Assets.turn, this::endOfTurn);
+        this.endOfTurnButton = new Button((float) (handler.getWidth() - Assets.turn[0].getWidth()) / 2, (float) (handler.getHeight() - 2 * (Assets.playerDim + handler.getSpacing())), Assets.turn[0].getWidth(), Assets.playerDim * 2, Assets.turn, this::endOfTurn);
         this.playerSelectionMenu = new PlayerSelectionMenu(handler, this);
         init(numberOfPlayers);
     }
@@ -72,7 +72,7 @@ public class Island implements UiInteracter {
             }
         }
         for (int i = 0; i < numberOfPlayer; i++) {
-            player.add(new Player(handler, this, colors[i], i));
+            player.add(new Player(handler, this, colors.get(i), i));
         }
     }
 
@@ -108,8 +108,8 @@ public class Island implements UiInteracter {
         int[] verify = new int[4];
         for (Player p : player) {
             for (int i = -1; i < 2; i += 2) {
-                c[i + 1] = getClickedCase(new MouseEvent(new Button(), 0, 0, 0, p.position[0] + i * (handler.getPixelByCase() + handler.getSpacing()), p.position[1], 0, false));
-                c[i + 2] = getClickedCase(new MouseEvent(new Button(), 0, 0, 0, p.position[0], p.position[1] + i * (handler.getPixelByCase() + handler.getSpacing()), 0, false));
+                c[i + 1] = getClickedCase(new MouseEvent(new java.awt.Button(), 0, 0, 0, p.position[0] + i * (handler.getPixelByCase() + handler.getSpacing()), p.position[1], 0, false));
+                c[i + 2] = getClickedCase(new MouseEvent(new java.awt.Button(), 0, 0, 0, p.position[0], p.position[1] + i * (handler.getPixelByCase() + handler.getSpacing()), 0, false));
             }
             for (int i = 0; i < verify.length; i++) {
                 verify[i] = c[i] == null ? 1 : 0;
@@ -398,14 +398,13 @@ public class Island implements UiInteracter {
     public int[] getStarterCases(Color color) {
         for (int i = 0; i < cases.length; i++) {
             for (int j = 0; j < cases.length; j++) {
-                if (cases[i][j].color == Color.GREEN) { //CHANGE TO BLUE
+                if (cases[i][j].color == Color.BLUE) {
                     heliport = new int[]{i * (handler.getSpacing() + handler.getPixelByCase()) + xOffset,
                             j * (handler.getSpacing() + handler.getPixelByCase()) + yOffset, i, j};
                 }
                 if (cases[i][j].color == color)
-                    /*return new int[]{i * handler.getSpacing() + i * handler.getPixelByCase() + xOffset,
-                            j * handler.getSpacing() + j * handler.getPixelByCase() + yOffset};*/
-                    return heliport;
+                    return new int[]{i * handler.getSpacing() + i * handler.getPixelByCase() + xOffset,
+                            j * handler.getSpacing() + j * handler.getPixelByCase() + yOffset};
             }
         }
         return null;

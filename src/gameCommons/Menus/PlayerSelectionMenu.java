@@ -5,8 +5,8 @@ import gameCommons.Board.Island;
 import gameCommons.Player;
 import gfx.Assets;
 import gfx.Text;
-import ui.UiImageButton;
-import ui.UiInteracter;
+import ui.Button;
+import ui.Interacts;
 import util.Handler;
 import util.Utils;
 
@@ -14,12 +14,12 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class PlayerSelectionMenu implements UiInteracter {
+public class PlayerSelectionMenu implements Interacts {
     private Handler handler;
     private ArrayList<Player> playersOnCase = new ArrayList<>();
     private ArrayList<Rectangle> pawnsBounds = new ArrayList<>();
     private boolean active;
-    private UiImageButton go, returned;
+    private Button go, returned;
     private ArrayList<Boolean> hovered = new ArrayList<>();
     private ArrayList<Boolean> selected = new ArrayList<>();
     private ArrayList<Player> selectedPlayers = new ArrayList<>();
@@ -29,7 +29,7 @@ public class PlayerSelectionMenu implements UiInteracter {
     public PlayerSelectionMenu(Handler handler, Island island) {
         this.handler = handler;
         this.island = island;
-        this.go = new UiImageButton((float) handler.getWidth() / 2, (float) handler.getHeight() / 2 + 100, Assets.playerDim * 2, Assets.playerDim * 2, Assets.go, () -> {
+        this.go = new Button((float) handler.getWidth() / 2, (float) handler.getHeight() / 2 + 100, Assets.playerDim * 2, Assets.playerDim * 2, Assets.go, () -> {
             for (int i = 0; i < selected.size(); i++) {
                 if (selected.get(i)) selectedPlayers.add(playersOnCase.get(i));
             }
@@ -38,7 +38,7 @@ public class PlayerSelectionMenu implements UiInteracter {
             clickedCase = null;
             this.active = false;
         });
-        this.returned = new UiImageButton((float) (handler.getWidth() * 2 / 3), (float) (handler.getHeight() * 3 / 4), Assets.playerDim * 2, Assets.playerDim * 2, Assets.returned, () -> {
+        this.returned = new Button((float) (handler.getWidth() * 2 / 3), (float) (handler.getHeight() * 3 / 4), Assets.playerDim * 2, Assets.playerDim * 2, Assets.returned, () -> {
             selectedPlayers.clear();
             clickedCase = null;
             this.active = false;

@@ -5,7 +5,7 @@ import gameCommons.Board.Island;
 import gameCommons.Player;
 import gfx.Assets;
 import gfx.Text;
-import ui.UiInteracter;
+import ui.Interacts;
 import util.Handler;
 
 import java.awt.*;
@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 //TODO: faire qu'on ne voit pas l'ancien menu quand on affiche le nouveau
 
-public class Menu implements UiInteracter {
+public class Menu implements Interacts {
     private boolean isVisible, onCase, nearby;
     private int x, y, textBackgroundWidth, textBackgroundHeight;
     private Case clickedCase;

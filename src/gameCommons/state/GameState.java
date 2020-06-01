@@ -2,25 +2,25 @@ package gameCommons.state;
 
 import gameCommons.Board.Island;
 import gfx.Assets;
-import ui.UiImageButton;
-import ui.UiManager;
+import ui.Button;
+import ui.ObjectManager;
 import util.Handler;
 
 import java.awt.*;
 
 public class GameState extends State {
     public Island island;
-    public UiManager manager;
+    public ObjectManager manager;
 
     public GameState(Handler handler) {
         super(handler);
-        this.manager = new UiManager(handler);
-        handler.getMouseManager().setUiManager(this.manager);
-        this.island = new Island(handler, handler.getIslandLength(), handler.getNumberOfPlayers());
+        this.manager = new ObjectManager(handler);
+        handler.getMouseManager().setObjectManager(this.manager);
+        this.island = new Island(handler, handler.getIslandLength(), handler.getNumberOfPlayers(), handler.getColorArray());
         this.manager.addObject(island);
-        this.manager.addObject(new UiImageButton((float) handler.getSpacing(), (float) handler.getSpacing(), Assets.playerDim, Assets.playerDim, Assets.pause, () -> {
+        this.manager.addObject(new Button((float) handler.getSpacing(), (float) handler.getSpacing(), Assets.playerDim, Assets.playerDim, Assets.pause, () -> {
             handler.saveUiManager(manager);
-            handler.getMouseManager().setUiManager(null);
+            handler.getMouseManager().setObjectManager(null);
             State.setState(new PauseState(handler));
         }));
     }
