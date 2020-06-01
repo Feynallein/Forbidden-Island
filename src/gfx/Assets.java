@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 
 public class Assets {
     public static int dim = 96, playerDim = dim / 3, cardHeightDim = dim * 5 / 3, buttonDim = playerDim*2;
-    /* -> dim = 96, playerDim = 32, cardHeightDim = 160, buttonDim = 64, pixelByCase = 128 */
+    /* -> dim = 96, playerDim = 32, cardHeightDim = 160, buttonDim = 64 */
     public static BufferedImage[] turn;
     public static BufferedImage[] board;
     public static BufferedImage[] pawn;
@@ -59,9 +59,8 @@ public class Assets {
         SpriteSheet playSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Play.png"));
         SpriteSheet mainMenuSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Main_Menu.png"));
 
-
-        board = new BufferedImage[24];
         deck = new BufferedImage[28];
+        board = new BufferedImage[24];
         gauge = new BufferedImage[10];
         keys = new BufferedImage[4];
         artifacts = new BufferedImage[4];

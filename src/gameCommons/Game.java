@@ -1,7 +1,7 @@
 package gameCommons;
 
+import gameCommons.state.GameState;
 import gameCommons.state.MenuState;
-import gameCommons.state.PlayerSelectionState;
 import gameCommons.state.State;
 import gfx.Assets;
 import ui.Observable;
@@ -23,7 +23,7 @@ public class Game extends Observable implements Runnable {
         Handler handler = new Handler(this);
         Assets.init();
         mouseManager = new MouseManager();
-        state = new PlayerSelectionState(handler); //set to menu
+        state = new GameState(handler); //set to menu
         menuState = new MenuState(handler);
         State.setState(state);
     }

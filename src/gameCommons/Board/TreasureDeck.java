@@ -24,6 +24,11 @@ public class TreasureDeck {
         public String getValue() {
             return value;
         }
+
+        @Override
+        public String toString(){
+            return value;
+        }
     }
 
     private ArrayList<Card> deck;
@@ -53,8 +58,8 @@ public class TreasureDeck {
             shuffleDeck();
         }
         Card card = deck.get(0);
-        if (!card.getValue().equals("flooded")) deck.remove(card);
-        else grave.add(card);
+        deck.remove(card);
+        if(card.value.equals("flooded")) grave.add(card);
         return card.getValue();
     }
 

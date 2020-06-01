@@ -17,11 +17,14 @@ public class Handler {
     public int artifact = 0;
     public static Random r = new Random();
     private ObjectManager manager;
-    private ArrayList<Color> colors;
+    private ArrayList<Color> colors = new ArrayList<>();
     private GameState gamestate;
 
     public Handler(Game game) {
         this.game = game;
+        /* debugging */
+        colors.add(Color.GREEN);
+        colors.add(Color.WHITE);
     }
 
     public int getWidth() {
@@ -42,7 +45,7 @@ public class Handler {
 
     public int getPixelByCase() {
         return Assets.dim*4/3;
-    }
+    } /* Pixel by case = 128 */
 
     public int getSpacing() {
         return 10;

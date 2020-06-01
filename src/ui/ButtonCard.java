@@ -33,7 +33,10 @@ public class ButtonCard extends Object {
                 try{Thread.sleep(200);} catch (InterruptedException ignored) {}
             }
         }
-        else g.drawImage(animation[0], (int) x, (int) y, width, height, null);
+        else {
+            /*if(hovering) g.drawImage(Assets.cardBg, (int) x, (int) y, width, height, null);*/
+            g.drawImage(animation[0], (int) x, (int) y, width, height, null);
+        }
     }
 
     @Override
