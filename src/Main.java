@@ -25,3 +25,4 @@ public class Main {
 // - la selection des personnages
 // - commenter le code
 // - continuer d'optimiser
+// - ajouter des boutons "restart, main menu & quit" aux win & lose states

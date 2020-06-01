@@ -11,10 +11,8 @@ import java.awt.*;
 
 public class Game extends Observable implements Runnable {
     //public State menuState;
-    public State gameState;
+    public State gameState; //temporary (because we don't want to go to the menu state first
     public MouseManager mouseManager;
-
-    /* window size */
     private int width;
     private int height;
 

@@ -100,9 +100,6 @@ public class Island implements UiInteracter {
         } else if (floodGauge == 9) { //water level too high
             handler.setDeath(3);
             return true;
-        } else if (floodDeck.getFloodedSize() == 24){ //the board is empty technically impossible but we never know...
-            handler.setDeath(4);
-            return true;
         } else return false;
     }
 
@@ -141,11 +138,16 @@ public class Island implements UiInteracter {
         else if (floodGauge >= 5) flood = 4;
         else if (floodGauge >= 2) flood = 3;
         else flood = 2;
-        if(!floodDeck.enoughCards()) flood = floodDeck.getBoardSize(); //security in case there isn't enough cards //todo: corriger un soucis ici...
         do {
-            Integer[] tile = floodDeck.drawCard(); //TODO : si il y a un joueur, il doit se déplacer sur une case adjacente (automatique... ?)
+            Integer[] tile = floodDeck.drawCard();
             if (cases[tile[0]][tile[1]].getState() == 0) cases[tile[0]][tile[1]].setState(1);
-            else {
+            else if(cases[tile[0]][tile[1]].getState() == 1){
+                ArrayList<Player> onCasePlayers = playersOnTheCase(cases[tile[0]][tile[1]], true);
+                if (onCasePlayers.size() != 0) {
+                    for (Player p : onCasePlayers) {
+                        moveToOtherCase(p, tile[0], tile[1]);
+                    }
+                }
                 cases[tile[0]][tile[1]].setState(2);
                 floodDeck.discard(tile);
             }
@@ -156,6 +158,14 @@ public class Island implements UiInteracter {
         }
         isPlaying++;
         if (isPlaying == player.size()) isPlaying = 0;
+    }
+
+    private void moveToOtherCase(Player p, int x, int y) {
+        if (y + 1 < cases.length && cases[x][y + 1].getState() != 2) movePlayer(cases[x][y + 1], p); //bas
+        else if (y - 1 >= 0 && cases[x][y - 1].getState() != 2) movePlayer(cases[x][y - 1], p); //haut
+        else if (x + 1 < cases.length && cases[x + 1][y].getState() != 2) movePlayer(cases[x + 1][y], p); //gauche
+        else if (x - 1 >= 0 && cases[x - 1][y].getState() != 2) movePlayer(cases[x - 1][y], p); //droite
+        else System.exit(-1);
     }
 
     public void thirstCase(Case clickedCase, boolean nearby) {
@@ -172,49 +182,45 @@ public class Island implements UiInteracter {
         if (!nearby) {
             int i = (player.get(isPlaying).position[0] - xOffset) / (handler.getSpacing() + handler.getPixelByCase());
             int j = (player.get(isPlaying).position[1] - yOffset) / (handler.getSpacing() + handler.getPixelByCase());
-            playerSelectionMenu.setPlayersOnCase(playersOnTheCase(new Case(handler, i, j, xOffset, yOffset)));
+            playerSelectionMenu.setPlayersOnCase(playersOnTheCase(new Case(handler, i, j, xOffset, yOffset), false));
             playerSelectionMenu.setClickedCase(clickedCase);
             playerSelectionMenu.setActive(true);
         } else {
             player.get(isPlaying).position = new int[]{clickedCase.x, clickedCase.y};
-            int[] offsets = alreadyOccupied();
-            player.get(isPlaying).position[0] += Assets.playerDim * offsets[0];
-            player.get(isPlaying).position[1] += Assets.playerDim * offsets[1];
+            player.get(isPlaying).position[0] += Assets.playerDim * alreadyOccupied(player.get(isPlaying));
             player.get(isPlaying).addAction();
+        }
+    }
+
+    public void movePlayer(Case c, Player p2) {
+        if (!blockedPlayer()) {
+            for (Player p : player) {
+                if (p.equals(p2)) {
+                    p.position = new int[]{c.x, c.y};
+                    p.position[0] += Assets.playerDim * alreadyOccupied(p);
+                }
+            }
         }
     }
 
     public void moveMultiplePlayers(ArrayList<Player> playerToMove, Case c) {
         player.get(isPlaying).delSpecialInventory(0);
-        playerToMove.add(player.get(isPlaying));
+        playerToMove.add(0, player.get(isPlaying));
         for (Player p : playerToMove) {
-            for (Player p2 : player) {
-                if (p.equals(p2)) {
-                    p2.position = new int[]{c.x, c.y};
-                    int[] offsets = alreadyOccupied(); //todo: soucis avec le isPlaying au niveau de l'affichage
-                    p2.position[0] += Assets.playerDim * offsets[0];
-                    p2.position[1] += Assets.playerDim * offsets[1];
-                }
-            }
+            movePlayer(c, p);
         }
         player.get(isPlaying).addAction();
     }
 
-    public int[] alreadyOccupied() {
-        int offset = 0, backup = 0, yOffset = 0;
+    public int alreadyOccupied(Player p) {
+        int offset = 0, backup = 0;
         do {
             if (offset != backup) backup = offset;
-            if (offset >= 4) {
-                offset = offset % 4;
-                yOffset++;
-            }
-            for (int i = 0; i < player.size(); i++) {
-                if (i != isPlaying && player.get(i).position[0] == player.get(isPlaying).position[0] + offset * Assets.playerDim &&
-                        player.get(i).position[1] == player.get(isPlaying).position[1] + yOffset * Assets.playerDim)
-                    offset++;
+            for (Player value : player) {
+                if (!value.equals(p) && value.position[0] == p.position[0] + offset * Assets.playerDim && value.position[1] == p.position[1]) offset++;
             }
         } while (offset != backup);
-        return new int[]{offset, yOffset};
+        return offset;
     }
 
     public void gatherArtifact(int num) {
@@ -223,10 +229,10 @@ public class Island implements UiInteracter {
         player.get(isPlaying).addAction();
     }
 
-    public ArrayList<Player> playersOnTheCase(Case c) {
+    public ArrayList<Player> playersOnTheCase(Case c, boolean noPlayerPlaying) {
         ArrayList<Player> res = new ArrayList<>();
         for (Player p : player) {
-            if (onCase(p, c) && !p.equals(player.get(isPlaying))) res.add(p);
+            if (onCase(p, c) && (noPlayerPlaying || !p.equals(player.get(isPlaying)))) res.add(p);
         }
         return res;
     }
@@ -281,7 +287,6 @@ public class Island implements UiInteracter {
                 aCase[j].update();
             }
         }
-
     }
 
     public void render(Graphics g) {
@@ -335,10 +340,10 @@ public class Island implements UiInteracter {
         if (menu.isActive()) menu.onMouseClicked(e);
         else if (discardMenu.isActive()) discardMenu.onMouseClicked(e);
         else if (playerSelectionMenu.isActive()) playerSelectionMenu.onMouseClicked(e);
-        else if (player.get(isPlaying).nearPlayer(e) || player.get(isPlaying).getSpecialInventory(0) != 0 || player.get(isPlaying).getSpecialInventory(0) != 0) {
+        else if (nearPlayer(e) || player.get(isPlaying).getSpecialInventory(0) != 0 || player.get(isPlaying).getSpecialInventory(0) != 0) {
             Case clickedCase = getClickedCase(e);
             if (clickedCase != null) {
-                if (!player.get(isPlaying).nearPlayer(e)) this.menu.setNearby(false);
+                if (!nearPlayer(e)) this.menu.setNearby(false);
                 else this.menu.setNearby(true);
                 this.menu.setX(e.getX());
                 this.menu.setY(e.getY());
@@ -348,6 +353,16 @@ public class Island implements UiInteracter {
             }
         }
         endOfTurnButton.onMouseClicked(e);
+    }
+
+    public boolean nearPlayer(MouseEvent e) {
+        int i = (player.get(isPlaying).position[0] - xOffset) / (handler.getSpacing() + handler.getPixelByCase());
+        int j = (player.get(isPlaying).position[1] - yOffset) / (handler.getSpacing() + handler.getPixelByCase());
+        i = i*(handler.getSpacing() + handler.getPixelByCase()) + xOffset;
+        j = j*(handler.getSpacing() + handler.getPixelByCase()) + yOffset;
+        Rectangle horizontalPos = new Rectangle(i - handler.getPixelByCase() - handler.getSpacing(), j, 3 * handler.getPixelByCase() + 2*handler.getSpacing(), handler.getPixelByCase());
+        Rectangle verticalPos = new Rectangle(i, j - handler.getPixelByCase() - handler.getSpacing(), handler.getPixelByCase(), 3 * handler.getPixelByCase() + 2*handler.getSpacing());
+        return horizontalPos.contains(e.getX(), e.getY()) || verticalPos.contains(e.getX(), e.getY());
     }
 
     @Override

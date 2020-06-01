@@ -40,7 +40,7 @@ public class Menu implements UiInteracter {
     public void update() {
         if (!isVisible) return;
         setRectangleAndTexts();
-        players = island.playersOnTheCase(clickedCase);
+        players = island.playersOnTheCase(clickedCase, false);
         onCase = island.onCase(player, clickedCase);
     }
 

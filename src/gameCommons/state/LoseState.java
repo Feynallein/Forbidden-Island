@@ -15,8 +15,7 @@ public class LoseState extends State {
         deathReasons = new String[]{"You lose! The heliport is flooded!",
                 "You lose! the " + Utils.colorToString(handler.color) + " player drowned!",
                 "You lose! All the " + Utils.artifactValueToString(handler.artifact) + " drowned!",
-                "You lose! The water is too high!",
-                "You lose! All the island drowned!"};
+                "You lose! The water is too high!"};
     }
 
     @Override
@@ -25,7 +24,6 @@ public class LoseState extends State {
 
     @Override
     public void render(Graphics g) {
-
         Text.drawString(g, deathReasons[handler.death], handler.getWidth() / 2, handler.getHeight() / 2, true, Color.BLACK, Assets.font45);
     }
 }

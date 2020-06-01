@@ -115,12 +115,6 @@ public class Player implements UiInteracter {
 
     }
 
-    public boolean nearPlayer(MouseEvent e) {
-        Rectangle horizontalPos = new Rectangle(position[0] - handler.getPixelByCase(), position[1], 3 * handler.getPixelByCase(), handler.getPixelByCase());
-        Rectangle verticalPos = new Rectangle(position[0], position[1] - handler.getPixelByCase(), handler.getPixelByCase(), 3 * handler.getPixelByCase());
-        return horizontalPos.contains(e.getX(), e.getY()) || verticalPos.contains(e.getX(), e.getY());
-    }
-
     /* Getters & Setters */
 
     public int getAction() {
