@@ -143,10 +143,10 @@ public class ActionMenu implements Interacts {
     public void setRectangleAndTexts() {
         bounds.clear();
         texts.clear();
-        if (!onCase && clickedCase.getState() == 0 && player.getAction() < 3 && (nearby || player.getSpecialInventory(0) != 0)) {
+        if (!onCase && clickedCase.getState() == 0 && ((nearby && player.getAction() < 3) || player.getSpecialInventory(0) > 0)) {
             texts.add("Move");
         }
-        if (clickedCase.getState() == 1 && player.getAction() < 3 && (nearby || player.getSpecialInventory(1) != 0)) {
+        if (clickedCase.getState() == 1 && ((nearby && player.getAction() < 3) || player.getSpecialInventory(1) > 0)) {
             texts.add("Thirst");
         }
         if (onCase && clickedCase.getState() != 2 && player.getAction() < 3 && nearby) {

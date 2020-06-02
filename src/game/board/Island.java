@@ -189,7 +189,7 @@ public class Island implements Interacts {
                 if (aCase[j] == clickedCase && aCase[j].getState() == 1) aCase[j].setState(0);
             }
         }
-        if (!nearby) player.get(isPlaying).delSpecialInventory(1);
+        if (!nearby) discard(5);
         else player.get(isPlaying).addAction();
     }
 
@@ -222,12 +222,11 @@ public class Island implements Interacts {
 
     /* Move multiple players to a selected case */
     public void moveMultiplePlayers(ArrayList<Player> playerToMove, Case c) {
-        player.get(isPlaying).delSpecialInventory(0);
         playerToMove.add(0, player.get(isPlaying));
         for (Player p : playerToMove) {
             movePlayer(c, p);
         }
-        player.get(isPlaying).addAction();
+        discard(4);
     }
 
     /* Return an offset if the case is already occupied by a player */
@@ -368,16 +367,15 @@ public class Island implements Interacts {
         if (actionMenu.isActive()) actionMenu.onMouseClicked(e);
         else if (discardMenu.isActive()) discardMenu.onMouseClicked(e);
         else if (playerSelectionMenu.isActive()) playerSelectionMenu.onMouseClicked(e);
-        else if (nearPlayer(e) || player.get(isPlaying).getSpecialInventory(0) != 0 || player.get(isPlaying).getSpecialInventory(0) != 0) {
+        else if (nearPlayer(e) || player.get(isPlaying).getSpecialInventory(0) > 0 || player.get(isPlaying).getSpecialInventory(1) > 0) {
             Case clickedCase = getClickedCase(e);
             if (clickedCase != null) {
-                if (!nearPlayer(e)) this.actionMenu.setNearby(false);
-                else this.actionMenu.setNearby(true);
-                this.actionMenu.setX(e.getX());
-                this.actionMenu.setY(e.getY());
-                this.actionMenu.setClickedCase(clickedCase);
-                this.actionMenu.setPlayer(player.get(isPlaying));
-                this.actionMenu.setVisible(true);
+                actionMenu.setNearby(nearPlayer(e));
+                actionMenu.setX(e.getX());
+                actionMenu.setY(e.getY());
+                actionMenu.setClickedCase(clickedCase);
+                actionMenu.setPlayer(player.get(isPlaying));
+                actionMenu.setVisible(true);
             }
         }
         endOfTurnButton.onMouseClicked(e);
