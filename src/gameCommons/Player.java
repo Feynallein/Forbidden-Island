@@ -31,7 +31,7 @@ public class Player implements Interacts {
         this.action = 0;
     }
 
-    /* return the sum of the player's inventory */
+    /* Return the sum of the player's inventory */
     public int inventorySize() {
         int size = 0;
         for (int i : inventory) {
@@ -86,7 +86,7 @@ public class Player implements Interacts {
         }
     }
 
-    /* Render the Description */
+    /* Render the description */
     public void renderDescription(Graphics g) {
         g.drawImage(descSprite, handler.getWidth() - 5 * Assets.dim - handler.getSpacing() * 3, handler.getSpacing() * 2, 5 * Assets.dim, 4 * Assets.dim, null);
     }

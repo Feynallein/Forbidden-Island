@@ -14,7 +14,7 @@ public class GameState extends State {
 
     public GameState(Handler handler) {
         super(handler);
-        this.manager = new ObjectManager(handler);
+        this.manager = new ObjectManager();
         this.handler.getMouseManager().setObjectManager(manager);
         island = new Island(handler, handler.getIslandLength(), handler.getNumberOfPlayers(), handler.getColorArray());
         manager.addObject(island);
@@ -24,6 +24,8 @@ public class GameState extends State {
             State.setState(new PauseState(handler));
         }));
     }
+
+    /* Update & Render */
 
     @Override
     public void update() {

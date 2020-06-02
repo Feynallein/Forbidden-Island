@@ -17,7 +17,7 @@ public class PlayerSelectionState extends State {
 
     public PlayerSelectionState(Handler handler) {
         super(handler);
-        this.manager = new ObjectManager(handler);
+        this.manager = new ObjectManager();
         initializeColor();
         handler.getMouseManager().setObjectManager(manager);
         int i = 0;
@@ -40,6 +40,8 @@ public class PlayerSelectionState extends State {
         }));
     }
 
+    /* Initialize the color array */
+
     private void initializeColor() {
         color.add(Color.GREEN);
         color.add(Color.RED);
@@ -48,6 +50,8 @@ public class PlayerSelectionState extends State {
         color.add(Color.BLACK);
         color.add(Color.WHITE);
     }
+
+    /* Update & Render */
 
     @Override
     public void update() {

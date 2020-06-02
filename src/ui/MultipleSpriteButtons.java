@@ -11,13 +11,16 @@ public class MultipleSpriteButtons extends Object {
     private ClickListener clicker;
     private int spriteCounter;
 
-    public MultipleSpriteButtons(float x1, float y, int width1, int height, int[] xes, int[] widths, ArrayList<BufferedImage[]> sprites, ClickListener clicker) {
+    public MultipleSpriteButtons(float x1, float y, int width1, int height, int[] xes, int[] widths, ArrayList<BufferedImage[]> sprites, int beginning, ClickListener clicker) {
         super(x1, y, width1, height);
         this.sprites = sprites;
         this.xes = xes;
         this.widths = widths;
         this.clicker = clicker;
+        this.spriteCounter = beginning;
     }
+
+    /* Update & Render */
 
     @Override
     public void update() {
@@ -34,10 +37,12 @@ public class MultipleSpriteButtons extends Object {
             g.drawImage(sprites.get(spriteCounter)[0], xes[spriteCounter], (int) y, widths[spriteCounter], height, null);
     }
 
+    /* Clicker */
+
     @Override
     public void onClick() {
         clicker.onClick();
         spriteCounter++;
-        if(spriteCounter == sprites.size()) spriteCounter = 0;
+        if (spriteCounter == sprites.size()) spriteCounter = 0;
     }
 }

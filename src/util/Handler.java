@@ -35,7 +35,11 @@ public class Handler {
         this.display = display;
     }
 
-    public void setGame(Game game){
+    public Display getDisplay() {
+        return display;
+    }
+
+    public void setGame(Game game) {
         this.game = game;
     }
 

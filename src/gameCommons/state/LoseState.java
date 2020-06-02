@@ -8,6 +8,7 @@ import util.Handler;
 import util.Utils;
 
 import java.awt.*;
+import java.io.IOException;
 
 public class LoseState extends State {
     private String[] deathReasons;
@@ -19,7 +20,7 @@ public class LoseState extends State {
                 "You lose! the " + Utils.colorToString(handler.color) + " player drowned!",
                 "You lose! All the " + Utils.artifactValueToString(handler.artifact) + " drowned!",
                 "You lose! The water is too high!"};
-        manager = new ObjectManager(handler);
+        manager = new ObjectManager();
         handler.getMouseManager().setObjectManager(manager);
         manager.addObject(new ui.Button((float) (handler.getWidth() - 7 * Assets.playerDim) / 2, (float) (handler.getHeight() * 5 / 8 - Assets.buttonDim / 2), 7 * Assets.playerDim, Assets.buttonDim,
                 Assets.restart, () -> State.setState(new PlayerSelectionState(handler))));
@@ -29,8 +30,16 @@ public class LoseState extends State {
             State.setState(new MenuState(handler));
         }));
         manager.addObject(new Button((float) (handler.getWidth() - (Assets.dim + Assets.playerDim)) / 2, (float) (handler.getHeight() * 7 / 8 - Assets.buttonDim / 2), Assets.dim + Assets.playerDim, Assets.buttonDim,
-                Assets.quit, () -> System.exit(0)));
+                Assets.quit, () -> {
+            try {
+                Utils.terminate(handler);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }));
     }
+
+    /* Update & Render */
 
     @Override
     public void update() {

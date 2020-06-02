@@ -43,6 +43,8 @@ public class PlayerSelectionMenu implements Interacts {
         });
     }
 
+    /* Update & Render */
+
     @Override
     public void update() {
 
@@ -68,6 +70,8 @@ public class PlayerSelectionMenu implements Interacts {
         go.render(g);
         returned.render(g);
     }
+
+    /* Mouse Manager */
 
     @Override
     public void onMouseMove(MouseEvent e) {
@@ -104,6 +108,8 @@ public class PlayerSelectionMenu implements Interacts {
         go.onMouseReleased(e);
         returned.onMouseReleased(e);
     }
+
+    /* Getters & Setters */
 
     public void setActive(boolean b) {
         active = b;

@@ -21,6 +21,8 @@ public class AnimatedCard extends Object {
         this.handler = handler;
     }
 
+    /* Update & Render */
+
     @Override
     public void update() {
     }
@@ -43,6 +45,8 @@ public class AnimatedCard extends Object {
             g.drawImage(animation[0], (int) x, (int) y, width, height, null);
         }
     }
+
+    /* Clicker */
 
     @Override
     public void onClick() {

@@ -20,7 +20,7 @@ public class Island implements Interacts {
     public Case[][] cases;
     public int xOffset, yOffset;
     public ArrayList<Player> player;
-    private int isPlaying;
+    private int isPlaying, floodGauge, flood;
     private boolean[] artifactsGathered;
     private int[] heliport = new int[4];
     private int[][] casesWithArtifacts = new int[4][4];
@@ -28,7 +28,6 @@ public class Island implements Interacts {
     public Menu menu;
     public TreasureDeck treasureDeck;
     private DiscardMenu discardMenu;
-    private int floodGauge, flood;
     private FloodDeck floodDeck;
     private Button endOfTurnButton;
     private PlayerSelectionMenu playerSelectionMenu;
@@ -60,6 +59,7 @@ public class Island implements Interacts {
         init(numberOfPlayers);
     }
 
+    /* Initialize the board and the players */
     private void init(int numberOfPlayer) {
         int offset;
         for (int i = 0; i < cases.length; i++) {
@@ -77,62 +77,7 @@ public class Island implements Interacts {
         }
     }
 
-    public boolean win() {
-        for (boolean b : artifactsGathered) {
-            if (!b) return false;
-            for (Player p : player) {
-                if (!(p.position[0] >= heliport[0] && p.position[0] <= heliport[0] + handler.getPixelByCase() && p.position[1] >= heliport[1] && p.position[1] <= heliport[1] + handler.getPixelByCase()))
-                    return false;
-            }
-        }
-        return false;
-    }
-
-    public boolean lose() {
-        if (cases[heliport[2]][heliport[3]].getState() == 2) { //flooded heliport
-            handler.setDeath(0);
-            return true;
-        } else if (blockedPlayer()) { //blocked player
-            handler.setDeath(1);
-            return true;
-        } else if (drownedArtifact()) { //artifact's location flooded
-            handler.setDeath(2);
-            return true;
-        } else if (floodGauge == 9) { //water level too high
-            handler.setDeath(3);
-            return true;
-        } else return false;
-    }
-
-    public boolean blockedPlayer() {
-        Case[] c = new Case[4];
-        int[] verify = new int[4];
-        for (Player p : player) {
-            for (int i = -1; i < 2; i += 2) {
-                c[i + 1] = getClickedCase(new MouseEvent(new java.awt.Button(), 0, 0, 0, p.position[0] + i * (handler.getPixelByCase() + handler.getSpacing()), p.position[1], 0, false));
-                c[i + 2] = getClickedCase(new MouseEvent(new java.awt.Button(), 0, 0, 0, p.position[0], p.position[1] + i * (handler.getPixelByCase() + handler.getSpacing()), 0, false));
-            }
-            for (int i = 0; i < verify.length; i++) {
-                verify[i] = c[i] == null ? 1 : 0;
-            }
-            if (Utils.allEquals(verify, 1)) {
-                handler.setColor(p.color);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean drownedArtifact() {
-        for (int i = 0; i < casesWithArtifacts.length; i++) {
-            if (!cases[casesWithArtifacts[i][0]][casesWithArtifacts[i][1]].isVisible && !cases[casesWithArtifacts[i][2]][casesWithArtifacts[i][3]].isVisible && !artifactsGathered[i]) {
-                handler.setArtifact(i);
-                return true;
-            }
-        }
-        return false;
-    }
-
+    /* End of turn methode */
     public void endOfTurn() {
         int i = 0;
         if (floodGauge >= 7) flood = 5;
@@ -161,6 +106,74 @@ public class Island implements Interacts {
         if (isPlaying == player.size()) isPlaying = 0;
     }
 
+    /* Return if the players win */
+    public boolean win() {
+        for (boolean b : artifactsGathered) {
+            if (!b) return false;
+            for (Player p : player) {
+                if (!(p.position[0] >= heliport[0] && p.position[0] <= heliport[0] + handler.getPixelByCase() && p.position[1] >= heliport[1] && p.position[1] <= heliport[1] + handler.getPixelByCase()))
+                    return false;
+            }
+        }
+        return false;
+    }
+
+    /* Return if the player lose */
+    public boolean lose() {
+        /* The heliport is flooded */
+        if (cases[heliport[2]][heliport[3]].getState() == 2) {
+            handler.setDeath(0);
+            return true;
+        }
+        /* A player drowned */
+        else if (drownedPlayer()) {
+            handler.setDeath(1);
+            return true;
+        }
+        /* All one type of non-gathered artifact's temple drowned */
+        else if (drownedArtifact()) {
+            handler.setDeath(2);
+            return true;
+        }
+        /* The water level is too high */
+        else if (floodGauge == 9) {
+            handler.setDeath(3);
+            return true;
+        } else return false;
+    }
+
+    /* Return if a player drowned */
+    private boolean drownedPlayer() {
+        Case[] c = new Case[4];
+        int[] verify = new int[4];
+        for (Player p : player) {
+            for (int i = -1; i < 2; i += 2) {
+                c[i + 1] = getClickedCase(new MouseEvent(new java.awt.Button(), 0, 0, 0, p.position[0] + i * (handler.getPixelByCase() + handler.getSpacing()), p.position[1], 0, false));
+                c[i + 2] = getClickedCase(new MouseEvent(new java.awt.Button(), 0, 0, 0, p.position[0], p.position[1] + i * (handler.getPixelByCase() + handler.getSpacing()), 0, false));
+            }
+            for (int i = 0; i < verify.length; i++) {
+                verify[i] = c[i] == null ? 1 : 0;
+            }
+            if (Utils.allEquals(verify, 1)) {
+                handler.setColor(p.color);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /* Return if all one type of non-gathered artifact's temple drowned */
+    private boolean drownedArtifact() {
+        for (int i = 0; i < casesWithArtifacts.length; i++) {
+            if (!cases[casesWithArtifacts[i][0]][casesWithArtifacts[i][1]].isVisible && !cases[casesWithArtifacts[i][2]][casesWithArtifacts[i][3]].isVisible && !artifactsGathered[i]) {
+                handler.setArtifact(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /* Move a player to an other random case */ //todo make it random
     private void moveToOtherCase(Player p, int x, int y) {
         if (y + 1 < cases.length && cases[x][y + 1].getState() != 2) movePlayer(cases[x][y + 1], p); //bas
         else if (y - 1 >= 0 && cases[x][y - 1].getState() != 2) movePlayer(cases[x][y - 1], p); //haut
@@ -169,6 +182,7 @@ public class Island implements Interacts {
         else System.exit(-1);
     }
 
+    /* Thirst the selected case */
     public void thirstCase(Case clickedCase, boolean nearby) {
         for (Case[] aCase : cases) {
             for (int j = 0; j < cases.length; j++) {
@@ -179,6 +193,7 @@ public class Island implements Interacts {
         else player.get(isPlaying).addAction();
     }
 
+    /* Move a player to the selected case */
     public void movePlayer(Case clickedCase, boolean nearby) {
         if (!nearby) {
             int i = (player.get(isPlaying).position[0] - xOffset) / (handler.getSpacing() + handler.getPixelByCase());
@@ -193,8 +208,9 @@ public class Island implements Interacts {
         }
     }
 
-    public void movePlayer(Case c, Player p2) {
-        if (!blockedPlayer()) {
+    /* Move player to a selected case */
+    private void movePlayer(Case c, Player p2) {
+        if (!drownedPlayer()) {
             for (Player p : player) {
                 if (p.equals(p2)) {
                     p.position = new int[]{c.x, c.y};
@@ -204,17 +220,18 @@ public class Island implements Interacts {
         }
     }
 
+    /* Move multiple players to a selected case */
     public void moveMultiplePlayers(ArrayList<Player> playerToMove, Case c) {
         player.get(isPlaying).delSpecialInventory(0);
         playerToMove.add(0, player.get(isPlaying));
-        System.out.println(c.toString());
         for (Player p : playerToMove) {
             movePlayer(c, p);
         }
         player.get(isPlaying).addAction();
     }
 
-    public int alreadyOccupied(Player p) {
+    /* Return an offset if the case is already occupied by a player */
+    private int alreadyOccupied(Player p) {
         int offset = 0, backup = 0;
         do {
             if (offset != backup) backup = offset;
@@ -226,12 +243,14 @@ public class Island implements Interacts {
         return offset;
     }
 
+    /* Gather a type of artifact */
     public void gatherArtifact(int num) {
         artifactsGathered[num] = true;
         player.get(isPlaying).inventory[num] -= 4;
         player.get(isPlaying).addAction();
     }
 
+    /* Return an array with all the players on a selected case */
     public ArrayList<Player> playersOnTheCase(Case c, boolean noPlayerPlaying) {
         ArrayList<Player> res = new ArrayList<>();
         for (Player p : player) {
@@ -240,10 +259,12 @@ public class Island implements Interacts {
         return res;
     }
 
+    /* Return if there is a player on a selected case */
     public boolean onCase(Player p, Case c) {
         return p.position[0] >= c.x && p.position[0] <= c.x + handler.getPixelByCase() && p.position[1] >= c.y && p.position[1] <= c.y + handler.getPixelByCase();
     }
 
+    /* Trade an artifact with a player */
     public void trade(Player p, int artifactValue) {
         for (Player players : player) {
             if (players == p) players.addInventory(artifactValue);
@@ -251,6 +272,7 @@ public class Island implements Interacts {
         }
     }
 
+    /* Draw a card */
     public void draw() {
         String effect = treasureDeck.drawCard();
         switch (effect) {
@@ -274,6 +296,7 @@ public class Island implements Interacts {
         }
     }
 
+    /* Discard a card */
     public void discard(int i) {
         if (i < 4) treasureDeck.discard(new TreasureDeck.Card(Assets.keys[i], Utils.invValueToString(i)));
         else treasureDeck.discard(new TreasureDeck.Card(Assets.specialCards[i - 4], Utils.invValueToString(i)));
@@ -281,7 +304,7 @@ public class Island implements Interacts {
     }
 
 
-    /* UPDATE & RENDER */
+    /* Update & Render */
 
     public void update() {
         menu.update();
@@ -293,41 +316,42 @@ public class Island implements Interacts {
     }
 
     public void render(Graphics g) {
-        //render the button
+        /* Render the end of turn button */
         endOfTurnButton.render(g);
-        //render "it's player.isPlaying's turn"
+        /* Render the text */
         Text.drawString(g, "It's " + player.get(isPlaying).toString() + "'s turn.", handler.getWidth() / 2, 50, true, Color.WHITE, Assets.font45);
-        //render the board
+        /* Render the board */
         for (Case[] aCase : cases) {
             for (int j = 0; j < cases[0].length; j++) {
                 aCase[j].render(g);
             }
         }
-        //render the players
+        /* Render the players */
         for (Player p : player) {
             p.render(g);
         }
-        //render the gathered artifacts
+        /* Render the gathered artifacts */
         artifactRender(g);
-        //render the special inventory
+        /* Render the special inventory */
         player.get(isPlaying).renderSpecialInventory(g);
-        //render player's description
+        /* Render the player's description */
         player.get(isPlaying).renderDescription(g);
-        //render the deck
+        /* Render the deck */
         if (!treasureDeck.isEmpty())
             g.drawImage(Assets.cardsBack, handler.getWidth() - 3 * Assets.dim - 3 * handler.getSpacing(), handler.getHeight() - (Assets.dim + Assets.dim * 2 / 3 + handler.getSpacing() * 4), null);
         g.drawImage(treasureDeck.lastGraveCardSprite(), handler.getWidth() - 2 * Assets.dim - handler.getSpacing(), handler.getHeight() - (Assets.dim + Assets.dim * 2 / 3 + handler.getSpacing() * 4), Assets.dim, Assets.cardHeightDim, null);
-        //render action
+        /* Render the action's text */
         Text.drawString(g, "Actions left :", handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2, true, Color.WHITE, Assets.font45);
         Text.drawString(g, Integer.toString(3 - player.get(isPlaying).getAction()), handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2 + 50, true, Color.WHITE, Assets.font45);
-        //render the gauge
+        /* Render the gauge */
         g.drawImage(Assets.gauge[floodGauge], handler.getWidth() - 2 * handler.getSpacing(), handler.getSpacing(), Assets.gauge[flood].getWidth(), handler.getHeight() - 30, null); //-> futur jauge
-        //render the menus
+        /* Render the different menus if they are active */
         menu.render(g);
         discardMenu.render(g);
         playerSelectionMenu.render(g);
     }
 
+    /* Render the gathered artifacts */
     private void artifactRender(Graphics g) {
         for (int i = 0; i < artifactsGathered.length; i++) {
             if (artifactsGathered[i]) {
@@ -339,6 +363,7 @@ public class Island implements Interacts {
     }
 
     /* Mouse Manager */
+
     public void onMouseClicked(MouseEvent e) {
         if (menu.isActive()) menu.onMouseClicked(e);
         else if (discardMenu.isActive()) discardMenu.onMouseClicked(e);
@@ -398,6 +423,7 @@ public class Island implements Interacts {
 
     /* Getters & Setters */
 
+    /* Return an array with they location of the starter cases for each colors */
     public int[] getStarterCases(Color color) {
         for (int i = 0; i < cases.length; i++) {
             for (int j = 0; j < cases.length; j++) {
@@ -413,6 +439,7 @@ public class Island implements Interacts {
         return null;
     }
 
+    /* Get a random tile in the array */
     public int getBoardTile() {
         int number;
         do {
@@ -422,6 +449,7 @@ public class Island implements Interacts {
         return number;
     }
 
+    /* Get the clicked case */
     public Case getClickedCase(MouseEvent e) {
         int i = (e.getX() - xOffset) / (handler.getSpacing() + handler.getPixelByCase());
         int j = (e.getY() - yOffset) / (handler.getSpacing() + handler.getPixelByCase());

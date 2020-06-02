@@ -13,10 +13,12 @@ public class CreditsState extends State {
 
     CreditsState(Handler handler) {
         super(handler);
-        this.manager = new ObjectManager(handler);
+        this.manager = new ObjectManager();
         this.handler.getMouseManager().setObjectManager(manager);
         this.manager.addObject(new Button((float) (handler.getWidth() * 3 / 4), (float) (handler.getHeight() * 3 / 4), Assets.playerDim * 2, Assets.playerDim * 2, Assets.returned, () -> State.setState(new MenuState(handler))));
     }
+
+    /* Update & Render */
 
     @Override
     public void update() {

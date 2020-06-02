@@ -6,6 +6,8 @@ import util.Handler;
 import java.awt.*;
 
 public abstract class State {
+    /* --------------- STATIC --------------- */
+
     private static State currentState = null;
     protected ObjectManager manager;
 
@@ -17,11 +19,15 @@ public abstract class State {
         return currentState;
     }
 
+    /* --------------- CLASS --------------- */
+
     protected Handler handler;
 
     State(Handler handler) {
         this.handler = handler;
     }
+
+    /* Update & Render */
 
     public abstract void update();
 

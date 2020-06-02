@@ -44,7 +44,7 @@ public class Case implements Interacts {
     }
 
 
-    /* UPDATE & RENDER */
+    /* Update & Render */
 
     @Override
     public void update() {
@@ -65,13 +65,7 @@ public class Case implements Interacts {
         }
     }
 
-    @Override
-    public String toString() {
-        return x + " " + y;
-    }
-
-
-    /* MOUSE MANAGER */
+    /* Mouse Manager */
 
     @Override
     public void onMouseClicked(MouseEvent e) {
@@ -94,7 +88,7 @@ public class Case implements Interacts {
     }
 
 
-    /* GETTERS AND SETTERS */
+    /* Getters & Setters */
 
     public int getState() {
         return state;

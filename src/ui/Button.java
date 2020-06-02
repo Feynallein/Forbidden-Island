@@ -13,6 +13,8 @@ public class Button extends Object {
         this.clicker = clicker;
     }
 
+    /* Update & Render */
+
     @Override
     public void update() {
     }
@@ -27,8 +29,13 @@ public class Button extends Object {
             g.drawImage(sprite[0], (int) x, (int) y, width, height, null);
     }
 
+    /* Cliker */
+
     @Override
     public void onClick() {
-        clicker.onClick();
+        try {
+            clicker.onClick();
+        } catch (Exception ignored) {
+        }
     }
 }

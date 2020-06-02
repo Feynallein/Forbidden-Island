@@ -2,7 +2,6 @@ package gameCommons;
 
 import gameCommons.state.MenuState;
 import gameCommons.state.State;
-import gfx.Assets;
 import ui.Observable;
 import util.Handler;
 import util.MouseManager;
@@ -14,18 +13,19 @@ public class Game extends Observable implements Runnable {
 
     public Game(Handler handler) {
         handler.setGame(this);
-        Assets.init(handler);
         mouseManager = new MouseManager();
         State menuState = new MenuState(handler);
         State.setState(menuState);
     }
 
+    /* Render method */
     public void render(Graphics g) {
         if (State.getState() != null) {
             State.getState().render(g);
         }
     }
 
+    /* Game loop */
     @Override
     public void run() {
         if (State.getState() != null) {

@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class TreasureDeck {
+    /* Sub-Class Card */
     static class Card {
         private BufferedImage sprite;
         private String value;
@@ -32,13 +33,14 @@ public class TreasureDeck {
     }
 
     private ArrayList<Card> deck;
-    private ArrayList<Card> grave;
+    private ArrayList<Card> graveyard;
 
     public TreasureDeck() {
         deck = shuffleDeck();
-        grave = new ArrayList<>();
+        graveyard = new ArrayList<>();
     }
 
+    /* Shuffle the deck */
     private ArrayList<Card> shuffleDeck() {
         ArrayList<Integer> alreadyUsedNumbers = new ArrayList<>();
         ArrayList<Card> res = new ArrayList<>();
@@ -53,25 +55,29 @@ public class TreasureDeck {
         return res;
     }
 
+    /* Draw a card */
     public String drawCard() {
         if (deck.isEmpty()) {
             shuffleDeck();
         }
         Card card = deck.get(0);
         deck.remove(card);
-        if (card.value.equals("flooded")) grave.add(card);
+        if (card.value.equals("flooded")) graveyard.add(card);
         return card.getValue();
     }
 
+    /* Return the sprite of the last card in the graveyard */
     public BufferedImage lastGraveCardSprite() {
-        return grave.isEmpty() ? new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB) : grave.get(grave.size() - 1).getSprite();
+        return graveyard.isEmpty() ? new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB) : graveyard.get(graveyard.size() - 1).getSprite();
     }
 
+    /* Return true if the deck is empty */
     public boolean isEmpty() {
         return this.deck.isEmpty();
     }
 
+    /* Add a card to the graveyard */
     public void discard(Card card) {
-        this.grave.add(card);
+        this.graveyard.add(card);
     }
 }

@@ -9,7 +9,7 @@ class SpriteSheet {
         this.sheet = sheet;
     }
 
-    //crop which part of the buffered image we want
+    /* Return a sub image of the sprite sheet */
     BufferedImage crop(int x, int y, int width, int height) {
         return sheet.getSubimage(x, y, width, height);
     }

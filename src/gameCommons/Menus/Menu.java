@@ -110,7 +110,7 @@ public class Menu implements Interacts {
     }
 
 
-    /* GETTERS & SETTERS */
+    /* Getters & Setters */
 
     public void setX(int x) {
         this.x = x;

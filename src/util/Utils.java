@@ -6,9 +6,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Properties;
 
 public abstract class Utils {
+    /* Convert number of the starer to a color */
     public static Color getStarterColors(int spriteNumber) {
         switch (spriteNumber) {
             case 0:
@@ -28,6 +28,7 @@ public abstract class Utils {
         }
     }
 
+    /* Convert color to a string */
     public static String colorToString(Color c) {
         if (c == Color.BLACK) return "black";
         else if (c == Color.BLUE) return "blue";
@@ -43,6 +44,7 @@ public abstract class Utils {
         }
     }
 
+    /* Convert a color to the equivalent pawn's buffered image */
     public static BufferedImage colorToPawn(Color c) {
         if (c == Color.BLACK) return Assets.pawn[4];
         else if (c == Color.BLUE) return Assets.pawn[3];
@@ -57,6 +59,7 @@ public abstract class Utils {
         }
     }
 
+    /* Convert a color to the equivalent card's buffered image */
     public static BufferedImage colorToSprite(Color c) {
         if (c == Color.BLACK) return Assets.player[4];
         else if (c == Color.BLUE) return Assets.player[2];
@@ -71,6 +74,7 @@ public abstract class Utils {
         }
     }
 
+    /* Convert the tile's number in the array to true if it's an artifact */
     public static boolean isArtifact(int num) {
         int[] areArtifacts = {16, 17, 18, 19, 20, 21, 22, 23};
         for (int i : areArtifacts) {
@@ -79,6 +83,7 @@ public abstract class Utils {
         return false;
     }
 
+    /* Convert the tile's number in the array to the type of artifact */
     public static int artifactToValue(int num) {
         if (num == 16 || num == 17) return 1;
         else if (num == 18 || num == 19) return 0;
@@ -87,6 +92,7 @@ public abstract class Utils {
         else return -1;
     }
 
+    /* Convert an artifact type to an X location */
     public static int numToX(int num) {
         switch (num) {
             case 0:
@@ -101,6 +107,7 @@ public abstract class Utils {
         }
     }
 
+    /* Convert an artifact type to an Y location */
     public static int numToY(int num) {
         switch (num) {
             case 0:
@@ -115,6 +122,7 @@ public abstract class Utils {
         }
     }
 
+    /* Return true if an array is filled with the same value */
     public static boolean allEquals(int[] array, int value) {
         for (int i : array) {
             if (i != value) return false;
@@ -122,6 +130,7 @@ public abstract class Utils {
         return true;
     }
 
+    /* Convert the artifact type to a string of the same type */
     public static String artifactValueToString(int i) {
         switch (i) {
             case 0:
@@ -138,6 +147,7 @@ public abstract class Utils {
         }
     }
 
+    /* Convert a value in the deck array to a type */
     public static String valueToString(int value) {
         if (value >= 0 && value <= 2) return "helicopter";
         else if (value >= 3 && value <= 5) return "flooded";
@@ -149,6 +159,7 @@ public abstract class Utils {
         else return "";
     }
 
+    /* Return a value from the inventory to a deck type */
     public static String invValueToString(int value) {
         if (value == 0) return "18";
         else if (value == 1) return "16";
@@ -159,6 +170,7 @@ public abstract class Utils {
         else return "";
     }
 
+    /* Concert a color to a description buffered image */
     public static BufferedImage colorToDesc(Color c) {
         if (c == Color.BLACK) return Assets.playerDescription[4];
         else if (c == Color.BLUE) return Assets.playerDescription[2];
@@ -173,8 +185,10 @@ public abstract class Utils {
         }
     }
 
-    public static void terminate(Properties file) throws IOException {
-        file.store(new FileWriter("Resources/settings.properties"), "store settings file");
+    /* Terminate the program and saving the settings */
+    public static void terminate(Handler handler) throws IOException {
+        handler.getSettings().store(new FileWriter("Resources/settings.properties"), "Settings File");
+        handler.getDisplay().dispose();
         System.exit(0);
     }
 }

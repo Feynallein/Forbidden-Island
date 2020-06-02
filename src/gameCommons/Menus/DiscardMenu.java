@@ -25,6 +25,8 @@ public class DiscardMenu implements Interacts {
         isActive = false;
     }
 
+    /* Update & Render */
+
     @Override
     public void update() {
 
@@ -57,6 +59,8 @@ public class DiscardMenu implements Interacts {
         }
     }
 
+    /* Mouse Manager */
+
     @Override
     public void onMouseMove(MouseEvent e) {
 
@@ -81,6 +85,8 @@ public class DiscardMenu implements Interacts {
     public void onMouseReleased(MouseEvent e) {
 
     }
+
+    /* Getters & Setters */
 
     public void setActive(boolean b) {
         isActive = b;

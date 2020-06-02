@@ -3,6 +3,7 @@ package gfx;
 import java.awt.*;
 
 public class Text {
+    /* Draw a text at the screen */
     public static void drawString(Graphics g, String text, int xPos, int yPos, boolean center, Color c, Font f) {
         g.setColor(c);
         g.setFont(f);

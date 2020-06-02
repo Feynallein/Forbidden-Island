@@ -14,7 +14,7 @@ public class PauseState extends State {
 
     public PauseState(Handler handler) {
         super(handler);
-        manager = new ObjectManager(handler);
+        manager = new ObjectManager();
         handler.getMouseManager().setObjectManager(this.manager);
         manager.addObject(new Button((float) (handler.getWidth() - 7 * Assets.playerDim) / 2, (float) (handler.getHeight() * 4 / 8 - Assets.buttonDim / 2), 7 * Assets.playerDim, Assets.buttonDim,
                 Assets.restart, () -> State.setState(new PlayerSelectionState(handler))));
@@ -31,12 +31,14 @@ public class PauseState extends State {
         manager.addObject(new Button((float) (handler.getWidth() - (Assets.dim + Assets.playerDim)) / 2, (float) (handler.getHeight() * 7 / 8 - Assets.buttonDim / 2), Assets.dim + Assets.playerDim, Assets.buttonDim,
                 Assets.quit, () -> {
             try {
-                Utils.terminate(handler.getSettings());
+                Utils.terminate(handler);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }));
     }
+
+    /* Update & render */
 
     @Override
     public void update() {

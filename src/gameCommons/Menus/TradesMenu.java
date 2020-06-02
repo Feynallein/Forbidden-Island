@@ -37,6 +37,8 @@ public class TradesMenu implements Interacts {
         });
     }
 
+    /* Update & Render */
+
     @Override
     public void update() {
     }
@@ -74,6 +76,8 @@ public class TradesMenu implements Interacts {
                     handler.getHeight() / 2 - Assets.playerDim, Assets.playerDim * 2, Assets.playerDim * 2, null);
         }
     }
+
+    /* Mouse Manager */
 
     @Override
     public void onMouseClicked(MouseEvent e) {
@@ -120,6 +124,8 @@ public class TradesMenu implements Interacts {
             } else hovered.set(i, false);
         }
     }
+
+    /* Getters & Setters */
 
     public boolean isActive() {
         return isActive;

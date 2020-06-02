@@ -17,11 +17,16 @@ public abstract class Object implements Interacts {
         bounds = new Rectangle((int) x, (int) y, width, height);
     }
 
+    /* Update & Render */
     public abstract void update();
 
     public abstract void render(Graphics g);
 
+    /* Clicker */
+
     public abstract void onClick();
+
+    /* Mouse Manager */
 
     public void onMouseMove(MouseEvent e) {
         hovering = bounds.contains(e.getX(), e.getY());
@@ -40,23 +45,7 @@ public abstract class Object implements Interacts {
     }
 
 
-    /* GETTERS and SETTERS */
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
+    /* Getter */
 
     boolean isHovering() {
         return hovering;

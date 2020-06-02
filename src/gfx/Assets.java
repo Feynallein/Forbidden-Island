@@ -140,8 +140,8 @@ public class Assets {
             newGame[i] = newGameSpriteSheet.crop(i * buttonDim * 4, 0, buttonDim * 4, buttonDim);
             credits[i] = creditsSpriteSheet.crop((cardHeightDim + playerDim) * i, 0, cardHeightDim + playerDim, buttonDim);
             restart[i] = restartSpriteSheet.crop(i * 7 * playerDim, 0, 7 * playerDim, buttonDim);
-            windowed[i] = windowedSpriteSheet.crop(i*4*buttonDim, 0, 4*buttonDim, buttonDim);
-            fullscreen[i] = fullscreenSpriteSheet.crop(i*playerDim*19, 0, 19*playerDim, buttonDim);
+            windowed[i] = windowedSpriteSheet.crop(i * 4 * buttonDim, 0, 4 * buttonDim, buttonDim);
+            fullscreen[i] = fullscreenSpriteSheet.crop(i * playerDim * 19, 0, 19 * playerDim, buttonDim);
 
             /* filling half of the deck */
             deck[i] = specialCards[0];
