@@ -5,7 +5,6 @@ import game.state.State;
 import ui.Observable;
 import util.Handler;
 import util.MouseManager;
-import util.MusicPlayer;
 
 import java.awt.*;
 
@@ -16,7 +15,6 @@ public class Game extends Observable implements Runnable {
     public Game(Handler handler) {
         handler.setGame(this);
         this.handler = handler;
-        handler.setMusicPlayer(new MusicPlayer(this.handler, "Resources/music/menu.wav"));
         mouseManager = new MouseManager();
         State menuState = new MenuState(handler);
         State.setState(menuState);

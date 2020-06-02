@@ -2,6 +2,7 @@ import game.Game;
 import gfx.Assets;
 import gfx.Display;
 import util.Handler;
+import util.MusicPlayer;
 
 import javax.swing.*;
 import java.io.FileInputStream;
@@ -13,9 +14,6 @@ public class Main {
     public static void main(String[] args) {
         Properties settings = new Properties();
 
-        /* Creating our handler */
-        Handler handler = new Handler(settings);
-
         /* Loading settings */
         try {
             settings.load(new FileInputStream("Resources/settings.properties"));
@@ -23,6 +21,13 @@ public class Main {
             e.printStackTrace();
         }
 
+        /* Creating our handler */
+        Handler handler = new Handler(settings);
+
+        /* Setting the music */
+        handler.setMusicPlayer(new MusicPlayer(handler, "Resources/music/menu.wav"));
+
+        /* Setting the size */
         if (settings.getProperty("fullscreen").equals("true")) {
             settings.setProperty("width", Integer.toString((int) handler.getTk().getScreenSize().getWidth()));
             settings.setProperty("height", Integer.toString((int) handler.getTk().getScreenSize().getHeight()));

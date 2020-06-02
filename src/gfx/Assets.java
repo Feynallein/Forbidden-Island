@@ -152,6 +152,7 @@ public class Assets {
 
         cardsBack = animation[0];
 
+        //todo: dim en fct de la dim
         dim = 96;
         playerDim = dim / 3;
         cardHeightDim = dim * 5 / 3;

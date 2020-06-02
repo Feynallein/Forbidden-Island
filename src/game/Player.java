@@ -10,7 +10,6 @@ import util.Utils;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
 public class Player implements Interacts {
     private Handler handler;
@@ -22,7 +21,7 @@ public class Player implements Interacts {
     public Player(Handler handler, Island island, Color color, int order) {
         this.handler = handler;
         this.inventory = new int[6];
-        Arrays.fill(inventory, 1); //debugging purpose
+        //Arrays.fill(inventory, 1); //debugging purpose
         this.color = color;
         this.pawn = Utils.colorToPawn(this.color);
         this.sprite = Utils.colorToSprite(this.color);
@@ -135,10 +134,6 @@ public class Player implements Interacts {
 
     public void delInventory(int i) {
         if (i < inventory.length && i >= 0) inventory[i]--;
-    }
-
-    public void delSpecialInventory(int i) {
-        if (i < inventory.length - 4 && i >= 0) inventory[i + 4]--;
     }
 
     public void addSpecialInventory(int i) {

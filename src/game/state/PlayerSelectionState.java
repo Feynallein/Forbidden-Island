@@ -6,7 +6,6 @@ import ui.Button;
 import ui.MultipleSpriteButtons;
 import ui.ObjectManager;
 import util.Handler;
-import util.MusicPlayer;
 import util.Utils;
 
 import java.awt.*;
@@ -42,9 +41,6 @@ public class PlayerSelectionState extends State {
             if (selectedColors.size() >= 2) {
                 this.handler.setColors(selectedColors);
                 this.handler.getMouseManager().setObjectManager(null);
-                this.handler.getMusicPlayer().stop();
-                this.handler.setMusicPlayer(new MusicPlayer(this.handler,"Resources/music/game.wav"));
-                this.handler.getMusicPlayer().play();
                 State.setState(new GameState(this.handler));
             }
         }));

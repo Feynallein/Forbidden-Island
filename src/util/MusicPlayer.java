@@ -44,6 +44,10 @@ public class MusicPlayer {
         gainControl.setValue(gain);
     }
 
+    public int getFrame(){
+        return clip.getFrameLength();
+    }
+
     public boolean isPlaying(){
         return playing;
     }
