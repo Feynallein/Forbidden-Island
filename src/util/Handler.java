@@ -1,7 +1,7 @@
 package util;
 
-import gameCommons.Game;
-import gameCommons.state.GameState;
+import game.Game;
+import game.state.GameState;
 import gfx.Assets;
 import gfx.Display;
 import ui.ObjectManager;
@@ -12,6 +12,7 @@ import java.util.Properties;
 import java.util.Random;
 
 public class Handler {
+    private Toolkit tk = Toolkit.getDefaultToolkit();
     private Properties settings;
     private Game game;
     private ArrayList<Integer> takenNumbers = new ArrayList<>();
@@ -29,6 +30,10 @@ public class Handler {
         /* debugging */
         colors.add(Color.GREEN);
         colors.add(Color.WHITE);
+    }
+
+    public Toolkit getTk() {
+        return tk;
     }
 
     public void setDisplay(Display display) {

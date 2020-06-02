@@ -1,5 +1,6 @@
 package ui;
 
+import gfx.Assets;
 import util.Handler;
 
 import java.awt.*;
@@ -41,8 +42,8 @@ public class AnimatedCard extends Object {
                 }
             }
         } else {
-            /*if(hovering) g.drawImage(Assets.cardBg, (int) x, (int) y, width, height, null);*/
             g.drawImage(animation[0], (int) x, (int) y, width, height, null);
+            if (hovering) g.drawImage(Assets.cardHalo, (int) x, (int) y, width, height, null);
         }
     }
 

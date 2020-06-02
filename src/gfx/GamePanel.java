@@ -1,6 +1,6 @@
 package gfx;
 
-import gameCommons.Game;
+import game.Game;
 import ui.Observer;
 
 import javax.swing.*;

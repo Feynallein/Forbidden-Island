@@ -33,6 +33,11 @@ public class Assets {
     public static BufferedImage[] restart;
     public static BufferedImage[] fullscreen;
     public static BufferedImage[] windowed;
+    public static BufferedImage[] res800x600;
+    public static BufferedImage[] res1280x720;
+    public static BufferedImage[] res1600x1200;
+    public static BufferedImage[] res1920x1080;
+    public static BufferedImage cardHalo;
     public static BufferedImage selection;
     public static BufferedImage pauseIndicator;
     public static BufferedImage cardsBack;
@@ -47,6 +52,7 @@ public class Assets {
         menuBg = ImageLoader.loadImage("/textures/Menu_Bg.png");
         pauseIndicator = ImageLoader.loadImage("/textures/Pause_2.png");
         selection = ImageLoader.loadImage("/textures/PlayerSelection.png");
+        cardHalo = ImageLoader.loadImage("/textures/cardHalo.png");
 
         SpriteSheet endTurnButtonSheet = new SpriteSheet(ImageLoader.loadImage("/textures/End_of_Turn.png"));
         SpriteSheet boardSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Board.png"));
@@ -72,6 +78,10 @@ public class Assets {
         SpriteSheet restartSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Restart.png"));
         SpriteSheet fullscreenSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Bordless_Fullscreen.png"));
         SpriteSheet windowedSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Windowed.png"));
+        SpriteSheet res800x600SpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/800x600.png"));
+        SpriteSheet res1280x720SpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/1280x720.png"));
+        SpriteSheet res1600x1200SpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/1600x1200.png"));
+        SpriteSheet res1920x1080SpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/1920x1080.png"));
 
         deck = new BufferedImage[28];
         board = new BufferedImage[24];
@@ -97,6 +107,10 @@ public class Assets {
         restart = new BufferedImage[3];
         windowed = new BufferedImage[3];
         fullscreen = new BufferedImage[3];
+        res800x600 = new BufferedImage[3];
+        res1280x720 = new BufferedImage[3];
+        res1600x1200 = new BufferedImage[3];
+        res1920x1080 = new BufferedImage[3];
 
         halo = new BufferedImage[2];
 
@@ -142,6 +156,10 @@ public class Assets {
             restart[i] = restartSpriteSheet.crop(i * 7 * playerDim, 0, 7 * playerDim, buttonDim);
             windowed[i] = windowedSpriteSheet.crop(i * 4 * buttonDim, 0, 4 * buttonDim, buttonDim);
             fullscreen[i] = fullscreenSpriteSheet.crop(i * playerDim * 19, 0, 19 * playerDim, buttonDim);
+            res800x600[i] = res800x600SpriteSheet.crop(i*dim*3, 0, dim*3, buttonDim);
+            res1280x720[i] = res1280x720SpriteSheet.crop(i*buttonDim*5, 0, buttonDim*5, buttonDim);
+            res1600x1200[i] = res1600x1200SpriteSheet.crop(i*11*playerDim, 0, 11*playerDim, buttonDim);
+            res1920x1080[i] = res1920x1080SpriteSheet.crop(i*11*playerDim, 0, 11*playerDim, buttonDim);
 
             /* filling half of the deck */
             deck[i] = specialCards[0];

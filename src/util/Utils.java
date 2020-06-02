@@ -191,4 +191,20 @@ public abstract class Utils {
         handler.getDisplay().dispose();
         System.exit(0);
     }
+
+    /* Return which size to display */
+    public static int sizeToNumber(int width, int height){
+        if(width == 800 && height == 600) return 0;
+        else if(width == 1280 && height == 720) return 1;
+        else if(width == 1600 && height == 1200) return 2;
+        else return 3;
+    }
+
+    /* Return a size from a number */
+    public static int[] numberToSize(int i){
+        if(i == 0) return new int[]{800, 600};
+        else if(i == 1) return new int[]{1280, 720};
+        else if(i == 2) return new int[]{1600, 1200};
+        else return new int[]{1920, 1080};
+    }
 }
