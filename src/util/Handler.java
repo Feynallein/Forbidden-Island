@@ -3,13 +3,16 @@ package util;
 import gameCommons.Game;
 import gameCommons.state.GameState;
 import gfx.Assets;
+import gfx.Display;
 import ui.ObjectManager;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.Random;
 
 public class Handler {
+    private Properties settings;
     private Game game;
     private ArrayList<Integer> takenNumbers = new ArrayList<>();
     public int death = 0;
@@ -19,20 +22,29 @@ public class Handler {
     private ObjectManager manager;
     private ArrayList<Color> colors = new ArrayList<>();
     private GameState gamestate;
+    private Display display;
 
-    public Handler(Game game) {
-        this.game = game;
+    public Handler(Properties p) {
+        this.settings = p;
         /* debugging */
         colors.add(Color.GREEN);
         colors.add(Color.WHITE);
     }
 
+    public void setDisplay(Display display) {
+        this.display = display;
+    }
+
+    public void setGame(Game game){
+        this.game = game;
+    }
+
     public int getWidth() {
-        return game.getWidth();
+        return Integer.parseInt(settings.getProperty("width"));
     }
 
     public int getHeight() {
-        return game.getHeight();
+        return Integer.parseInt(settings.getProperty("height"));
     }
 
     public MouseManager getMouseManager() {
@@ -52,7 +64,7 @@ public class Handler {
     }
 
     public int getIslandLength() {
-        return this.game.getLength();
+        return 6;
     }
 
     public void addNumber(int num) {
@@ -105,5 +117,9 @@ public class Handler {
 
     public void resetTakenNumbers() {
         takenNumbers = new ArrayList<>();
+    }
+
+    public Properties getSettings() {
+        return settings;
     }
 }

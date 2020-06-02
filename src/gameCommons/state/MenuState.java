@@ -22,6 +22,7 @@ public class MenuState extends State {
             //todo: options
             // - fenetre/plein écran
             // - la dim (et la taille des fonts) en fct de la dimension de l'écran : résolutions : 1920x1080, 1600x1200, 1280x720, 800x600
+            State.setState(new SettingsState(handler));
         }));
         this.manager.addObject(new Button((float) (handler.getWidth() - (Assets.cardHeightDim + Assets.playerDim)) / 2, (float) (handler.getHeight() * 6 / 8 - Assets.buttonDim / 2), Assets.cardHeightDim + Assets.playerDim, Assets.buttonDim, Assets.credits, () -> {
             this.handler.getMouseManager().setObjectManager(null);

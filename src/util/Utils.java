@@ -4,6 +4,9 @@ import gfx.Assets;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Properties;
 
 public abstract class Utils {
     public static Color getStarterColors(int spriteNumber) {
@@ -168,5 +171,10 @@ public abstract class Utils {
             System.exit(-1);
             return null;
         }
+    }
+
+    public static void terminate(Properties file) throws IOException {
+        file.store(new FileWriter("Resources/settings.properties"), "store settings file");
+        System.exit(0);
     }
 }

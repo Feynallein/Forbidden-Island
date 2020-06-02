@@ -1,5 +1,7 @@
 package gfx;
 
+import util.Handler;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -29,6 +31,8 @@ public class Assets {
     public static BufferedImage[] newGame;
     public static BufferedImage[] credits;
     public static BufferedImage[] restart;
+    public static BufferedImage[] fullscreen;
+    public static BufferedImage[] windowed;
     public static BufferedImage selection;
     public static BufferedImage pauseIndicator;
     public static BufferedImage cardsBack;
@@ -36,7 +40,7 @@ public class Assets {
     public static BufferedImage menuBg;
     public static Font font20, font45;
 
-    public static void init() {
+    public static void init(Handler handler) {
         int y;
 
         floodedBg = ImageLoader.loadImage("/textures/Flooded_Bg.png");
@@ -66,6 +70,8 @@ public class Assets {
         SpriteSheet creditsSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Credits.png"));
         SpriteSheet newGameSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/New_Game.png"));
         SpriteSheet restartSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Restart.png"));
+        SpriteSheet fullscreenSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Bordless_Fullscreen.png"));
+        SpriteSheet windowedSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Windowed.png"));
 
         deck = new BufferedImage[28];
         board = new BufferedImage[24];
@@ -89,6 +95,8 @@ public class Assets {
         newGame = new BufferedImage[3];
         credits = new BufferedImage[3];
         restart = new BufferedImage[3];
+        windowed = new BufferedImage[3];
+        fullscreen = new BufferedImage[3];
 
         halo = new BufferedImage[2];
 
@@ -132,6 +140,8 @@ public class Assets {
             newGame[i] = newGameSpriteSheet.crop(i * buttonDim * 4, 0, buttonDim * 4, buttonDim);
             credits[i] = creditsSpriteSheet.crop((cardHeightDim + playerDim) * i, 0, cardHeightDim + playerDim, buttonDim);
             restart[i] = restartSpriteSheet.crop(i * 7 * playerDim, 0, 7 * playerDim, buttonDim);
+            windowed[i] = windowedSpriteSheet.crop(i*4*buttonDim, 0, 4*buttonDim, buttonDim);
+            fullscreen[i] = fullscreenSpriteSheet.crop(i*playerDim*19, 0, 19*playerDim, buttonDim);
 
             /* filling half of the deck */
             deck[i] = specialCards[0];

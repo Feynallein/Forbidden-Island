@@ -1,6 +1,6 @@
 package gameCommons;
 
-import gameCommons.state.PlayerSelectionState;
+import gameCommons.state.MenuState;
 import gameCommons.state.State;
 import gfx.Assets;
 import ui.Observable;
@@ -10,22 +10,15 @@ import util.MouseManager;
 import java.awt.*;
 
 public class Game extends Observable implements Runnable {
-    public State menuState;
-    public MouseManager mouseManager;
-    private int width;
-    private int height;
+    private MouseManager mouseManager;
 
-    public Game(int width, int height) {
-        this.width = width;
-        this.height = height;
-        Handler handler = new Handler(this);
-        Assets.init();
+    public Game(Handler handler) {
+        handler.setGame(this);
+        Assets.init(handler);
         mouseManager = new MouseManager();
-        menuState = new PlayerSelectionState(handler);
+        State menuState = new MenuState(handler);
         State.setState(menuState);
     }
-
-    /* Update & Render */
 
     public void render(Graphics g) {
         if (State.getState() != null) {
@@ -41,22 +34,7 @@ public class Game extends Observable implements Runnable {
         updateObservers();
     }
 
-
-    /* GETTERS AND SETTERS */
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
     public MouseManager getMouseManager() {
         return mouseManager;
-    }
-
-    public int getLength() {
-        return 6;
     }
 }

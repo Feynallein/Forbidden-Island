@@ -4,8 +4,10 @@ import gfx.Assets;
 import ui.Button;
 import ui.ObjectManager;
 import util.Handler;
+import util.Utils;
 
 import java.awt.*;
+import java.io.IOException;
 
 public class PauseState extends State {
     ObjectManager manager;
@@ -24,10 +26,16 @@ public class PauseState extends State {
         manager.addObject(new Button((float) (handler.getWidth() / 2 - Assets.dim * 3 / 2), (float) (handler.getHeight() * 6 / 8 - Assets.buttonDim / 2), Assets.dim * 3, Assets.buttonDim,
                 Assets.mainMenu, () -> {
             handler.getMouseManager().setObjectManager(null);
-            State.setState(handler.getGame().menuState);
+            State.setState(new MenuState(handler));
         }));
         manager.addObject(new Button((float) (handler.getWidth() - (Assets.dim + Assets.playerDim)) / 2, (float) (handler.getHeight() * 7 / 8 - Assets.buttonDim / 2), Assets.dim + Assets.playerDim, Assets.buttonDim,
-                Assets.quit, () -> System.exit(0)));
+                Assets.quit, () -> {
+            try {
+                Utils.terminate(handler.getSettings());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }));
     }
 
     @Override
