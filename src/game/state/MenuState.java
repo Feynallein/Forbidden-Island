@@ -2,12 +2,15 @@ package game.state;
 
 import gfx.Assets;
 import ui.Button;
+import ui.MultipleSpriteButtons;
 import ui.ObjectManager;
 import util.Handler;
 import util.Utils;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MenuState extends State {
     private ObjectManager manager;
@@ -15,6 +18,9 @@ public class MenuState extends State {
     public MenuState(Handler handler) {
         super(handler);
         this.manager = new ObjectManager();
+        ArrayList<BufferedImage[]> sprites = new ArrayList<>();
+        sprites.add(Assets.musicOn);
+        sprites.add(Assets.musicOff);
         this.handler.getMouseManager().setObjectManager(manager);
         this.manager.addObject(new Button((float) (handler.getWidth() - Assets.buttonDim * 4) / 2, (float) (handler.getHeight() * 4 / 8 - Assets.buttonDim / 2), Assets.buttonDim * 4, Assets.buttonDim, Assets.newGame, () -> {
             this.handler.getMouseManager().setObjectManager(null);
@@ -33,6 +39,14 @@ public class MenuState extends State {
                 Utils.terminate(handler);
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        }));
+        this.manager.addObject(new MultipleSpriteButtons((float) handler.getSpacing() * 2 + Assets.playerDim, (float) handler.getSpacing(), Assets.playerDim, Assets.playerDim, new int[]{handler.getSpacing() * 2 + Assets.playerDim, handler.getSpacing() * 2 + Assets.playerDim},
+                new int[]{Assets.playerDim, Assets.playerDim}, sprites, handler.getSettings().getProperty("music").equals("on") ? 0 : 1, () -> {
+            if (handler.getSettings().getProperty("music").equals("on")) {
+                handler.getSettings().setProperty("music", "off");
+            } else {
+                handler.getSettings().setProperty("music", "on");
             }
         }));
     }

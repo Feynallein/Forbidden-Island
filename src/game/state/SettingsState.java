@@ -27,6 +27,9 @@ public class SettingsState extends State {
     public SettingsState(Handler handler) {
         super(handler);
         Properties backup = handler.getSettings();
+        ArrayList<BufferedImage[]> sprites = new ArrayList<>();
+        sprites.add(Assets.musicOn);
+        sprites.add(Assets.musicOff);
         manager = new ObjectManager();
         initializeArrays();
         fullscreen = Boolean.parseBoolean(handler.getSettings().getProperty("fullscreen"));
@@ -62,6 +65,14 @@ public class SettingsState extends State {
             handler.setGame(new Game(handler));
             handler.setDisplay(new Display(handler));
             //} else State.setState(new MenuState(handler));
+        }));
+        this.manager.addObject(new MultipleSpriteButtons((float) handler.getSpacing() * 2 + Assets.playerDim, (float) handler.getSpacing(), Assets.playerDim, Assets.playerDim, new int[]{handler.getSpacing() * 2 + Assets.playerDim, handler.getSpacing() * 2 + Assets.playerDim},
+                new int[]{Assets.playerDim, Assets.playerDim}, sprites, handler.getSettings().getProperty("music").equals("on") ? 0 : 1, () -> {
+            if (handler.getSettings().getProperty("music").equals("on")) {
+                handler.getSettings().setProperty("music", "off");
+            } else {
+                handler.getSettings().setProperty("music", "on");
+            }
         }));
     }
 

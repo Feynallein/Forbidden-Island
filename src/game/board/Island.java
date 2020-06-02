@@ -77,7 +77,7 @@ public class Island implements Interacts {
         }
     }
 
-    /* End of turn methode */
+    /* End of turn method */
     public void endOfTurn() {
         int i = 0;
         if (floodGauge >= 7) flood = 5;
@@ -173,13 +173,19 @@ public class Island implements Interacts {
         return false;
     }
 
-    /* Move a player to an other random case */ //todo make it random
-    private void moveToOtherCase(Player p, int x, int y) {
-        if (y + 1 < cases.length && cases[x][y + 1].getState() != 2) movePlayer(cases[x][y + 1], p); //bas
-        else if (y - 1 >= 0 && cases[x][y - 1].getState() != 2) movePlayer(cases[x][y - 1], p); //haut
-        else if (x + 1 < cases.length && cases[x + 1][y].getState() != 2) movePlayer(cases[x + 1][y], p); //gauche
-        else if (x - 1 >= 0 && cases[x - 1][y].getState() != 2) movePlayer(cases[x - 1][y], p); //droite
-        else System.exit(-1);
+    /* Move a player to an other random case */
+    private void moveToOtherCase(Player p, int x, int y) { //couldn't test
+        boolean[] tests = new boolean[]{y + 1 < cases.length && cases[x][y + 1].getState() != 2, y - 1 >= 0 && cases[x][y - 1].getState() != 2, x + 1 < cases.length && cases[x + 1][y].getState() != 2,
+                x - 1 >= 0 && cases[x - 1][y].getState() != 2};
+        Case[] actions = new Case[]{cases[x][y + 1], cases[x][y - 1], cases[x + 1][y], cases[x - 1][y]};
+        int random;
+        int i = 0;
+        do {
+            random = Handler.r.nextInt(tests.length);
+            i++;
+            if(i > 100) System.exit(-2);
+        }while(!tests[random]);
+        movePlayer(actions[random], p);
     }
 
     /* Thirst the selected case */
@@ -340,8 +346,8 @@ public class Island implements Interacts {
             g.drawImage(Assets.cardsBack, handler.getWidth() - 3 * Assets.dim - 3 * handler.getSpacing(), handler.getHeight() - (Assets.dim + Assets.dim * 2 / 3 + handler.getSpacing() * 4), null);
         g.drawImage(treasureDeck.lastGraveCardSprite(), handler.getWidth() - 2 * Assets.dim - handler.getSpacing(), handler.getHeight() - (Assets.dim + Assets.dim * 2 / 3 + handler.getSpacing() * 4), Assets.dim, Assets.cardHeightDim, null);
         /* Render the action's text */
-        Text.drawString(g, "Actions left :", handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2 + handler.getSpacing()*5, true, Color.WHITE, Assets.font45);
-        Text.drawString(g, Integer.toString(3 - player.get(isPlaying).getAction()), handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2 + 50 + handler.getSpacing()*5, true, Color.WHITE, Assets.font45);
+        Text.drawString(g, "Actions left :", handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2 + handler.getSpacing() * 5, true, Color.WHITE, Assets.font45);
+        Text.drawString(g, Integer.toString(3 - player.get(isPlaying).getAction()), handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2 + 50 + handler.getSpacing() * 5, true, Color.WHITE, Assets.font45);
         /* Render the gauge */
         g.drawImage(Assets.gauge[floodGauge], handler.getWidth() - 2 * handler.getSpacing(), handler.getSpacing(), Assets.gauge[flood].getWidth(), handler.getHeight() - 30, null); //-> futur jauge
         /* Render the different menus if they are active */
