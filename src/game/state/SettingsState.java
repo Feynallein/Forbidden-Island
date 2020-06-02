@@ -36,11 +36,9 @@ public class SettingsState extends State {
         int[] i = {Utils.sizeToNumber(size[0], size[1])};
         this.manager.addObject(new MultipleSpriteButtons((float) (xes[0][fullscreen ? 0 : 1]), (float) handler.getHeight() / 3, widths[0][fullscreen ? 0 : 1], Assets.buttonDim, xes[0], widths[0], screenTypeButton, fullscreen ? 0 : 1, () -> fullscreen = !fullscreen));
         this.manager.addObject(new MultipleSpriteButtons((float) xes[1][i[0]], (float) handler.getHeight() * 2 / 3, widths[1][i[0]], Assets.buttonDim, xes[1], widths[1], screenSizeButtonSprites, i[0], () -> {
-            if (!fullscreen) { //todo: la secu ne fonctionne pas
-                i[0]++;
-                if (i[0] > 3) i[0] = 0;
-                size = Utils.numberToSize(i[0]);
-            }
+            i[0]++;
+            if (i[0] > 3) i[0] = 0;
+            size = Utils.numberToSize(i[0]);
         }));
         this.manager.addObject(new Button((float) (handler.getWidth() * 3 / 4), (float) (handler.getHeight() * 3 / 4), Assets.playerDim * 2, Assets.playerDim * 2, Assets.returned, () -> {
             handler.getSettings().setProperty("fullscreen", Boolean.toString(fullscreen));

@@ -24,6 +24,7 @@ public class Handler {
     private ArrayList<Color> colors = new ArrayList<>();
     private GameState gamestate;
     private Display display;
+    private MusicPlayer musicPlayer;
 
     public Handler(Properties p) {
         this.settings = p;
@@ -130,5 +131,13 @@ public class Handler {
 
     public Properties getSettings() {
         return settings;
+    }
+
+    public void setMusicPlayer(MusicPlayer player) {
+        this.musicPlayer = player;
+    }
+
+    public MusicPlayer getMusicPlayer(){
+        return musicPlayer;
     }
 }

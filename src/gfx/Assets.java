@@ -8,41 +8,10 @@ import java.awt.image.BufferedImage;
 public class Assets {
     public static int dim = 96, playerDim = dim / 3, cardHeightDim = dim * 5 / 3, buttonDim = playerDim * 2;
     /* -> dim = 96, playerDim = 32, cardHeightDim = 160, buttonDim = 64 */
-    public static BufferedImage[] turn;
-    public static BufferedImage[] board;
-    public static BufferedImage[] pawn;
-    public static BufferedImage[] player;
-    public static BufferedImage[] keys;
-    public static BufferedImage[] artifacts;
-    public static BufferedImage[] specialCards;
-    public static BufferedImage[] deck;
-    public static BufferedImage[] animation;
-    public static BufferedImage[] gauge;
-    public static BufferedImage[] playerDescription;
-    public static BufferedImage[] pause;
-    public static BufferedImage[] returned;
-    public static BufferedImage[] go;
-    public static BufferedImage[] quit;
-    public static BufferedImage[] resume;
-    public static BufferedImage[] halo;
-    public static BufferedImage[] play;
-    public static BufferedImage[] mainMenu;
-    public static BufferedImage[] settings;
-    public static BufferedImage[] newGame;
-    public static BufferedImage[] credits;
-    public static BufferedImage[] restart;
-    public static BufferedImage[] fullscreen;
-    public static BufferedImage[] windowed;
-    public static BufferedImage[] res800x600;
-    public static BufferedImage[] res1280x720;
-    public static BufferedImage[] res1600x1200;
-    public static BufferedImage[] res1920x1080;
-    public static BufferedImage cardHalo;
-    public static BufferedImage selection;
-    public static BufferedImage pauseIndicator;
-    public static BufferedImage cardsBack;
-    public static BufferedImage floodedBg;
-    public static BufferedImage menuBg;
+    public static BufferedImage[] turn, board, pawn, player, keys, artifacts, specialCards, deck, animation, gauge, playerDescription, pause, returned,
+            go, quit, resume, halo, play, mainMenu, settings, newGame, credits, restart, fullscreen, windowed,
+            res800x600, res1280x720, res1600x1200, res1920x1080, musicOn, musicOff;
+    public static BufferedImage cardHalo, selection, pauseIndicator, cardsBack, floodedBg, menuBg;
     public static Font font20, font45;
 
     public static void init(Handler handler) {
@@ -82,6 +51,8 @@ public class Assets {
         SpriteSheet res1280x720SpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/1280x720.png"));
         SpriteSheet res1600x1200SpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/1600x1200.png"));
         SpriteSheet res1920x1080SpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/1920x1080.png"));
+        SpriteSheet musicOnSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Music_On_Logo.png"));
+        SpriteSheet musicOffSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Music_Off_Logo.png"));
 
         deck = new BufferedImage[28];
         board = new BufferedImage[24];
@@ -111,6 +82,8 @@ public class Assets {
         res1280x720 = new BufferedImage[3];
         res1600x1200 = new BufferedImage[3];
         res1920x1080 = new BufferedImage[3];
+        musicOff = new BufferedImage[3];
+        musicOn = new BufferedImage[3];
 
         halo = new BufferedImage[2];
 
@@ -156,10 +129,12 @@ public class Assets {
             restart[i] = restartSpriteSheet.crop(i * 7 * playerDim, 0, 7 * playerDim, buttonDim);
             windowed[i] = windowedSpriteSheet.crop(i * 4 * buttonDim, 0, 4 * buttonDim, buttonDim);
             fullscreen[i] = fullscreenSpriteSheet.crop(i * playerDim * 19, 0, 19 * playerDim, buttonDim);
-            res800x600[i] = res800x600SpriteSheet.crop(i*dim*3, 0, dim*3, buttonDim);
-            res1280x720[i] = res1280x720SpriteSheet.crop(i*buttonDim*5, 0, buttonDim*5, buttonDim);
-            res1600x1200[i] = res1600x1200SpriteSheet.crop(i*11*playerDim, 0, 11*playerDim, buttonDim);
-            res1920x1080[i] = res1920x1080SpriteSheet.crop(i*11*playerDim, 0, 11*playerDim, buttonDim);
+            res800x600[i] = res800x600SpriteSheet.crop(i * dim * 3, 0, dim * 3, buttonDim);
+            res1280x720[i] = res1280x720SpriteSheet.crop(i * buttonDim * 5, 0, buttonDim * 5, buttonDim);
+            res1600x1200[i] = res1600x1200SpriteSheet.crop(i * 11 * playerDim, 0, 11 * playerDim, buttonDim);
+            res1920x1080[i] = res1920x1080SpriteSheet.crop(i * 11 * playerDim, 0, 11 * playerDim, buttonDim);
+            musicOn[i] = musicOnSpriteSheet.crop(i*playerDim, 0, playerDim, playerDim);
+            musicOff[i] = musicOffSpriteSheet.crop(i*playerDim, 0, playerDim, playerDim);
 
             /* filling half of the deck */
             deck[i] = specialCards[0];

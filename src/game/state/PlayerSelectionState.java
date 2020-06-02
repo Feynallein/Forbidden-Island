@@ -3,11 +3,14 @@ package game.state;
 import gfx.Assets;
 import ui.AnimatedCard;
 import ui.Button;
+import ui.MultipleSpriteButtons;
 import ui.ObjectManager;
 import util.Handler;
+import util.MusicPlayer;
 import util.Utils;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class PlayerSelectionState extends State {
@@ -17,6 +20,10 @@ public class PlayerSelectionState extends State {
 
     public PlayerSelectionState(Handler handler) {
         super(handler);
+        ArrayList<BufferedImage[]> sprites = new ArrayList<>();
+        sprites.add(Assets.musicOn);
+        sprites.add(Assets.musicOff);
+        int beginning = handler.getSettings().getProperty("music").equals("on") ? 0 : 1;
         this.manager = new ObjectManager();
         initializeColor();
         handler.getMouseManager().setObjectManager(manager);
@@ -35,7 +42,18 @@ public class PlayerSelectionState extends State {
             if (selectedColors.size() >= 2) {
                 this.handler.setColors(selectedColors);
                 this.handler.getMouseManager().setObjectManager(null);
+                this.handler.getMusicPlayer().stop();
+                this.handler.setMusicPlayer(new MusicPlayer(this.handler,"Resources/music/game.wav"));
+                this.handler.getMusicPlayer().play();
                 State.setState(new GameState(this.handler));
+            }
+        }));
+        this.manager.addObject(new MultipleSpriteButtons((float) handler.getSpacing()*2 + Assets.playerDim, (float) handler.getSpacing(), Assets.playerDim, Assets.playerDim, new int[]{handler.getSpacing()*2 + Assets.playerDim, handler.getSpacing()*2 + Assets.playerDim},
+                new int[]{Assets.playerDim, Assets.playerDim}, sprites, beginning, () -> {
+            if(handler.getSettings().getProperty("music").equals("on")) {
+                handler.getSettings().setProperty("music", "off");
+            } else {
+                handler.getSettings().setProperty("music", "on");
             }
         }));
     }

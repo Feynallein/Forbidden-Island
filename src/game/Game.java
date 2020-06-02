@@ -1,20 +1,24 @@
 package game;
 
-import game.state.GameState;
+import game.state.MenuState;
 import game.state.State;
 import ui.Observable;
 import util.Handler;
 import util.MouseManager;
+import util.MusicPlayer;
 
 import java.awt.*;
 
 public class Game extends Observable implements Runnable {
     private MouseManager mouseManager;
+    private Handler handler;
 
     public Game(Handler handler) {
         handler.setGame(this);
+        this.handler = handler;
+        handler.setMusicPlayer(new MusicPlayer(this.handler, "Resources/music/menu.wav"));
         mouseManager = new MouseManager();
-        State menuState = new GameState(handler);
+        State menuState = new MenuState(handler);
         State.setState(menuState);
     }
 
@@ -32,6 +36,10 @@ public class Game extends Observable implements Runnable {
             State.getState().update();
         }
         updateObservers();
+        if (handler.getSettings().getProperty("music").equals("off") && handler.getMusicPlayer().isPlaying())
+            handler.getMusicPlayer().stop();
+        else if (handler.getSettings().getProperty("music").equals("on") && !handler.getMusicPlayer().isPlaying())
+            handler.getMusicPlayer().play();
     }
 
     public MouseManager getMouseManager() {
