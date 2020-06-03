@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_forbidden_island" default="compile.module.forbidden_island">
+  <dirname property="module.forbidden_island.basedir" file="${ant.file.module_forbidden_island}"/>
+  
+  <property name="module.jdk.home.forbidden_island" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.forbidden_island" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.forbidden_island" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.forbidden_island" value="-encoding UTF-8 -source 11 -target 11 ${compiler.args}"/>
+  
+  <property name="forbidden_island.output.dir" value="${module.forbidden_island.basedir}/out/production/Forbidden Island"/>
+  <property name="forbidden_island.testoutput.dir" value="${module.forbidden_island.basedir}/out/test/Forbidden Island"/>
+  
+  <path id="forbidden_island.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="forbidden_island.module.production.classpath">
+    <path refid="${module.jdk.classpath.forbidden_island}"/>
+  </path>
+  
+  <path id="forbidden_island.runtime.production.module.classpath">
+    <pathelement location="${forbidden_island.output.dir}"/>
+  </path>
+  
+  <path id="forbidden_island.module.classpath">
+    <path refid="${module.jdk.classpath.forbidden_island}"/>
+    <pathelement location="${forbidden_island.output.dir}"/>
+  </path>
+  
+  <path id="forbidden_island.runtime.module.classpath">
+    <pathelement location="${forbidden_island.testoutput.dir}"/>
+    <pathelement location="${forbidden_island.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.forbidden_island">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.forbidden_island">
+    <patternset refid="excluded.from.module.forbidden_island"/>
+  </patternset>
+  
+  <path id="forbidden_island.module.sourcepath">
+    <dirset dir="${module.forbidden_island.basedir}">
+      <include name="src"/>
+      <include name="Resources"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.forbidden_island" depends="compile.module.forbidden_island.production,compile.module.forbidden_island.tests" description="Compile module Forbidden Island"/>
+  
+  <target name="compile.module.forbidden_island.production" depends="register.custom.compilers" description="Compile module Forbidden Island; production classes">
+    <mkdir dir="${forbidden_island.output.dir}"/>
+    <javac2 destdir="${forbidden_island.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.forbidden_island}/javac">
+      <compilerarg line="${compiler.args.forbidden_island}"/>
+      <bootclasspath refid="forbidden_island.module.bootclasspath"/>
+      <classpath refid="forbidden_island.module.production.classpath"/>
+      <src refid="forbidden_island.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.forbidden_island"/>
+    </javac2>
+    
+    <copy todir="${forbidden_island.output.dir}">
+      <fileset dir="${module.forbidden_island.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.forbidden_island.basedir}/Resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.forbidden_island.tests" depends="register.custom.compilers,compile.module.forbidden_island.production" description="compile module Forbidden Island; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.forbidden_island" description="cleanup module">
+    <delete dir="${forbidden_island.output.dir}"/>
+    <delete dir="${forbidden_island.testoutput.dir}"/>
+  </target>
+</project>
