@@ -68,7 +68,7 @@ public class TreasureDeck {
             shuffleGraveyard();
         }
         Card card = deck.get(0);
-        deck.remove(card);
+        deck.remove(0);
         if (card.value.equals("flooded")) graveyard.add(card);
         return card.getValue();
     }

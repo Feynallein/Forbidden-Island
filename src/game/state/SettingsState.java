@@ -32,6 +32,7 @@ public class SettingsState extends State {
         this.handler.getMouseManager().setObjectManager(this.manager);
         int[] screenSize = {Utils.sizeToNumber(size[0], size[1])};
         int[] volume = {Utils.getVolume(handler)};
+        volumeFinal = Utils.getVolume(handler);
         this.manager.addObject(new MultipleSpriteButtons((float) (xes[0][fullscreen ? 0 : 1]), (float) handler.getHeight() * 3 / 8, widths[0][fullscreen ? 0 : 1], Assets.buttonDim, xes[0], widths[0], screenTypeButton, fullscreen ? 0 : 1, () -> fullscreen = !fullscreen));
         this.manager.addObject(new MultipleSpriteButtons((float) xes[1][screenSize[0]], (float) handler.getHeight() * 4 / 8, widths[1][screenSize[0]], Assets.buttonDim, xes[1], widths[1], screenSizeButtonSprites, screenSize[0], () -> {
             screenSize[0]++;
@@ -41,11 +42,11 @@ public class SettingsState extends State {
         this.manager.addObject(new MultipleSpriteButtons((float) xes[2][volume[0]], (float) handler.getHeight() * 5 / 8, widths[2][volume[0]], Assets.buttonDim, xes[2], widths[2], Assets.volumeIndicator, volume[0], () -> {
             volume[0]++;
             if(volume[0] > 10) volume[0] = 0;
-            volumeFinal = volume[0]*10;
+            volumeFinal = volume[0];
         }));
         this.manager.addObject(new Button((float) (handler.getWidth() * 3 / 4), (float) (handler.getHeight() * 7 / 8), Assets.playerDim * 2, Assets.playerDim * 2, Assets.returned, () -> {
             this.handler.getSettings().setProperty("fullscreen", Boolean.toString(fullscreen));
-            this.handler.getSettings().setProperty("volume", Integer.toString(volumeFinal));
+            this.handler.getSettings().setProperty("volume", Integer.toString(volumeFinal*10));
             this.handler.getMusicPlayer().setVolume();
             Utils.saveProperties(this.handler);
             if (this.handler.getSettings().getProperty("fullscreen").equals("true")) {

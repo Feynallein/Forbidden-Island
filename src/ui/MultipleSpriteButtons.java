@@ -45,6 +45,5 @@ public class MultipleSpriteButtons extends Object {
         clicker.onClick();
         spriteCounter++;
         if (spriteCounter >= sprites.size()) spriteCounter = 0;
-        System.out.println(spriteCounter);
     }
 }
