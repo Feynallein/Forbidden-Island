@@ -110,12 +110,12 @@ public class Island implements Interacts {
     public boolean win() {
         for (boolean b : artifactsGathered) {
             if (!b) return false;
-            for (Player p : player) {
-                if (!(p.position[0] >= heliport[0] && p.position[0] <= heliport[0] + handler.getPixelByCase() && p.position[1] >= heliport[1] && p.position[1] <= heliport[1] + handler.getPixelByCase()))
-                    return false;
-            }
         }
-        return false;
+        for (Player p : player) {
+            if (!(p.position[0] >= heliport[0] && p.position[0] <= heliport[0] + handler.getPixelByCase() && p.position[1] >= heliport[1] && p.position[1] <= heliport[1] + handler.getPixelByCase()))
+                return false;
+        }
+        return true;
     }
 
     /* Return if the player lose */
@@ -251,7 +251,7 @@ public class Island implements Interacts {
     /* Gather a type of artifact */
     public void gatherArtifact(int num) {
         artifactsGathered[num] = true;
-        player.get(isPlaying).inventory[num] -= 4;
+        player.get(isPlaying).inventory[num] -= 1;
         player.get(isPlaying).addAction();
     }
 

@@ -48,9 +48,9 @@ public class Player implements Interacts {
 
     @Override
     public void render(Graphics g) {
-        /* render the pawn */
+        /* Render the pawn */
         g.drawImage(pawn, position[0], position[1], Assets.playerDim, Assets.playerDim, null);
-        /* render the card on the left */
+        /* Render the card on the left */
         g.drawImage(sprite, handler.getSpacing(),
                 (handler.getHeight() - handler.getNumberOfPlayers() * (Assets.cardHeightDim + handler.getSpacing())) / 2 + order * (handler.getSpacing() + Assets.cardHeightDim),
                 Assets.dim, Assets.cardHeightDim, null);
