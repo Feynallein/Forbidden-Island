@@ -33,7 +33,7 @@ public class CreditsState extends State {
     public void render(Graphics g) {
         manager.render(g);
         Text.drawString(g, "Original game by Matt Leacock", handler.getWidth() / 2, handler.getHeight() * 2 / 9, true, Color.GRAY, Assets.font45);
-        Text.drawString(g, "A game by Feynallein & Dreyc", handler.getWidth() / 2, handler.getHeight() * 3 / 9, true, Color.GRAY, Assets.font45);
+        Text.drawString(g, "A game by Martin BERTHIER & Quentin BERTRAND", handler.getWidth() / 2, handler.getHeight() * 3 / 9, true, Color.GRAY, Assets.font45);
         Text.drawString(g, "8 bit music by Epic-NES-Metal", handler.getWidth() / 2, handler.getHeight() * 4 / 9, true, Color.GRAY, Assets.font45);
         Text.drawString(g, "Font by Codeman38", handler.getWidth() / 2, handler.getHeight() * 5 / 9, true, Color.GRAY, Assets.font45);
     }

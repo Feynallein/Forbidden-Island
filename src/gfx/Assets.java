@@ -17,9 +17,9 @@ public class Assets {
 
     public static Font font20, font45;
 
-    private static String path = "/textures/";
+    private static final String path = "/textures/";
 
-    private static String[] paths = new String[]{path + "0.png", path + "10.png",
+    private static final String[] paths = new String[]{path + "0.png", path + "10.png",
             path + "20.png", path + "30.png", path + "40.png", path + "50.png", path + "60.png", path + "70.png", path + "80.png", path + "90.png", path + "100.png",};
 
     public static ArrayList<BufferedImage[]> musicOnOffArray = new ArrayList<>();
@@ -173,7 +173,6 @@ public class Assets {
             res1920x1080[i] = res1920x1080SpriteSheet.crop(i * 11 * playerDim, 0, 11 * playerDim, buttonDim);
             musicOn[i] = musicOnSpriteSheet.crop(i * playerDim, 0, playerDim, playerDim);
             musicOff[i] = musicOffSpriteSheet.crop(i * playerDim, 0, playerDim, playerDim);
-
             volume0[i] = volume0SpriteSheet.crop(i * dim, 0, dim, buttonDim);
             volume10[i] = volume10SpriteSheet.crop(i * dim, 0, dim, buttonDim);
             volume20[i] = volume20SpriteSheet.crop(i * dim, 0, dim, buttonDim);
@@ -205,8 +204,9 @@ public class Assets {
         int width = Integer.parseInt(handler.getSettings().getProperty("width"));
         int height = Integer.parseInt(handler.getSettings().getProperty("height"));
 
+        if (width == 1600 && height == 1200) dim = buttonDim;
+
         if (width >= 1920 && height >= 1080) dim = 96;
-        else if (width >= 1600 && height >= 1200) dim = buttonDim;
         else if (width >= 1280 && height >= 720) dim = 96 / 2;
         else if (width >= 800 && height >= 600) dim = 96 / 3;
 

@@ -55,6 +55,7 @@ public class TreasureDeck {
         return res;
     }
 
+    /* Shuffle the graveyard into the graves */
     private void shuffleGraveyard(){
         while(!graveyard.isEmpty()){
             deck.add(graveyard.get(0));
@@ -75,7 +76,12 @@ public class TreasureDeck {
 
     /* Return the sprite of the last card in the graveyard */
     public BufferedImage lastGraveCardSprite() {
-        return graveyard.isEmpty() ? new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB) : graveyard.get(graveyard.size() - 1).getSprite();
+        return graveyard.get(graveyard.size() - 1).getSprite();
+    }
+
+    /* Return true if the graveyard is empty */
+    public boolean graveyardIsEmpty(){
+        return graveyard.isEmpty();
     }
 
     /* Return true if the deck is empty */

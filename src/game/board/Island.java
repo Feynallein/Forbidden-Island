@@ -344,7 +344,8 @@ public class Island implements Interacts {
         /* Render the deck */
         if (!treasureDeck.isEmpty())
             g.drawImage(Assets.cardsBack, handler.getWidth() - 3 * Assets.dim - 3 * handler.getSpacing(), handler.getHeight() - (Assets.cardHeightDim + handler.getSpacing() * 4), Assets.dim, Assets.cardHeightDim, null);
-        g.drawImage(treasureDeck.lastGraveCardSprite(), handler.getWidth() - 2 * Assets.dim - handler.getSpacing(), handler.getHeight() - (Assets.dim + Assets.dim * 2 / 3 + handler.getSpacing() * 4), Assets.dim, Assets.cardHeightDim, null);
+        if (!treasureDeck.graveyardIsEmpty())
+            g.drawImage(treasureDeck.lastGraveCardSprite(), handler.getWidth() - 2 * Assets.dim - handler.getSpacing(), handler.getHeight() - (Assets.dim + Assets.dim * 2 / 3 + handler.getSpacing() * 4), Assets.dim, Assets.cardHeightDim, null);
         /* Render the action's text */
         Text.drawString(g, "Actions left :", handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2 + handler.getSpacing() * 5, true, Color.WHITE, Assets.font45);
         FontMetrics fm = g.getFontMetrics(Assets.font45);
