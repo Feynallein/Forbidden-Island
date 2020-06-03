@@ -54,7 +54,7 @@ public class Island implements Interacts {
         this.floodGauge = 0;
         this.flood = 0;
         this.floodDeck = new FloodDeck(handler);
-        this.endOfTurnButton = new Button((float) (handler.getWidth() - (3 * Assets.dim + Assets.buttonDim)) / 2, (float) (handler.getHeight() - 2 * (Assets.playerDim + handler.getSpacing())), (3 * Assets.dim + Assets.buttonDim), Assets.buttonDim, Assets.turn, this::endOfTurn);
+        this.endOfTurnButton = new Button((float) (handler.getWidth() - (3 * Assets.dim + Assets.buttonDim)) / 2, (float) (handler.getHeight() - (Assets.buttonDim + handler.getSpacing() * 4)), (3 * Assets.dim + Assets.buttonDim), Assets.buttonDim, Assets.turn, this::endOfTurn);
         this.playerSelectionMenu = new PlayerSelectionMenu(handler, this);
         init(numberOfPlayers);
     }
@@ -89,7 +89,7 @@ public class Island implements Interacts {
             if (cases[tile[0]][tile[1]].getState() == 0) cases[tile[0]][tile[1]].setState(1);
             else if (cases[tile[0]][tile[1]].getState() == 1) {
                 ArrayList<Player> onCasePlayers = playersOnTheCase(cases[tile[0]][tile[1]], true);
-                if (onCasePlayers.size() != 0) {
+                if (!onCasePlayers.isEmpty()) {
                     for (Player p : onCasePlayers) {
                         moveToOtherCase(p, tile[0], tile[1]);
                     }
@@ -174,7 +174,7 @@ public class Island implements Interacts {
     }
 
     /* Move a player to an other random case */
-    private void moveToOtherCase(Player p, int x, int y) { //couldn't test
+    private void moveToOtherCase(Player p, int x, int y) {
         boolean[] tests = new boolean[]{y + 1 < cases.length && cases[x][y + 1].getState() != 2, y - 1 >= 0 && cases[x][y - 1].getState() != 2, x + 1 < cases.length && cases[x + 1][y].getState() != 2,
                 x - 1 >= 0 && cases[x - 1][y].getState() != 2};
         Case[] actions = new Case[]{cases[x][y + 1], cases[x][y - 1], cases[x + 1][y], cases[x - 1][y]};
@@ -183,8 +183,8 @@ public class Island implements Interacts {
         do {
             random = Handler.r.nextInt(tests.length);
             i++;
-            if(i > 100) System.exit(-2);
-        }while(!tests[random]);
+            if (i > 100) System.exit(-2);
+        } while (!tests[random]);
         movePlayer(actions[random], p);
     }
 
@@ -324,7 +324,7 @@ public class Island implements Interacts {
         /* Render the end of turn button */
         endOfTurnButton.render(g);
         /* Render the text */
-        Text.drawString(g, "It's " + player.get(isPlaying).toString() + "'s turn.", handler.getWidth() / 2, 50, true, Color.WHITE, Assets.font45);
+        Text.drawString(g, "It's " + player.get(isPlaying).toString() + "'s turn.", handler.getWidth() / 2, handler.getSpacing() * 5, true, Color.WHITE, Assets.font45);
         /* Render the board */
         for (Case[] aCase : cases) {
             for (int j = 0; j < cases[0].length; j++) {
@@ -343,13 +343,14 @@ public class Island implements Interacts {
         player.get(isPlaying).renderDescription(g);
         /* Render the deck */
         if (!treasureDeck.isEmpty())
-            g.drawImage(Assets.cardsBack, handler.getWidth() - 3 * Assets.dim - 3 * handler.getSpacing(), handler.getHeight() - (Assets.dim + Assets.dim * 2 / 3 + handler.getSpacing() * 4), null);
+            g.drawImage(Assets.cardsBack, handler.getWidth() - 3 * Assets.dim - 3 * handler.getSpacing(), handler.getHeight() - (Assets.cardHeightDim + handler.getSpacing() * 4), Assets.dim, Assets.cardHeightDim, null);
         g.drawImage(treasureDeck.lastGraveCardSprite(), handler.getWidth() - 2 * Assets.dim - handler.getSpacing(), handler.getHeight() - (Assets.dim + Assets.dim * 2 / 3 + handler.getSpacing() * 4), Assets.dim, Assets.cardHeightDim, null);
         /* Render the action's text */
         Text.drawString(g, "Actions left :", handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2 + handler.getSpacing() * 5, true, Color.WHITE, Assets.font45);
-        Text.drawString(g, Integer.toString(3 - player.get(isPlaying).getAction()), handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2 + 50 + handler.getSpacing() * 5, true, Color.WHITE, Assets.font45);
+        FontMetrics fm = g.getFontMetrics(Assets.font45);
+        Text.drawString(g, Integer.toString(3 - player.get(isPlaying).getAction()), handler.getWidth() * 2 / 3 + Assets.dim / 2, handler.getHeight() * 2 / 3 + Assets.dim * 2 + fm.getHeight() + handler.getSpacing() * 5, true, Color.WHITE, Assets.font45);
         /* Render the gauge */
-        g.drawImage(Assets.gauge[floodGauge], handler.getWidth() - 2 * handler.getSpacing(), handler.getSpacing(), Assets.gauge[flood].getWidth(), handler.getHeight() - 30, null); //-> futur jauge
+        g.drawImage(Assets.gauge[floodGauge], handler.getWidth() - Assets.gauge[0].getWidth() * 2, handler.getSpacing(), Assets.gauge[0].getWidth(), handler.getHeight() - 3 * handler.getSpacing(), null);
         /* Render the different menus if they are active */
         actionMenu.render(g);
         discardMenu.render(g);

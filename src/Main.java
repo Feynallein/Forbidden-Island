@@ -1,5 +1,4 @@
 import game.Game;
-import gfx.Assets;
 import gfx.Display;
 import util.Handler;
 import util.MusicPlayer;
@@ -32,9 +31,6 @@ public class Main {
             settings.setProperty("width", Integer.toString((int) handler.getTk().getScreenSize().getWidth()));
             settings.setProperty("height", Integer.toString((int) handler.getTk().getScreenSize().getHeight()));
         }
-
-        /* Loading assets */
-        Assets.init(handler);
 
         /* Game loop */
         SwingUtilities.invokeLater(() -> {

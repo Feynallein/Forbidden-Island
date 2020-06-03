@@ -29,7 +29,7 @@ public class Button extends Object {
             g.drawImage(sprite[0], (int) x, (int) y, width, height, null);
     }
 
-    /* Cliker */
+    /* Clicker */
 
     @Override
     public void onClick() {

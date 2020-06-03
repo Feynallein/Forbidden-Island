@@ -9,7 +9,6 @@ import util.Handler;
 import util.Utils;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class PlayerSelectionState extends State {
@@ -19,10 +18,6 @@ public class PlayerSelectionState extends State {
 
     public PlayerSelectionState(Handler handler) {
         super(handler);
-        ArrayList<BufferedImage[]> sprites = new ArrayList<>();
-        sprites.add(Assets.musicOn);
-        sprites.add(Assets.musicOff);
-        int beginning = handler.getSettings().getProperty("music").equals("on") ? 0 : 1;
         this.manager = new ObjectManager();
         initializeColor();
         handler.getMouseManager().setObjectManager(manager);
@@ -40,18 +35,11 @@ public class PlayerSelectionState extends State {
         this.manager.addObject(new Button((float) ((handler.getWidth() - Assets.buttonDim * 2) / 2), (float) (handler.getHeight() * 6 / 7), Assets.buttonDim * 2, Assets.buttonDim, Assets.play, () -> {
             if (selectedColors.size() >= 2) {
                 this.handler.setColors(selectedColors);
-                this.handler.getMouseManager().setObjectManager(null);
                 State.setState(new GameState(this.handler));
             }
         }));
-        this.manager.addObject(new MultipleSpriteButtons((float) handler.getSpacing()*2 + Assets.playerDim, (float) handler.getSpacing(), Assets.playerDim, Assets.playerDim, new int[]{handler.getSpacing()*2 + Assets.playerDim, handler.getSpacing()*2 + Assets.playerDim},
-                new int[]{Assets.playerDim, Assets.playerDim}, sprites, beginning, () -> {
-            if(handler.getSettings().getProperty("music").equals("on")) {
-                handler.getSettings().setProperty("music", "off");
-            } else {
-                handler.getSettings().setProperty("music", "on");
-            }
-        }));
+        this.manager.addObject(new MultipleSpriteButtons((float) handler.getSpacing() * 2 + Assets.playerDim, (float) handler.getSpacing(), Assets.playerDim, Assets.playerDim, new int[]{handler.getSpacing() * 2 + Assets.playerDim, handler.getSpacing() * 2 + Assets.playerDim},
+                new int[]{Assets.playerDim, Assets.playerDim}, Assets.musicOnOffArray, handler.getSettings().getProperty("music").equals("on") ? 0 : 1, () -> Utils.musicOnOff(this.handler)));
     }
 
     /* Initialize the color array */

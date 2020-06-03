@@ -28,7 +28,7 @@ public class Handler {
 
     public Handler(Properties p) {
         this.settings = p;
-        /* debugging */
+        /* Debugging */
         colors.add(Color.GREEN);
         colors.add(Color.WHITE);
     }

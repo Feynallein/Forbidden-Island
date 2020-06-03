@@ -2,6 +2,7 @@ package game;
 
 import game.state.MenuState;
 import game.state.State;
+import gfx.Assets;
 import ui.Observable;
 import util.Handler;
 import util.MouseManager;
@@ -15,8 +16,13 @@ public class Game extends Observable implements Runnable {
     public Game(Handler handler) {
         handler.setGame(this);
         this.handler = handler;
+        /* Loading assets */
+        Assets.init(handler);
+        /* Creating the mouse manager */
         mouseManager = new MouseManager();
+        /* Creating the first state (= the menu state) */
         State menuState = new MenuState(handler);
+        /* Setting the State */
         State.setState(menuState);
     }
 

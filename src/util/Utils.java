@@ -186,10 +186,22 @@ public abstract class Utils {
     }
 
     /* Terminate the program and saving the settings */
-    public static void terminate(Handler handler) throws IOException {
-        handler.getSettings().store(new FileWriter("Resources/settings.properties"), "Settings File");
+    public static void terminate(Handler handler) {
+        try {
+            handler.getSettings().store(new FileWriter("Resources/settings.properties"), "Settings File");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         handler.getDisplay().dispose();
         System.exit(0);
+    }
+
+    /* Save a properties file */
+    public static void saveProperties(Handler handler){
+        try {
+            handler.getSettings().store(new FileWriter("Resources/settings.properties"), "Settings File");
+        } catch (Exception ignored) {
+        }
     }
 
     /* Return which size to display */
@@ -206,5 +218,14 @@ public abstract class Utils {
         else if(i == 1) return new int[]{1280, 720};
         else if(i == 2) return new int[]{1600, 1200};
         else return new int[]{1920, 1080};
+    }
+
+    /* Turn on/off the music */
+    public static void musicOnOff(Handler handler){
+        if (handler.getSettings().getProperty("music").equals("on")) {
+            handler.getSettings().setProperty("music", "off");
+        } else {
+            handler.getSettings().setProperty("music", "on");
+        }
     }
 }

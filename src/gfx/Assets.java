@@ -4,6 +4,7 @@ import util.Handler;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Assets {
     public static int dim = 96, playerDim = dim / 3, cardHeightDim = dim * 5 / 3, buttonDim = playerDim * 2;
@@ -14,8 +15,14 @@ public class Assets {
     public static BufferedImage cardHalo, selection, pauseIndicator, cardsBack, floodedBg, menuBg;
     public static Font font20, font45;
 
+    public static ArrayList<BufferedImage[]> musicOnOffArray = new ArrayList<>();
+
     public static void init(Handler handler) {
         int y;
+        dim = 96;
+        playerDim = dim / 3;
+        cardHeightDim = dim * 5 / 3;
+        buttonDim = playerDim * 2;
 
         floodedBg = ImageLoader.loadImage("/textures/Flooded_Bg.png");
         menuBg = ImageLoader.loadImage("/textures/Menu_Bg.png");
@@ -133,8 +140,8 @@ public class Assets {
             res1280x720[i] = res1280x720SpriteSheet.crop(i * buttonDim * 5, 0, buttonDim * 5, buttonDim);
             res1600x1200[i] = res1600x1200SpriteSheet.crop(i * 11 * playerDim, 0, 11 * playerDim, buttonDim);
             res1920x1080[i] = res1920x1080SpriteSheet.crop(i * 11 * playerDim, 0, 11 * playerDim, buttonDim);
-            musicOn[i] = musicOnSpriteSheet.crop(i*playerDim, 0, playerDim, playerDim);
-            musicOff[i] = musicOffSpriteSheet.crop(i*playerDim, 0, playerDim, playerDim);
+            musicOn[i] = musicOnSpriteSheet.crop(i * playerDim, 0, playerDim, playerDim);
+            musicOff[i] = musicOffSpriteSheet.crop(i * playerDim, 0, playerDim, playerDim);
 
             /* filling half of the deck */
             deck[i] = specialCards[0];
@@ -152,12 +159,21 @@ public class Assets {
 
         cardsBack = animation[0];
 
-        //todo: dim en fct de la dim
-        dim = 96;
+        int width = Integer.parseInt(handler.getSettings().getProperty("width"));
+        int height = Integer.parseInt(handler.getSettings().getProperty("height"));
+
+        if (width >= 1920 && height >= 1080) dim = 96;
+        else if (width >= 1600 && height >= 1200) dim = buttonDim;
+        else if (width >= 1280 && height >= 720) dim = 96 / 2;
+        else if (width >= 800 && height >= 600) dim = 96 / 3;
+
         playerDim = dim / 3;
         cardHeightDim = dim * 5 / 3;
-        buttonDim = playerDim * 2;
+        buttonDim = dim * 2 / 3;
         font20 = FontLoader.loadFont("Resources/fonts/manaspc.ttf", dim / 5);
         font45 = FontLoader.loadFont("Resources/fonts/manaspc.ttf", dim / 2);
+
+        musicOnOffArray.add(Assets.musicOn);
+        musicOnOffArray.add(Assets.musicOff);
     }
 }
