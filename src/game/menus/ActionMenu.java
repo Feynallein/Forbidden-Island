@@ -143,20 +143,20 @@ public class ActionMenu implements Interacts {
     public void setRectangleAndTexts() {
         bounds.clear();
         texts.clear();
-        if (!onCase && clickedCase.getState() == 0 && ((nearby && player.getAction() < 3) || player.getSpecialInventory(0) > 0)) {
+        if (!onCase && clickedCase.getState() == 0 && ((nearby && player.getAction() < 3 && player.getAction() >= 0) || player.getSpecialInventory(0) > 0)) {
             texts.add("Move");
         }
-        if (clickedCase.getState() == 1 && ((nearby && player.getAction() < 3) || player.getSpecialInventory(1) > 0)) {
+        if (clickedCase.getState() == 1 && ((nearby && player.getAction() < 3 && player.getAction() >= 0) || player.getSpecialInventory(1) > 0)) {
             texts.add("Thirst");
         }
-        if (onCase && clickedCase.getState() != 2 && player.getAction() < 3 && nearby) {
+        if (onCase && clickedCase.getState() != 2 && player.getAction() < 3 && player.getAction() >= 0 && nearby) {
             if (clickedCase.isArtifact) {
                 texts.add("Gather");
             } else {
                 texts.add("Dig");
             }
         }
-        if (onCase && !players.isEmpty() && player.getAction() < 3 && nearby) {
+        if (onCase && !players.isEmpty() && player.getAction() < 3 && player.getAction() >= 0 && nearby) {
             texts.add("Trade");
         }
         if (texts.size() == 0) isVisible = false;
