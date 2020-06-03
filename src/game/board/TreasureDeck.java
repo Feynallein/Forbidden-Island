@@ -55,10 +55,17 @@ public class TreasureDeck {
         return res;
     }
 
+    private void shuffleGraveyard(){
+        while(!graveyard.isEmpty()){
+            deck.add(graveyard.get(0));
+            graveyard.remove(0);
+        }
+    }
+
     /* Draw a card */
     public String drawCard() {
         if (deck.isEmpty()) {
-            shuffleDeck();
+            shuffleGraveyard();
         }
         Card card = deck.get(0);
         deck.remove(card);
