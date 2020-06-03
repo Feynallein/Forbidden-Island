@@ -46,7 +46,7 @@ public class TradesMenu implements Interacts {
     @Override
     public void render(Graphics g) {
         if (!isActive) return;
-        g.drawImage(Assets.menuBg, 0, 0, handler.getWidth(), handler.getHeight(), null);
+        g.drawImage(Assets.selectionBg, 0, 0, handler.getWidth(), handler.getHeight(), null);
         returned.render(g);
         if (!toTrade) selectPlayer(g);
         if (selectedPlayer != null) {

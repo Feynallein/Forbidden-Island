@@ -54,7 +54,7 @@ public class ActionMenu implements Interacts {
         if (!isVisible) return;
         FontMetrics fm = g.getFontMetrics(Assets.font20);
         for (int i = 0; i < texts.size(); i++) {
-            g.drawImage(Assets.menuBg, x + 1, y + 1 + i * textBackgroundHeight, textBackgroundWidth, textBackgroundHeight, null);
+            g.drawImage(Assets.selectionBg, x + 1, y + 1 + i * textBackgroundHeight, textBackgroundWidth, textBackgroundHeight, null);
             Text.drawString(g, texts.get(i), x + 1, y + 1 + fm.getHeight() / 2 + fm.getAscent() + i * textBackgroundHeight, false, Color.WHITE, Assets.font20);
         }
         tradesMenu.render(g);

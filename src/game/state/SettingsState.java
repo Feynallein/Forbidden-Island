@@ -22,6 +22,7 @@ public class SettingsState extends State {
     private int[][] xes;
     private int[][] widths;
     private int[] size = new int[2];
+    private int volumeFinal;
 
     public SettingsState(Handler handler) {
         super(handler);
@@ -29,15 +30,23 @@ public class SettingsState extends State {
         this.manager = new ObjectManager();
         initialize();
         this.handler.getMouseManager().setObjectManager(this.manager);
-        int[] i = {Utils.sizeToNumber(size[0], size[1])};
-        this.manager.addObject(new MultipleSpriteButtons((float) (xes[0][fullscreen ? 0 : 1]), (float) handler.getHeight() / 3, widths[0][fullscreen ? 0 : 1], Assets.buttonDim, xes[0], widths[0], screenTypeButton, fullscreen ? 0 : 1, () -> fullscreen = !fullscreen));
-        this.manager.addObject(new MultipleSpriteButtons((float) xes[1][i[0]], (float) handler.getHeight() * 2 / 3, widths[1][i[0]], Assets.buttonDim, xes[1], widths[1], screenSizeButtonSprites, i[0], () -> {
-            i[0]++;
-            if (i[0] > 3) i[0] = 0;
-            size = Utils.numberToSize(i[0]);
+        int[] screenSize = {Utils.sizeToNumber(size[0], size[1])};
+        int[] volume = {Utils.getVolume(handler)};
+        this.manager.addObject(new MultipleSpriteButtons((float) (xes[0][fullscreen ? 0 : 1]), (float) handler.getHeight() * 3 / 8, widths[0][fullscreen ? 0 : 1], Assets.buttonDim, xes[0], widths[0], screenTypeButton, fullscreen ? 0 : 1, () -> fullscreen = !fullscreen));
+        this.manager.addObject(new MultipleSpriteButtons((float) xes[1][screenSize[0]], (float) handler.getHeight() * 4 / 8, widths[1][screenSize[0]], Assets.buttonDim, xes[1], widths[1], screenSizeButtonSprites, screenSize[0], () -> {
+            screenSize[0]++;
+            if (screenSize[0] > 3) screenSize[0] = 0;
+            size = Utils.numberToSize(screenSize[0]);
         }));
-        this.manager.addObject(new Button((float) (handler.getWidth() * 3 / 4), (float) (handler.getHeight() * 3 / 4), Assets.playerDim * 2, Assets.playerDim * 2, Assets.returned, () -> {
+        this.manager.addObject(new MultipleSpriteButtons((float) xes[2][volume[0]], (float) handler.getHeight() * 5 / 8, widths[2][volume[0]], Assets.buttonDim, xes[2], widths[2], Assets.volumeIndicator, volume[0], () -> {
+            volume[0]++;
+            if(volume[0] > 9) volume[0] = 0;
+            volumeFinal = volume[0]*10;
+        }));
+        this.manager.addObject(new Button((float) (handler.getWidth() * 3 / 4), (float) (handler.getHeight() * 7 / 8), Assets.playerDim * 2, Assets.playerDim * 2, Assets.returned, () -> {
             this.handler.getSettings().setProperty("fullscreen", Boolean.toString(fullscreen));
+            this.handler.getSettings().setProperty("volume", Integer.toString(volumeFinal));
+            this.handler.getMusicPlayer().setVolume();
             Utils.saveProperties(this.handler);
             if (this.handler.getSettings().getProperty("fullscreen").equals("true")) {
                 this.handler.getSettings().setProperty("width", Integer.toString((int) this.handler.getTk().getScreenSize().getWidth()));
@@ -66,9 +75,15 @@ public class SettingsState extends State {
         screenSizeButtonSprites.add(Assets.res1280x720);
         screenSizeButtonSprites.add(Assets.res1600x1200);
         screenSizeButtonSprites.add(Assets.res1920x1080);
+        widths = new int[][]{{Assets.playerDim * 19, Assets.buttonDim * 4}, {Assets.dim * 3, Assets.buttonDim * 5, Assets.playerDim * 11, Assets.playerDim * 11},
+                {Assets.dim, Assets.dim, Assets.dim, Assets.dim, Assets.dim,
+                        Assets.dim, Assets.dim, Assets.dim, Assets.dim, Assets.dim, Assets.dim + Assets.playerDim}};
         xes = new int[][]{{(handler.getWidth() - Assets.playerDim * 19) / 2, (handler.getWidth() - Assets.buttonDim * 4) / 2},
-                {(handler.getWidth() - Assets.dim * 3) / 2, (handler.getWidth() - Assets.buttonDim * 5) / 2, (handler.getWidth() - Assets.playerDim * 11) / 2, (handler.getWidth() - Assets.playerDim * 11) / 2,}};
-        widths = new int[][]{{Assets.playerDim * 19, Assets.buttonDim * 4}, {Assets.dim * 3, Assets.buttonDim * 5, Assets.playerDim * 11, Assets.playerDim * 11}};
+                {(handler.getWidth() - Assets.dim * 3) / 2, (handler.getWidth() - Assets.buttonDim * 5) / 2, (handler.getWidth() - Assets.playerDim * 11) / 2,
+                        (handler.getWidth() - Assets.playerDim * 11) / 2,},
+                {(handler.getWidth() - widths[2][0]) / 2, (handler.getWidth() - widths[2][0]) / 2, (handler.getWidth() - widths[2][0]) / 2, (handler.getWidth() - widths[2][0]) / 2,
+                        (handler.getWidth() - widths[2][0]) / 2, (handler.getWidth() - widths[2][0]) / 2, (handler.getWidth() - widths[2][0]) / 2, (handler.getWidth() - widths[2][0]) / 2,
+                        (handler.getWidth() - widths[2][0]) / 2, (handler.getWidth() - widths[2][0]) / 2, (handler.getWidth() - widths[2][10]) / 2}};
         fullscreen = Boolean.parseBoolean(handler.getSettings().getProperty("fullscreen"));
         size[0] = Integer.parseInt(handler.getSettings().getProperty("width"));
         size[1] = Integer.parseInt(handler.getSettings().getProperty("height"));

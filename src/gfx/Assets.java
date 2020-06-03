@@ -11,11 +11,19 @@ public class Assets {
     /* -> dim = 96, playerDim = 32, cardHeightDim = 160, buttonDim = 64 */
     public static BufferedImage[] turn, board, pawn, player, keys, artifacts, specialCards, deck, animation, gauge, playerDescription, pause, returned,
             go, quit, resume, halo, play, mainMenu, settings, newGame, credits, restart, fullscreen, windowed,
-            res800x600, res1280x720, res1600x1200, res1920x1080, musicOn, musicOff;
-    public static BufferedImage cardHalo, selection, pauseIndicator, cardsBack, floodedBg, menuBg, menuTitle;
+            res800x600, res1280x720, res1600x1200, res1920x1080, musicOn, musicOff, volume0, volume10, volume20, volume30, volume40, volume50, volume60, volume70, volume80, volume90, volume100;
+
+    public static BufferedImage cardHalo, selection, pauseIndicator, cardsBack, floodedBg, selectionBg, menuTitle, menuBg;
+
     public static Font font20, font45;
 
+    private static String path = "/textures/";
+
+    private static String[] paths = new String[]{path + "0.png", path + "10.png",
+            path + "20.png", path + "30.png", path + "40.png", path + "50.png", path + "60.png", path + "70.png", path + "80.png", path + "90.png", path + "100.png",};
+
     public static ArrayList<BufferedImage[]> musicOnOffArray = new ArrayList<>();
+    public static ArrayList<BufferedImage[]> volumeIndicator = new ArrayList<>();
 
     public static void init(Handler handler) {
         int y;
@@ -25,11 +33,12 @@ public class Assets {
         buttonDim = playerDim * 2;
 
         floodedBg = ImageLoader.loadImage("/textures/Flooded_Bg.png");
-        menuBg = ImageLoader.loadImage("/textures/Menu_Bg.png");
+        selectionBg = ImageLoader.loadImage("/textures/Menu_Bg.png");
         pauseIndicator = ImageLoader.loadImage("/textures/Pause_2.png");
         selection = ImageLoader.loadImage("/textures/PlayerSelection.png");
         cardHalo = ImageLoader.loadImage("/textures/cardHalo.png");
         menuTitle = ImageLoader.loadImage("/textures/title.png");
+        menuBg = ImageLoader.loadImage("/textures/Background.png");
 
         SpriteSheet endTurnButtonSheet = new SpriteSheet(ImageLoader.loadImage("/textures/End_of_Turn.png"));
         SpriteSheet boardSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Board.png"));
@@ -61,6 +70,17 @@ public class Assets {
         SpriteSheet res1920x1080SpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/1920x1080.png"));
         SpriteSheet musicOnSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Music_On_Logo.png"));
         SpriteSheet musicOffSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Music_Off_Logo.png"));
+        SpriteSheet volume0SpriteSheet = new SpriteSheet(ImageLoader.loadImage(paths[0]));
+        SpriteSheet volume10SpriteSheet = new SpriteSheet(ImageLoader.loadImage(paths[1]));
+        SpriteSheet volume20SpriteSheet = new SpriteSheet(ImageLoader.loadImage(paths[2]));
+        SpriteSheet volume30SpriteSheet = new SpriteSheet(ImageLoader.loadImage(paths[3]));
+        SpriteSheet volume40SpriteSheet = new SpriteSheet(ImageLoader.loadImage(paths[4]));
+        SpriteSheet volume50SpriteSheet = new SpriteSheet(ImageLoader.loadImage(paths[5]));
+        SpriteSheet volume60SpriteSheet = new SpriteSheet(ImageLoader.loadImage(paths[6]));
+        SpriteSheet volume70SpriteSheet = new SpriteSheet(ImageLoader.loadImage(paths[7]));
+        SpriteSheet volume80SpriteSheet = new SpriteSheet(ImageLoader.loadImage(paths[8]));
+        SpriteSheet volume90SpriteSheet = new SpriteSheet(ImageLoader.loadImage(paths[9]));
+        SpriteSheet volume100SpriteSheet = new SpriteSheet(ImageLoader.loadImage(paths[10]));
 
         deck = new BufferedImage[28];
         board = new BufferedImage[24];
@@ -92,7 +112,17 @@ public class Assets {
         res1920x1080 = new BufferedImage[3];
         musicOff = new BufferedImage[3];
         musicOn = new BufferedImage[3];
-
+        volume0 = new BufferedImage[3];
+        volume10 = new BufferedImage[3];
+        volume20 = new BufferedImage[3];
+        volume30 = new BufferedImage[3];
+        volume40 = new BufferedImage[3];
+        volume50 = new BufferedImage[3];
+        volume60 = new BufferedImage[3];
+        volume70 = new BufferedImage[3];
+        volume80 = new BufferedImage[3];
+        volume90 = new BufferedImage[3];
+        volume100 = new BufferedImage[3];
         halo = new BufferedImage[2];
 
         for (int i = 0; i < board.length; i++) { //length == 24
@@ -144,6 +174,18 @@ public class Assets {
             musicOn[i] = musicOnSpriteSheet.crop(i * playerDim, 0, playerDim, playerDim);
             musicOff[i] = musicOffSpriteSheet.crop(i * playerDim, 0, playerDim, playerDim);
 
+            volume0[i] = volume0SpriteSheet.crop(i * dim, 0, dim, buttonDim);
+            volume10[i] = volume10SpriteSheet.crop(i * dim, 0, dim, buttonDim);
+            volume20[i] = volume20SpriteSheet.crop(i * dim, 0, dim, buttonDim);
+            volume30[i] = volume30SpriteSheet.crop(i * dim, 0, dim, buttonDim);
+            volume40[i] = volume40SpriteSheet.crop(i * dim, 0, dim, buttonDim);
+            volume50[i] = volume50SpriteSheet.crop(i * dim, 0, dim, buttonDim);
+            volume60[i] = volume60SpriteSheet.crop(i * dim, 0, dim, buttonDim);
+            volume70[i] = volume70SpriteSheet.crop(i * dim, 0, dim, buttonDim);
+            volume80[i] = volume80SpriteSheet.crop(i * dim, 0, dim, buttonDim);
+            volume90[i] = volume90SpriteSheet.crop(i * dim, 0, dim, buttonDim);
+            volume100[i] = volume100SpriteSheet.crop(i * (dim + playerDim), 0, dim + playerDim, buttonDim);
+
             /* filling half of the deck */
             deck[i] = specialCards[0];
             deck[i + 3] = specialCards[2];
@@ -174,7 +216,19 @@ public class Assets {
         font20 = FontLoader.loadFont("Resources/fonts/manaspc.ttf", dim / 5);
         font45 = FontLoader.loadFont("Resources/fonts/manaspc.ttf", dim / 2);
 
-        musicOnOffArray.add(Assets.musicOn);
-        musicOnOffArray.add(Assets.musicOff);
+        musicOnOffArray.add(musicOn);
+        musicOnOffArray.add(musicOff);
+
+        volumeIndicator.add(volume0);
+        volumeIndicator.add(volume10);
+        volumeIndicator.add(volume20);
+        volumeIndicator.add(volume30);
+        volumeIndicator.add(volume40);
+        volumeIndicator.add(volume50);
+        volumeIndicator.add(volume60);
+        volumeIndicator.add(volume70);
+        volumeIndicator.add(volume80);
+        volumeIndicator.add(volume90);
+        volumeIndicator.add(volume100);
     }
 }

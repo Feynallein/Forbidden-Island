@@ -40,7 +40,7 @@ public class PauseState extends State {
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.menuBg, 0, 0, handler.getWidth(), handler.getHeight(), null);
+        g.drawImage(Assets.selectionBg, 0, 0, handler.getWidth(), handler.getHeight(), null);
         g.drawImage(Assets.pauseIndicator, (handler.getWidth() - Assets.cardHeightDim * 2) / 2, handler.getHeight() / 8, Assets.cardHeightDim * 2, Assets.buttonDim * 2, null);
         manager.render(g);
     }

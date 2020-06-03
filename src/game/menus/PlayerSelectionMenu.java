@@ -54,7 +54,7 @@ public class PlayerSelectionMenu implements Interacts {
     public void render(Graphics g) {
         if (!active) return;
         if (pawnsBounds.isEmpty()) active = false;
-        g.drawImage(Assets.menuBg, 0, 0, handler.getWidth(), handler.getHeight(), null);
+        g.drawImage(Assets.selectionBg, 0, 0, handler.getWidth(), handler.getHeight(), null);
         Text.drawString(g, "Which player do you want to fly with?", handler.getWidth() / 2, handler.getHeight() / 4, true, Color.WHITE, Assets.font45);
         for (int i = 0; i < pawnsBounds.size(); i++) {
             if (selected.get(i))

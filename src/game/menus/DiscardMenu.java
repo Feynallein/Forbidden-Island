@@ -36,7 +36,7 @@ public class DiscardMenu implements Interacts {
     public void render(Graphics g) {
         if (!isActive) return;
 
-        g.drawImage(Assets.menuBg, 0, 0, handler.getWidth(), handler.getHeight(), null);
+        g.drawImage(Assets.selectionBg, 0, 0, handler.getWidth(), handler.getHeight(), null);
         int y = 0;
         Text.drawString(g, "Which card do you want to throw?", handler.getWidth() / 2, handler.getHeight() / 4, true, Color.WHITE, Assets.font45);
         FontMetrics fm = g.getFontMetrics(Assets.font45);

@@ -228,4 +228,9 @@ public abstract class Utils {
             handler.getSettings().setProperty("music", "on");
         }
     }
+
+    /* Return the volume between 0 & 10 */
+    public static int getVolume(Handler handler){
+        return Integer.parseInt(handler.getSettings().getProperty("volume"))/10;
+    }
 }
