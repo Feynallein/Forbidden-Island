@@ -29,6 +29,7 @@ public class MultipleSpriteButtons extends Object {
 
     @Override
     public void render(Graphics g) {
+        if(spriteCounter >= sprites.size() || spriteCounter >= xes.length || spriteCounter >= widths.length) spriteCounter = 0;
         if (click) {
             g.drawImage(sprites.get(spriteCounter)[2], xes[spriteCounter], (int) y, widths[spriteCounter], height, null);
         } else if (isHovering()) {
@@ -43,6 +44,7 @@ public class MultipleSpriteButtons extends Object {
     public void onClick() {
         clicker.onClick();
         spriteCounter++;
-        if (spriteCounter == sprites.size()) spriteCounter = 0;
+        if (spriteCounter >= sprites.size()) spriteCounter = 0;
+        System.out.println(spriteCounter);
     }
 }

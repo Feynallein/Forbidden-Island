@@ -40,7 +40,7 @@ public class SettingsState extends State {
         }));
         this.manager.addObject(new MultipleSpriteButtons((float) xes[2][volume[0]], (float) handler.getHeight() * 5 / 8, widths[2][volume[0]], Assets.buttonDim, xes[2], widths[2], Assets.volumeIndicator, volume[0], () -> {
             volume[0]++;
-            if(volume[0] > 9) volume[0] = 0;
+            if(volume[0] > 10) volume[0] = 0;
             volumeFinal = volume[0]*10;
         }));
         this.manager.addObject(new Button((float) (handler.getWidth() * 3 / 4), (float) (handler.getHeight() * 7 / 8), Assets.playerDim * 2, Assets.playerDim * 2, Assets.returned, () -> {
