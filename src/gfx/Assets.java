@@ -12,7 +12,7 @@ public class Assets {
     public static BufferedImage[] turn, board, pawn, player, keys, artifacts, specialCards, deck, animation, gauge, playerDescription, pause, returned,
             go, quit, resume, halo, play, mainMenu, settings, newGame, credits, restart, fullscreen, windowed,
             res800x600, res1280x720, res1600x1200, res1920x1080, musicOn, musicOff;
-    public static BufferedImage cardHalo, selection, pauseIndicator, cardsBack, floodedBg, menuBg;
+    public static BufferedImage cardHalo, selection, pauseIndicator, cardsBack, floodedBg, menuBg, menuTitle;
     public static Font font20, font45;
 
     public static ArrayList<BufferedImage[]> musicOnOffArray = new ArrayList<>();
@@ -29,6 +29,7 @@ public class Assets {
         pauseIndicator = ImageLoader.loadImage("/textures/Pause_2.png");
         selection = ImageLoader.loadImage("/textures/PlayerSelection.png");
         cardHalo = ImageLoader.loadImage("/textures/cardHalo.png");
+        menuTitle = ImageLoader.loadImage("/textures/title.png");
 
         SpriteSheet endTurnButtonSheet = new SpriteSheet(ImageLoader.loadImage("/textures/End_of_Turn.png"));
         SpriteSheet boardSpriteSheet = new SpriteSheet(ImageLoader.loadImage("/textures/Board.png"));

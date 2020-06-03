@@ -24,7 +24,7 @@ public class Main {
         Handler handler = new Handler(settings);
 
         /* Setting the music */
-        handler.setMusicPlayer(new MusicPlayer(handler, "Resources/music/menu.wav"));
+        handler.setMusicPlayer(new MusicPlayer(handler, "Resources/music/test.wav"));
 
         /* Setting the size */
         if (settings.getProperty("fullscreen").equals("true")) {

@@ -34,6 +34,7 @@ public class MenuState extends State {
 
     @Override
     public void render(Graphics g) {
+        g.drawImage(Assets.menuTitle, (handler.getWidth() - 16*Assets.buttonDim)/2, handler.getHeight()/3 - 2*Assets.buttonDim, 16*Assets.buttonDim, Assets.buttonDim*2, null);
         manager.render(g);
     }
 }
