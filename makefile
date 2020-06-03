@@ -1,1 +1,2 @@
-ant -f forbidden-island-master.xml all
+make:
+	ant -f forbidden-island-master.xml all
